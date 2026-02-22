@@ -10,7 +10,7 @@ function checkAuth() {
     const protectedPages = [
         'home.html', 'blogs.html', 'operations.html', 
         'patient.html', 'follow-up.html', 'add-case.html', 
-        'edit-profile.html', 'contact.html'
+        'edit-profile.html', 'contact.html', 'admin.html'
     ];
     
     if (protectedPages.includes(currentPage) && !token) {
@@ -61,12 +61,31 @@ function logout() {
     window.location.href = '/html/login/login.html';
 }
 
-// ===== تحديث معلومات المستخدم =====
+// ===== تحديث معلومات المستخدم في جميع الصفحات =====
 function updateUserInfo() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     if (user.firstname) {
+        // تحديث اسم المستخدم
         $('.avatar .name span').text(`${user.firstname} ${user.lastname || ''}`);
+        
+        // تحديث صورة المستخدم في الشريط الجانبي
+        if (user.profile_img) {
+            $('.avatar .img img').attr('src', '..' + user.profile_img);
+        }
+        
+        // تحديث اسم المستخدم في القائمة المنسدلة (إذا وجد)
+        $('#sidebarName').text(`${user.firstname} ${user.lastname || ''}`);
+        
+        // تحديث صورة الشريط الجانبي (إذا وجدت)
+        if (user.profile_img && $('#sidebarImage').length) {
+            $('#sidebarImage').attr('src', '..' + user.profile_img);
+        }
     }
+}
+
+// ===== إخفاء شاشة التحميل =====
+function hidePreloader() {
+    $('.preloader').fadeOut(300);
 }
 
 // ===== تهيئة الصفحة =====
@@ -86,17 +105,9 @@ $(document).ready(function() {
         e.preventDefault();
         logout();
     });
-});
-
-// ===== إخفاء شاشة التحميل بشكل مؤكد =====
-$(document).ready(function() {
-    // إخفاء فوري
-    $('.preloader').fadeOut(300);
     
-    // إخفاء قسري بعد 1 ثانية
-    setTimeout(function() {
-        $('.preloader').fadeOut(200);
-    }, 1000);
+    // إخفاء شاشة التحميل
+    hidePreloader();
 });
 
 // عند تحميل الصفحة بالكامل

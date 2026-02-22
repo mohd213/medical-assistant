@@ -10,7 +10,7 @@
     <meta name='copyright' content=''>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Title -->
-    <title>المساعد الطبي</title>
+    <title>تشخيص المريض - المساعد الطبي</title>
     <!-- Favicon -->
     <link rel="icon" href="../img/logo.png">
     <!-- Google Fonts -->
@@ -42,6 +42,7 @@
         </div>
     </div>
     <!-- End Preloader -->
+    
     <!-- Header Area -->
     <header class="header">
         <!-- Header Inner -->
@@ -62,10 +63,9 @@
                                 class="icofont-rounded-down mr-2"></i></a>
                         <ul class="dropdown">
                             <li><a href="./home.html">الملف الشخصي</a></li>
-                            <li><a href="./login/login.html">تسجيل الخروج</a></li>
+                            <li><a href="./login/login.html" id="logoutBtn">تسجيل الخروج</a></li>
                         </ul>
                     </li>
-
                     <li class="notification-list">
                         <a href="#"><i class="icofont-notification"></i></a>
                         <ul class="dropdown">
@@ -78,21 +78,22 @@
         <!--/ End Header Inner -->
     </header>
     <!-- End Header Area -->
+    
     <!-- page content -->
     <div class="page-content">
         <!-- right side include menu for move between website pages -->
         <div class="right-side">
             <div class="avatar d-flex justify-content-start align-items-center">
                 <div class="img ml-3">
-                    <img src="../img/author2.jpg" alt="">
+                    <img src="../img/author2.jpg" alt="" id="sidebarImage">
                 </div>
                 <div class="name">
-                    <span>أحمد محمد</span>
+                    <span id="sidebarName">جاري التحميل...</span>
                 </div>
             </div>
             <div class="list">
                 <ul>
-                    <li><a href="./home.html"> <i class="icofont-doctor"></i>الملف الشخصي</a></li>
+                    <li><a href="./home.html"><i class="icofont-doctor"></i>الملف الشخصي</a></li>
                     <li><a href="./blogs.html"><i class="icofont-file-alt"></i>مدوناتي</a></li>
                     <li><a href="./operations.html"><i class="icofont-calendar"></i>جدول العمليات</a></li>
                     <li><a href="./patient.html" class="active"><i class="icofont-patient-bed"></i>تشخيص المريض</a></li>
@@ -101,107 +102,326 @@
                 </ul>
             </div>
         </div>
+        
         <!-- left side include page content -->
         <div class="left-side">
             <!-- page header  -->
             <h3 class="title mb-5">تشخيص المريض</h3>
+            
             <!-- patient diagnosis form -->
-            <form class="form" method="post" action="">
+            <form class="form" id="diagnosisForm">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="name" placeholder="الاسم " required="required">
+                            <input type="text" name="name" id="patientName" placeholder="اسم المريض" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="age" placeholder="العمر" required="required">
+                            <input type="number" name="age" id="patientAge" placeholder="العمر" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <div class="nice-select form-control wide" tabindex="0"><span class="current">الجنس</span>
-                                <ul class="list">
-                                    <li data-value="1" class="option selected ">الجنس</li>
-                                    <li data-value="2" class="option">ذكر</li>
-                                    <li data-value="2" class="option">أنثى</li>
-                                </ul>
-                            </div>
+                            <select name="gender" id="patientGender" class="form-control wide" required>
+                                <option value="" disabled selected>الجنس</option>
+                                <option value="ذكر">ذكر</option>
+                                <option value="أنثى">أنثى</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="temperature" placeholder="درجة الحرارة" required="required">
+                            <input type="text" name="temperature" id="patientTemperature" placeholder="درجة الحرارة" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="heart" placeholder="النبض" required="required">
+                            <input type="text" name="heart" id="patientHeart" placeholder="النبض" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="pressure" placeholder="الضغط" required="required">
+                            <input type="text" name="pressure" id="patientPressure" placeholder="الضغط" required>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            <textarea placeholder="تشخيص الطبيب" required="required"></textarea>
+                            <textarea name="diagnosis" id="patientDiagnosis" placeholder="تشخيص الطبيب وتقييم الحالة" rows="5" required></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="form-group check-ai d-flex justify-content-end">
-                    <button class="btn" type="submit">فحص</button>
+                    <button class="btn" type="submit">حفظ التشخيص</button>
                 </div>
             </form>
-            <!-- AI result -->
-            <div class="result-of-check">
-                <h5 class="title mb-4">نتائج الفحص الطبي</h5>
-                <p>نوع المرض الذي يعاني منه المريض: <span>حصوات في الكلى</span></p>
-                <p>هل يحتاج المريض إلى عملية؟ <span>لا</span></p>
-                <p>الدواء المناسب للمريض: <span>بنسلين</span></p>
-                <p>المشفى: <span>الشفاء</span></p>
-                <p>موعد العملية المتوفر: <span>\\\\</span></p>
-                <p>الساعة المحددة: <span>11 AM</span></p>
-                <div class="form-group mt-4">
-                    <button class="btn done" type="button" data-toggle="modal" data-target="#checkDone">تم</button>
-                </div>
-                <!-- Modal -->
-                <div class="modal fade" id="checkDone" tabindex="-1" role="dialog" aria-labelledby="checkDoneTitle"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body my-4">
-                                <div class="check-icon d-flex justify-content-center">
-                                    <i class="icofont-check-circled"></i>
-                                </div>
-                                <h4>تم الفحص بنجاح </h4>
+            
+            <!-- Modal لعرض رسالة النجاح والطباعة -->
+            <div class="modal fade" id="printModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body text-center py-5">
+                            <div class="check-icon mb-4">
+                                <i class="icofont-check-circled" style="font-size: 60px; color: #28a745;"></i>
                             </div>
-                            <div class="modal-footer d-flex justify-content-between">
-                                <button type="button" class="btn btn-close" data-dismiss="modal"
-                                    style="width: 47%">إغلاق</button>
-                                <button type="button" class="btn print" style="width: 47%" data-dismiss="modal">طباعة
-                                    الفحص</button>
+                            <h4 class="mb-3">تم حفظ التشخيص بنجاح</h4>
+                            <p class="text-muted mb-4">هل تريد طباعة التقرير؟</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">إلغاء</button>
+                                <button type="button" class="btn btn-primary px-4" id="printReportBtn">طباعة التقرير</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Modal لعرض التقرير قبل الطباعة (مخفي) -->
+            <div id="reportContent" style="display: none;"></div>
         </div>
     </div>
     <!-- End page content  -->
-    <!-- jquery Min JS -->
+    
+    <!-- Scripts -->
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/bootstrap-datepicker.js"></script>
     <script src="../js/niceselect.js"></script>
-    <!-- Main JS -->
-    <script src="../js/main.js"></script>
-    <script src="../js/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/api.js"></script>
-<script src="../js/auth.js"></script>
-<script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/common.js"></script>
+    
+    <script>
+    $(document).ready(function() {
+        // =============================================
+        // 1. إخفاء شاشة التحميل
+        // =============================================
+        $('.preloader').fadeOut(300);
+        
+        // =============================================
+        // 2. التحقق من تسجيل الدخول
+        // =============================================
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login/login.html';
+            return;
+        }
+
+        // =============================================
+        // 3. تحديث معلومات المستخدم
+        // =============================================
+        function updateUserSidebar() {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            if (user.firstname) {
+                $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
+                if (user.profile_img) {
+                    $('#sidebarImage').attr('src', '..' + user.profile_img);
+                }
+            }
+        }
+        updateUserSidebar();
+
+        // =============================================
+        // 4. بيانات الطبيب الحالي
+        // =============================================
+        const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+        const doctorName = currentUser.firstname + ' ' + (currentUser.lastname || '');
+        const doctorSpecialty = currentUser.specialization || 'طبيب';
+
+        // =============================================
+        // 5. حفظ التشخيص وفتح modal
+        // =============================================
+        $('#diagnosisForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            // جمع بيانات التشخيص
+            const diagnosisData = {
+                patientName: $('#patientName').val(),
+                age: $('#patientAge').val(),
+                gender: $('#patientGender').val(),
+                temperature: $('#patientTemperature').val(),
+                heart: $('#patientHeart').val(),
+                pressure: $('#patientPressure').val(),
+                diagnosis: $('#patientDiagnosis').val(),
+                doctorName: doctorName,
+                doctorSpecialty: doctorSpecialty,
+                date: new Date().toLocaleDateString('ar-EG'),
+                time: new Date().toLocaleTimeString('ar-EG')
+            };
+            
+            // حفظ في localStorage مؤقتاً
+            localStorage.setItem('lastDiagnosis', JSON.stringify(diagnosisData));
+            
+            // فتح modal
+            $('#printModal').modal('show');
+        });
+
+        // =============================================
+        // 6. طباعة التقرير
+        // =============================================
+        $('#printReportBtn').on('click', function() {
+            // جلب بيانات التشخيص من localStorage
+            const diagnosis = JSON.parse(localStorage.getItem('lastDiagnosis') || '{}');
+            
+            if (!diagnosis.patientName) {
+                alert('لا توجد بيانات للطباعة');
+                $('#printModal').modal('hide');
+                return;
+            }
+            
+            // إنشاء محتوى التقرير (فقط تشخيص الطبيب)
+            const reportHTML = `
+                <!DOCTYPE html>
+                <html dir="rtl" lang="ar">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>تقرير تشخيص طبي</title>
+                    <style>
+                        body {
+                            font-family: 'Tajawal', sans-serif;
+                            padding: 40px;
+                            line-height: 1.8;
+                        }
+                        .header {
+                            text-align: center;
+                            margin-bottom: 30px;
+                            border-bottom: 2px solid #4260a0;
+                            padding-bottom: 20px;
+                        }
+                        .doctor-info {
+                            background: #f8f9fa;
+                            padding: 15px;
+                            border-radius: 10px;
+                            margin-bottom: 25px;
+                        }
+                        .patient-info {
+                            margin-bottom: 25px;
+                        }
+                        .diagnosis-box {
+                            background: #f0f4ff;
+                            padding: 20px;
+                            border-radius: 10px;
+                            border-right: 5px solid #4260a0;
+                        }
+                        .footer {
+                            margin-top: 40px;
+                            text-align: left;
+                            color: #666;
+                            font-size: 12px;
+                            border-top: 1px solid #eee;
+                            padding-top: 20px;
+                        }
+                        table {
+                            width: 100%;
+                            margin: 15px 0;
+                        }
+                        td {
+                            padding: 8px;
+                        }
+                        .label {
+                            font-weight: bold;
+                            color: #2c3e50;
+                            width: 40%;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1 style="color: #4260a0;">المساعد الطبي</h1>
+                        <h3>تقرير تشخيص طبي</h3>
+                    </div>
+                    
+                    <div class="doctor-info">
+                        <h4>معلومات الطبيب</h4>
+                        <table>
+                            <tr>
+                                <td class="label">اسم الطبيب:</td>
+                                <td>${diagnosis.doctorName}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">التخصص:</td>
+                                <td>${diagnosis.doctorSpecialty}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="patient-info">
+                        <h4>معلومات المريض</h4>
+                        <table>
+                            <tr>
+                                <td class="label">اسم المريض:</td>
+                                <td>${diagnosis.patientName}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">العمر:</td>
+                                <td>${diagnosis.age} سنة</td>
+                            </tr>
+                            <tr>
+                                <td class="label">الجنس:</td>
+                                <td>${diagnosis.gender}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">درجة الحرارة:</td>
+                                <td>${diagnosis.temperature} °C</td>
+                            </tr>
+                            <tr>
+                                <td class="label">النبض:</td>
+                                <td>${diagnosis.heart} نبضة/دقيقة</td>
+                            </tr>
+                            <tr>
+                                <td class="label">الضغط:</td>
+                                <td>${diagnosis.pressure}</td>
+                            </tr>
+                            <tr>
+                                <td class="label">تاريخ التشخيص:</td>
+                                <td>${diagnosis.date} - ${diagnosis.time}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <h4>تشخيص الطبيب وتقييم الحالة</h4>
+                    <div class="diagnosis-box">
+                        <p style="font-size: 16px; margin: 0;">${diagnosis.diagnosis.replace(/\n/g, '<br>')}</p>
+                    </div>
+                    
+                    <div class="footer">
+                        <p>تقرير آلي - المساعد الطبي © ${new Date().getFullYear()}</p>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            // فتح نافذة طباعة جديدة
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(reportHTML);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            
+            // إغلاق modal
+            $('#printModal').modal('hide');
+            
+            // مسح البيانات (اختياري)
+            // localStorage.removeItem('lastDiagnosis');
+        });
+
+        // =============================================
+        // 7. تسجيل الخروج
+        // =============================================
+        $('#logoutBtn').on('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login/login.html';
+        });
+
+        // =============================================
+        // 8. تفعيل nice-select
+        // =============================================
+        if ($.fn.niceSelect) {
+            $('select').niceSelect();
+        }
+    });
+    </script>
 </body>
 
 </html>

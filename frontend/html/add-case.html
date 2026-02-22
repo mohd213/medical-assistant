@@ -84,7 +84,7 @@
         <div class="right-side">
             <div class="avatar d-flex justify-content-start align-items-center">
                 <div class="img ml-3">
-                    <img src="../img/author2.jpg" alt="">
+                    <img src="../img/author2.jpg" alt="" id="sidebarImage">
                 </div>
                 <div class="name">
                     <span>أحمد محمد</span>
@@ -188,6 +188,14 @@
                 return;
             }
 
+            // تحديث معلومات المستخدم
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            if (user.firstname) {
+                $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
+                if (user.profile_img) {
+                    $('#sidebarImage').attr('src', '..' + user.profile_img);
+                }
+            }
             // التحقق من وجود معرف للتعديل
             const urlParams = new URLSearchParams(window.location.search);
             const caseId = urlParams.get('id');

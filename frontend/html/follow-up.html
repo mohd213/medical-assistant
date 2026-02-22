@@ -82,7 +82,7 @@
         <div class="right-side">
             <div class="avatar d-flex justify-content-start align-items-center">
                 <div class="img ml-3">
-                    <img src="../img/author2.jpg" alt="">
+                    <img src="../img/author2.jpg" alt="" id="sidebarImage">
                 </div>
                 <div class="name">
                     <span>أحمد محمد</span>
@@ -419,8 +419,16 @@
                 window.location.href = 'login/login.html';
                 return;
             }
+            // تحديث معلومات المستخدم
 
-            // جلب الحالات
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            if (user.firstname) {
+                $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
+                if (user.profile_img) {
+                    $('#sidebarImage').attr('src', '..' + user.profile_img);
+                }
+            }
+
             function fetchCases() {
                 $.ajax({
                     url: 'http://localhost:3000/api/cases',

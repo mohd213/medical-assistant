@@ -10,7 +10,7 @@
     <meta name='copyright' content=''>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Title -->
-    <title>المساعد الطبي</title>
+    <title>تعديل الملف الشخصي - المساعد الطبي</title>
     <!-- Favicon -->
     <link rel="icon" href="../img/logo.png">
     <!-- Google Fonts -->
@@ -19,12 +19,88 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/datepicker.css">
-    <link rel="stylesheet" href="../css/nice-select.css">
     <link rel="stylesheet" href="../css/icofont.css">
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <!-- Medipro CSS -->
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* تنسيق الصورة */
+        .profile-image-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #4260a0;
+            box-shadow: 0 2px 10px rgba(66,96,160,0.2);
+        }
+        
+        .profile-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        #upload-button {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #4260a0;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid white;
+            transition: all 0.2s;
+        }
+        
+        #upload-button:hover {
+            background: #2c3e6b;
+            transform: scale(1.1);
+        }
+        
+        #file-upload {
+            display: none;
+        }
+        
+        .btn-save {
+            background: #4260a0;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .btn-save:hover {
+            background: #2c3e6b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66,96,160,0.3);
+        }
+        
+        .btn-save:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        h5 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        small {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
@@ -35,37 +111,31 @@
             <div class="loader-inner"></div>
             <div class="indicator">
                 <svg width="16px" height="12px">
-                    <polyline id="back" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
-                    <polyline id="front" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                    <polyline points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
                 </svg>
             </div>
         </div>
     </div>
-    <!-- End Preloader -->
+    
     <!-- Header Area -->
     <header class="header">
-        <!-- Header Inner -->
         <div class="header-inner">
             <div class="logo d-flex align-items-center justify-content-start">
                 <div class="logo-img">
                     <img src="../img/logo.png" alt="">
                 </div>
-                <p class="mb-0">
-                    المساعد الطبي
-                </p>
+                <p class="mb-0">المساعد الطبي</p>
             </div>
             <div class="main-menu">
                 <ul class="nav menu">
                     <li><a href="../index.html">الصفحة الرئيسية</a></li>
                     <li><a href="./ai-diagnosis.html"><i class="icofont-stethoscope"></i>التشخيص الذكي</a></li>
-                    <li><a href="#"><i class="icofont-ui-user ml-3"></i> حسابي <i
-                                class="icofont-rounded-down mr-2"></i></a>
+                    <li><a href="#"><i class="icofont-ui-user ml-3"></i> حسابي <i class="icofont-rounded-down mr-2"></i></a>
                         <ul class="dropdown">
                             <li><a href="./home.html">الملف الشخصي</a></li>
-                            <li><a href="./login/login.html">تسجيل الخروج</a></li>
+                            <li><a href="./login/login.html" id="logoutBtn">تسجيل الخروج</a></li>
                         </ul>
                     </li>
-
                     <li class="notification-list">
                         <a href="#"><i class="icofont-notification"></i></a>
                         <ul class="dropdown">
@@ -75,24 +145,23 @@
                 </ul>
             </div>
         </div>
-        <!--/ End Header Inner -->
     </header>
-    <!-- End Header Area -->
+    
     <!-- page content -->
     <div class="page-content">
-        <!-- right side include menu for move between website pages -->
+        <!-- right side menu -->
         <div class="right-side">
             <div class="avatar d-flex justify-content-start align-items-center">
                 <div class="img ml-3">
-                    <img src="../img/author2.jpg" alt="">
+                    <img src="../img/author2.jpg" alt="" id="sidebarImage">
                 </div>
                 <div class="name">
-                    <span>أحمد محمد</span>
+                    <span id="sidebarName">جاري التحميل...</span>
                 </div>
             </div>
             <div class="list">
                 <ul>
-                    <li><a href="./home.html" class="active"> <i class="icofont-doctor"></i>الملف الشخصي</a></li>
+                    <li><a href="./home.html"><i class="icofont-doctor"></i>الملف الشخصي</a></li>
                     <li><a href="./blogs.html"><i class="icofont-file-alt"></i>مدوناتي</a></li>
                     <li><a href="./operations.html"><i class="icofont-calendar"></i>جدول العمليات</a></li>
                     <li><a href="./patient.html"><i class="icofont-patient-bed"></i>تشخيص المريض</a></li>
@@ -101,208 +170,288 @@
                 </ul>
             </div>
         </div>
-        <!-- left side include page content -->
-        <div class="left-side edit-profile" id="my-div">
+        
+        <!-- left side content -->
+        <div class="left-side edit-profile">
             <!-- page header -->
             <div class="header-page mb-5">
                 <h3 class="title">تعديل الملف الشخصي</h3>
                 <a href="./home.html"><i class="icofont-swoosh-right"></i></a>
             </div>
+            
             <!-- edit profile form -->
-            <form class="form" method="" action="">
+            <form class="form" id="profileForm" enctype="multipart/form-data">
                 <h5>الصورة الشخصية</h5>
                 <div class="profile-image-container mb-4">
                     <img id="profile-image" src="../img/author2.jpg" alt="Profile Image">
-                    <label for="file-upload" id="upload-button"><i class="icofont-camera"></i></label>
-                    <input type="file" id="file-upload" name="file-upload" accept="image/*">
+                    <label for="file-upload" id="upload-button">
+                        <i class="icofont-camera"></i>
+                    </label>
+                    <input type="file" id="file-upload" name="profile_image" accept="image/*">
                 </div>
+                
                 <h5>معلومات الاتصال</h5>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="first-name" placeholder="الاسم الأول " required="required">
+                            <input type="text" id="firstname" name="firstname" placeholder="الاسم الأول" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="last-name" placeholder=" الاسم الأخير " required="required">
+                            <input type="text" id="lastname" name="lastname" placeholder="الاسم الأخير" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="email" name="email" placeholder="البريد الإلكتروني" required="required">
+                            <input type="email" id="email" name="email" placeholder="البريد الإلكتروني" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="tel" name="tel" placeholder="رقم الموبايل" pattern="" required="required">
+                            <input type="tel" id="phone" name="phone" placeholder="رقم الموبايل" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <div class="nice-select form-control wide" tabindex="0"><span class="current">القسم</span>
-                                <ul class="list">
-                                    <li data-value="1" class="option selected ">القسم</li>
-                                    <li data-value="2" class="option">الأنف والاذن والحنجرة</li>
-                                    <li data-value="3" class="option">الجلدية والتناسلية</li>
-                                    <li data-value="4" class="option">الطب النفسي</li>
-                                    <li data-value="4" class="option">الغدد الصماء</li>
-                                    <li data-value="4" class="option">القلب والاوعية الدموية</li>
-                                    <li data-value="4" class="option">الكلى</li>
-                                    <li data-value="4" class="option">الجهاز الهضمي والكبد</li>
-                                </ul>
-                            </div>
+                            <select id="specialization" name="specialization" class="form-control wide">
+                                <option value="" disabled selected>اختر التخصص</option>
+                                <option value="باطني">باطني</option>
+                                <option value="أنف وأذن وحنجرة">أنف وأذن وحنجرة</option>
+                                <option value="جلدية">جلدية</option>
+                                <option value="قلب وأوعية دموية">قلب وأوعية دموية</option>
+                                <option value="جهاز هضمي">جهاز هضمي</option>
+                                <option value="كلى">كلى</option>
+                                <option value="نفسي">نفسي</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-                <h5>المؤهلات العلمية</h5>
+                
+                <h5>تغيير كلمة المرور <small>(اختياري)</small></h5>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <div class="nice-select form-control wide" tabindex="0"><span class="current">الجامعة</span>
-                                <ul class="list">
-                                    <li data-value="1" class="option selected ">الجامعة</li>
-                                    <li data-value="2" class="option">الأنف والاذن والحنجرة</li>
-                                    <li data-value="3" class="option">الجلدية والتناسلية</li>
-                                    <li data-value="4" class="option">الطب النفسي</li>
-                                    <li data-value="4" class="option">الغدد الصماء</li>
-                                    <li data-value="4" class="option">القلب والاوعية الدموية</li>
-                                    <li data-value="4" class="option">الكلى</li>
-                                    <li data-value="4" class="option">الجهاز الهضمي والكبد</li>
-                                </ul>
-                            </div>
+                            <input type="password" id="newPassword" name="newPassword" placeholder="كلمة المرور الجديدة" autocomplete="new-password">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <div class="nice-select form-control wide" tabindex="0"><span class="current">التخصص</span>
-                                <ul class="list">
-                                    <li data-value="1" class="option selected ">التخصص</li>
-                                    <li data-value="2" class="option">الأنف والاذن والحنجرة</li>
-                                    <li data-value="3" class="option">الجلدية والتناسلية</li>
-                                    <li data-value="4" class="option">الطب النفسي</li>
-                                    <li data-value="4" class="option">الغدد الصماء</li>
-                                    <li data-value="4" class="option">القلب والاوعية الدموية</li>
-                                    <li data-value="4" class="option">الكلى</li>
-                                    <li data-value="4" class="option">الجهاز الهضمي والكبد</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <div class="nice-select form-control wide" tabindex="0"><span class="current">من</span>
-                                <ul class="list">
-                                    <li data-value="1" class="option selected ">من</li>
-                                    <li data-value="2" class="option">2022</li>
-                                    <li data-value="3" class="option">2023</li>
-                                    <li data-value="4" class="option">2024</li>
-                                    <li data-value="5" class="option">2025</li>
-                                    <li data-value="6" class="option">2026</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <div class="nice-select form-control wide" tabindex="0"><span class="current">إلى</span>
-                                <ul class="list">
-                                    <li data-value="1" class="option selected ">إلى</li>
-                                    <li data-value="2" class="option">2022</li>
-                                    <li data-value="3" class="option">2023</li>
-                                    <li data-value="4" class="option">2024</li>
-                                    <li data-value="5" class="option">2025</li>
-                                    <li data-value="6" class="option">2026</li>
-                                </ul>
-                            </div>
+                            <input type="password" id="confirmPassword" placeholder="تأكيد كلمة المرور" autocomplete="new-password">
                         </div>
                     </div>
                 </div>
-                <h5>
-                    الخبرات العملية
-                </h5>
-                <div class="row mb-3">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <div class="nice-select form-control wide" tabindex="0"><span class="current">المركز
-                                    الصحي</span>
-                                <ul class="list">
-                                    <li data-value="1" class="option selected ">المركز الصحي</li>
-                                    <li data-value="2" class="option">الأنف والاذن والحنجرة</li>
-                                    <li data-value="3" class="option">الجلدية والتناسلية</li>
-                                    <li data-value="4" class="option">الطب النفسي</li>
-                                    <li data-value="4" class="option">الغدد الصماء</li>
-                                    <li data-value="4" class="option">القلب والاوعية الدموية</li>
-                                    <li data-value="4" class="option">الكلى</li>
-                                    <li data-value="4" class="option">الجهاز الهضمي والكبد</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <div class="nice-select form-control wide" tabindex="0"><span class="current">القسم</span>
-                                <ul class="list">
-                                    <li data-value="1" class="option selected ">القسم</li>
-                                    <li data-value="2" class="option">الأنف والاذن والحنجرة</li>
-                                    <li data-value="3" class="option">الجلدية والتناسلية</li>
-                                    <li data-value="4" class="option">الطب النفسي</li>
-                                    <li data-value="4" class="option">الغدد الصماء</li>
-                                    <li data-value="4" class="option">القلب والاوعية الدموية</li>
-                                    <li data-value="4" class="option">الكلى</li>
-                                    <li data-value="4" class="option">الجهاز الهضمي والكبد</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <div class="nice-select form-control wide" tabindex="0"><span class="current">من</span>
-                                <ul class="list">
-                                    <li data-value="1" class="option selected ">من</li>
-                                    <li data-value="2" class="option">2022</li>
-                                    <li data-value="3" class="option">2023</li>
-                                    <li data-value="4" class="option">2024</li>
-                                    <li data-value="5" class="option">2025</li>
-                                    <li data-value="6" class="option">2026</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <div class="nice-select form-control wide" tabindex="0"><span class="current">إلى</span>
-                                <ul class="list">
-                                    <li data-value="1" class="option selected ">إلى</li>
-                                    <li data-value="2" class="option">2022</li>
-                                    <li data-value="3" class="option">2023</li>
-                                    <li data-value="4" class="option">2024</li>
-                                    <li data-value="5" class="option">2025</li>
-                                    <li data-value="6" class="option">2026</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="form-group d-flex justify-content-end">
-                    <a href="./follow-up.html"><button class="btn" type="submit">حفظ</button></a>
+                    <a href="./home.html" class="btn btn-secondary ml-3" style="background: #95a5a6; color: white; padding: 10px 25px;">إلغاء</a>
+                    <button class="btn btn-save" type="submit" id="saveBtn">حفظ التغييرات</button>
                 </div>
             </form>
         </div>
     </div>
-    <!-- End page content  -->
-    <!-- jquery Min JS -->
+    
+    <!-- Scripts -->
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/bootstrap-datepicker.js"></script>
     <script src="../js/niceselect.js"></script>
-    <!-- Main JS -->
-    <script src="../js/main.js"></script>
-    <script src="../js/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/api.js"></script>
-<script src="../js/auth.js"></script>
-<script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/common.js"></script>
+    
+    <script>
+    $(document).ready(function() {
+        // =============================================
+        // 1. إخفاء شاشة التحميل فوراً
+        // =============================================
+        $('.preloader').fadeOut(300);
+        
+        // =============================================
+        // 2. التحقق من تسجيل الدخول
+        // =============================================
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login/login.html';
+            return;
+        }
+
+        // =============================================
+        // 3. تحديث اسم المستخدم في الشريط الجانبي
+        // =============================================
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.firstname) {
+            $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
+            if (user.profile_img) {
+                $('#sidebarImage').attr('src', '..' + user.profile_img);
+            }
+        }
+
+        // =============================================
+        // 4. جلب بيانات المستخدم من API
+        // =============================================
+        $.ajax({
+            url: 'http://localhost:3000/api/users/profile',
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function(response) {
+                if (response.success) {
+                    const user = response.user;
+                    
+                    // تعبئة الحقول
+                    $('#firstname').val(user.firstname);
+                    $('#lastname').val(user.lastname);
+                    $('#email').val(user.email);
+                    $('#phone').val(user.phone);
+                    
+                    // تعبئة التخصص
+                    if (user.specialization) {
+                        $('#specialization').val(user.specialization);
+                        // تحديث nice-select
+                        if ($.fn.niceSelect) {
+                            $('select').niceSelect('update');
+                        }
+                    }
+                    
+                    // تحديث الصورة إذا وجدت
+                    if (user.profile_img) {
+                        $('#profile-image').attr('src', '..' + user.profile_img);
+                        $('#sidebarImage').attr('src', '..' + user.profile_img);
+                    }
+                }
+            },
+            error: function(xhr) {
+                console.error('خطأ في جلب البيانات:', xhr);
+                if (xhr.status === 401) {
+                    alert('انتهت الجلسة، الرجاء تسجيل الدخول مرة أخرى');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login/login.html';
+                } else {
+                    alert('حدث خطأ في جلب بيانات المستخدم');
+                }
+            }
+        });
+
+        // =============================================
+        // 5. معاينة الصورة قبل الرفع
+        // =============================================
+        $('#file-upload').on('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // التحقق من حجم الصورة
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('حجم الصورة كبير جداً. الحد الأقصى 5 ميجا');
+                    $(this).val('');
+                    return;
+                }
+                
+                // التحقق من نوع الصورة
+                if (!file.type.match('image.*')) {
+                    alert('الرجاء اختيار صورة فقط');
+                    $(this).val('');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#profile-image').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // النقر على زر رفع الصورة
+        $('#upload-button').on('click', function() {
+            $('#file-upload').click();
+        });
+
+        // =============================================
+        // 6. حفظ التغييرات
+        // =============================================
+        $('#profileForm').on('submit', function(e) {
+            e.preventDefault();
+
+            // التحقق من كلمة المرور
+            const newPass = $('#newPassword').val();
+            const confirmPass = $('#confirmPassword').val();
+            
+            if (newPass || confirmPass) {
+                if (newPass !== confirmPass) {
+                    alert('كلمة المرور غير متطابقة');
+                    return;
+                }
+                if (newPass.length < 6) {
+                    alert('كلمة المرور يجب أن تكون 6 أحرف على الأقل');
+                    return;
+                }
+            }
+
+            // إنشاء FormData لإرسال البيانات
+            const formData = new FormData();
+            formData.append('firstname', $('#firstname').val());
+            formData.append('lastname', $('#lastname').val());
+            formData.append('email', $('#email').val());
+            formData.append('phone', $('#phone').val());
+            formData.append('specialization', $('#specialization').val());
+            
+            if (newPass) {
+                formData.append('password', newPass);
+            }
+            
+            const imageFile = $('#file-upload')[0].files[0];
+            if (imageFile) {
+                formData.append('profile_image', imageFile);
+            }
+
+            // تعطيل الزر أثناء الحفظ
+            $('#saveBtn').prop('disabled', true).text('جاري الحفظ...');
+
+            // إرسال الطلب
+            $.ajax({
+                url: 'http://localhost:3000/api/users/profile',
+                type: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        alert('✅ تم تحديث الملف الشخصي بنجاح');
+                        
+                        // تحديث البيانات في localStorage
+                        localStorage.setItem('user', JSON.stringify(response.user));
+                        
+                        // العودة إلى صفحة الملف الشخصي
+                        window.location.href = './home.html';
+                    } else {
+                        alert(response.message || 'حدث خطأ');
+                    }
+                },
+                error: function(xhr) {
+                    console.error('خطأ في حفظ البيانات:', xhr);
+                    const errorMsg = xhr.responseJSON?.message || 'حدث خطأ في حفظ البيانات';
+                    alert('❌ ' + errorMsg);
+                },
+                complete: function() {
+                    $('#saveBtn').prop('disabled', false).text('حفظ التغييرات');
+                }
+            });
+        });
+
+        // =============================================
+        // 7. تسجيل الخروج
+        // =============================================
+        $('#logoutBtn').on('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login/login.html';
+        });
+    });
+    </script>
 </body>
 
 </html>

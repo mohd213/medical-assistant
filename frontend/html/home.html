@@ -83,7 +83,7 @@
         <div class="right-side">
             <div class="avatar d-flex justify-content-start align-items-center">
                 <div class="img ml-3">
-                    <img src="../img/author2.jpg" alt="">
+                    <img src="../img/author2.jpg" alt="" id="sidebarImage">
                 </div>
                 <div class="name">
                     <span id="sidebarName">جاري التحميل...</span>
@@ -234,6 +234,12 @@
                     // تحديث البريد الإلكتروني ورقم الهاتف
                     $('#profileEmail').text(user.email);
                     $('#profilePhone').text(user.phone || 'غير محدد');
+                    
+                    // تحديث صورة البروفايل
+                    if (user.profile_img) {
+                        $('#profileImage').attr('src', '..' + user.profile_img);
+                        $('#sidebarImage').attr('src', '..' + user.profile_img);
+                    }
                     
                     // حفظ بيانات المستخدم في localStorage
                     localStorage.setItem('user', JSON.stringify(user));

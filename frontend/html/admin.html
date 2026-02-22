@@ -19,18 +19,18 @@
             background: white;
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
             border: 1px solid #f0f0f0;
             height: 100%;
             transition: all 0.3s ease;
         }
-        
+
         .stats-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(66,96,160,0.1);
+            box-shadow: 0 5px 20px rgba(66, 96, 160, 0.1);
             border-color: #4260a0;
         }
-        
+
         .stats-icon {
             width: 60px;
             height: 60px;
@@ -43,24 +43,24 @@
             font-size: 30px;
             margin-bottom: 15px;
         }
-        
+
         .stats-number {
             font-size: 32px;
             font-weight: 700;
             color: #2c3e50;
             margin-bottom: 5px;
         }
-        
+
         .stats-label {
             color: #7f8c8d;
             font-size: 14px;
         }
-        
+
         .nav-tabs {
             border-bottom: 2px solid #f0f0f0;
             margin-bottom: 25px;
         }
-        
+
         .nav-tabs .nav-link {
             border: none;
             color: #7f8c8d;
@@ -69,23 +69,23 @@
             margin-left: 5px;
             border-radius: 8px 8px 0 0;
         }
-        
+
         .nav-tabs .nav-link:hover {
             color: #4260a0;
             background: #f5f8ff;
         }
-        
+
         .nav-tabs .nav-link.active {
             color: #4260a0;
             background: white;
             border-bottom: 3px solid #4260a0;
         }
-        
+
         .table-actions {
             display: flex;
             gap: 5px;
         }
-        
+
         .btn-icon {
             width: 32px;
             height: 32px;
@@ -99,26 +99,45 @@
             background: transparent;
             color: #7f8c8d;
         }
-        
+
         .btn-icon:hover {
             background: #f5f5f5;
         }
-        
-        .btn-icon.view:hover { color: #4260a0; }
-        .btn-icon.edit:hover { color: #f39c12; }
-        .btn-icon.delete:hover { color: #e74c3c; }
-        
+
+        .btn-icon.view:hover {
+            color: #4260a0;
+        }
+
+        .btn-icon.edit:hover {
+            color: #f39c12;
+        }
+
+        .btn-icon.delete:hover {
+            color: #e74c3c;
+        }
+
         .status-badge {
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
         }
-        
-        .status-new { background: #fee9e7; color: #e74c3c; }
-        .status-read { background: #fff3e0; color: #f39c12; }
-        .status-replied { background: #e3f2fd; color: #4260a0; }
-        
+
+        .status-new {
+            background: #fee9e7;
+            color: #e74c3c;
+        }
+
+        .status-read {
+            background: #fff3e0;
+            color: #f39c12;
+        }
+
+        .status-replied {
+            background: #e3f2fd;
+            color: #4260a0;
+        }
+
         .admin-header {
             display: flex;
             align-items: center;
@@ -127,7 +146,7 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-        
+
         .admin-header h2 {
             color: #2c3e50;
             font-weight: 700;
@@ -174,7 +193,7 @@
         <div class="right-side">
             <div class="avatar d-flex justify-content-start align-items-center">
                 <div class="img ml-3">
-                    <img src="../img/author2.jpg" alt="">
+                    <img src="../img/author2.jpg" alt="" id="sidebarImage">
                 </div>
                 <div class="name">
                     <span id="sidebarName">المسؤول</span>
@@ -183,14 +202,14 @@
             <div class="list">
                 <ul>
                     <li><a href="#dashboard" class="active" onclick="showTab('dashboard')">
-                        <i class="icofont-dashboard"></i> لوحة التحكم
-                    </a></li>
+                            <i class="icofont-dashboard"></i> لوحة التحكم
+                        </a></li>
                     <li><a href="#messages" onclick="showTab('messages')">
-                        <i class="icofont-envelope"></i> الرسائل
-                    </a></li>
+                            <i class="icofont-envelope"></i> الرسائل
+                        </a></li>
                     <li><a href="#users" onclick="showTab('users')">
-                        <i class="icofont-users"></i> المستخدمين
-                    </a></li>
+                            <i class="icofont-users"></i> المستخدمين
+                        </a></li>
                 </ul>
             </div>
         </div>
@@ -202,7 +221,7 @@
                 <div class="admin-header">
                     <h2>لوحة التحكم</h2>
                 </div>
-                
+
                 <div class="row" id="stats-container">
                     <div class="col-md-4 mb-4">
                         <div class="stats-card text-center">
@@ -266,7 +285,7 @@
                 <div class="admin-header">
                     <h2>الرسائل الواردة</h2>
                 </div>
-                
+
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -294,7 +313,7 @@
                 <div class="admin-header">
                     <h2>المستخدمين</h2>
                 </div>
-                
+
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -335,14 +354,14 @@
                     <p><strong>الموضوع:</strong> <span id="modal-subject"></span></p>
                     <p><strong>الرسالة:</strong></p>
                     <p id="modal-message" class="p-3 bg-light rounded"></p>
-                    
+
                     <hr>
-                    
+
                     <div class="form-group">
                         <label>الرد على الرسالة</label>
                         <textarea class="form-control" id="modal-reply" rows="4"></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>تحديث الحالة</label>
                         <select class="form-control" id="modal-status">
@@ -366,85 +385,89 @@
     <script src="../js/common.js"></script>
 
     <script>
-    $(document).ready(function() {
-        const token = localStorage.getItem('token');
-        let currentMessageId = null;
+        $(document).ready(function () {
+            const token = localStorage.getItem('token');
+            let currentMessageId = null;
 
-        // التحقق من تسجيل الدخول
-        if (!token) {
-            window.location.href = 'login/login.html';
-            return;
-        }
-
-        // تحديث اسم المستخدم
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
-        if (user.firstname) {
-            $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
-        }
-
-        // تحميل الإحصائيات
-        function loadStats() {
-            $.ajax({
-                url: 'http://localhost:3000/api/admin/stats',
-                type: 'GET',
-                headers: { 'Authorization': 'Bearer ' + token },
-                success: function(response) {
-                    if (response.success) {
-                        $('#stats-users').text(response.stats.users);
-                        $('#stats-blogs').text(response.stats.blogs);
-                        $('#stats-cases').text(response.stats.cases);
-                        $('#stats-operations').text(response.stats.operations);
-                        $('#stats-messages').text(response.stats.messages);
-                        $('#stats-new-messages').text(response.stats.newMessages);
-                    }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 403) {
-                        alert('ليس لديك صلاحية الوصول إلى لوحة التحكم');
-                        window.location.href = 'home.html';
-                    }
-                }
-            });
-        }
-
-        // تحميل الرسائل
-        function loadMessages() {
-            $('#messages-table').html('<tr><td colspan="7" class="text-center">جاري التحميل...</td></tr>');
-            
-            $.ajax({
-                url: 'http://localhost:3000/api/admin/messages',
-                type: 'GET',
-                headers: { 'Authorization': 'Bearer ' + token },
-                success: function(response) {
-                    if (response.success) {
-                        displayMessages(response.messages);
-                    }
-                },
-                error: function(xhr) {
-                    console.error('خطأ في تحميل الرسائل:', xhr);
-                    $('#messages-table').html('<tr><td colspan="7" class="text-center text-danger">حدث خطأ في التحميل</td></tr>');
-                }
-            });
-        }
-
-        // عرض الرسائل
-        function displayMessages(messages) {
-            const tbody = $('#messages-table');
-            tbody.empty();
-
-            if (messages.length === 0) {
-                tbody.html('<tr><td colspan="7" class="text-center">لا توجد رسائل</td></tr>');
+            // التحقق من تسجيل الدخول
+            if (!token) {
+                window.location.href = 'login/login.html';
                 return;
             }
 
-            messages.forEach((msg, index) => {
-                const statusClass = msg.status === 'new' ? 'status-new' : 
-                                   msg.status === 'read' ? 'status-read' : 'status-replied';
-                
-                const statusText = msg.status === 'new' ? 'جديدة' :
-                                  msg.status === 'read' ? 'مقروءة' : 'تم الرد';
+            // تحديث اسم المستخدم
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            if (user.firstname) {
+                $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
+                if (user.profile_img) {
+                    $('#sidebarImage').attr('src', '..' + user.profile_img);
+                }
+            }
 
-                const row = `
+
+            // تحميل الإحصائيات
+            function loadStats() {
+                $.ajax({
+                    url: 'http://localhost:3000/api/admin/stats',
+                    type: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    success: function (response) {
+                        if (response.success) {
+                            $('#stats-users').text(response.stats.users);
+                            $('#stats-blogs').text(response.stats.blogs);
+                            $('#stats-cases').text(response.stats.cases);
+                            $('#stats-operations').text(response.stats.operations);
+                            $('#stats-messages').text(response.stats.messages);
+                            $('#stats-new-messages').text(response.stats.newMessages);
+                        }
+                    },
+                    error: function (xhr) {
+                        if (xhr.status === 403) {
+                            alert('ليس لديك صلاحية الوصول إلى لوحة التحكم');
+                            window.location.href = 'home.html';
+                        }
+                    }
+                });
+            }
+
+            // تحميل الرسائل
+            function loadMessages() {
+                $('#messages-table').html('<tr><td colspan="7" class="text-center">جاري التحميل...</td></tr>');
+
+                $.ajax({
+                    url: 'http://localhost:3000/api/admin/messages',
+                    type: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    success: function (response) {
+                        if (response.success) {
+                            displayMessages(response.messages);
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error('خطأ في تحميل الرسائل:', xhr);
+                        $('#messages-table').html('<tr><td colspan="7" class="text-center text-danger">حدث خطأ في التحميل</td></tr>');
+                    }
+                });
+            }
+
+            // عرض الرسائل
+            function displayMessages(messages) {
+                const tbody = $('#messages-table');
+                tbody.empty();
+
+                if (messages.length === 0) {
+                    tbody.html('<tr><td colspan="7" class="text-center">لا توجد رسائل</td></tr>');
+                    return;
+                }
+
+                messages.forEach((msg, index) => {
+                    const statusClass = msg.status === 'new' ? 'status-new' :
+                        msg.status === 'read' ? 'status-read' : 'status-replied';
+
+                    const statusText = msg.status === 'new' ? 'جديدة' :
+                        msg.status === 'read' ? 'مقروءة' : 'تم الرد';
+
+                    const row = `
                     <tr>
                         <td>${index + 1}</td>
                         <td>${msg.name} ${msg.user_id ? '(مسجل)' : '(زائر)'}</td>
@@ -464,46 +487,46 @@
                         </td>
                     </tr>
                 `;
-                tbody.append(row);
-            });
-        }
-
-        // تحميل المستخدمين
-        function loadUsers() {
-            $('#users-table').html('<tr><td colspan="7" class="text-center">جاري التحميل...</td></tr>');
-            
-            $.ajax({
-                url: 'http://localhost:3000/api/admin/users',
-                type: 'GET',
-                headers: { 'Authorization': 'Bearer ' + token },
-                success: function(response) {
-                    if (response.success) {
-                        displayUsers(response.users);
-                    }
-                },
-                error: function(xhr) {
-                    console.error('خطأ في تحميل المستخدمين:', xhr);
-                    $('#users-table').html('<tr><td colspan="7" class="text-center text-danger">حدث خطأ في التحميل</td></tr>');
-                }
-            });
-        }
-
-        // عرض المستخدمين
-        function displayUsers(users) {
-            const tbody = $('#users-table');
-            tbody.empty();
-
-            if (users.length === 0) {
-                tbody.html('<tr><td colspan="7" class="text-center">لا توجد مستخدمين</td></tr>');
-                return;
+                    tbody.append(row);
+                });
             }
 
-            users.forEach((user, index) => {
-                const roleBadge = user.role === 'admin' ? 
-                    '<span class="badge badge-primary">مسؤول</span>' : 
-                    '<span class="badge badge-secondary">مستخدم</span>';
+            // تحميل المستخدمين
+            function loadUsers() {
+                $('#users-table').html('<tr><td colspan="7" class="text-center">جاري التحميل...</td></tr>');
 
-                const row = `
+                $.ajax({
+                    url: 'http://localhost:3000/api/admin/users',
+                    type: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    success: function (response) {
+                        if (response.success) {
+                            displayUsers(response.users);
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error('خطأ في تحميل المستخدمين:', xhr);
+                        $('#users-table').html('<tr><td colspan="7" class="text-center text-danger">حدث خطأ في التحميل</td></tr>');
+                    }
+                });
+            }
+
+            // عرض المستخدمين
+            function displayUsers(users) {
+                const tbody = $('#users-table');
+                tbody.empty();
+
+                if (users.length === 0) {
+                    tbody.html('<tr><td colspan="7" class="text-center">لا توجد مستخدمين</td></tr>');
+                    return;
+                }
+
+                users.forEach((user, index) => {
+                    const roleBadge = user.role === 'admin' ?
+                        '<span class="badge badge-primary">مسؤول</span>' :
+                        '<span class="badge badge-secondary">مستخدم</span>';
+
+                    const row = `
                     <tr>
                         <td>${index + 1}</td>
                         <td>${user.firstname} ${user.lastname || ''}</td>
@@ -523,159 +546,159 @@
                         </td>
                     </tr>
                 `;
-                tbody.append(row);
-            });
-        }
+                    tbody.append(row);
+                });
+            }
 
-        // عرض رسالة
-        $(document).on('click', '.view-message', function() {
-            const messageId = $(this).data('id');
-            currentMessageId = messageId;
-            
-            $.ajax({
-                url: 'http://localhost:3000/api/admin/messages',
-                type: 'GET',
-                headers: { 'Authorization': 'Bearer ' + token },
-                success: function(response) {
-                    const msg = response.messages.find(m => m.id == messageId);
-                    if (msg) {
-                        $('#modal-name').text(msg.name);
-                        $('#modal-email').text(msg.email);
-                        $('#modal-subject').text(msg.subject);
-                        $('#modal-message').text(msg.message);
-                        $('#modal-reply').val(msg.admin_reply || '');
-                        $('#modal-status').val(msg.status);
-                        $('#messageModal').modal('show');
+            // عرض رسالة
+            $(document).on('click', '.view-message', function () {
+                const messageId = $(this).data('id');
+                currentMessageId = messageId;
+
+                $.ajax({
+                    url: 'http://localhost:3000/api/admin/messages',
+                    type: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    success: function (response) {
+                        const msg = response.messages.find(m => m.id == messageId);
+                        if (msg) {
+                            $('#modal-name').text(msg.name);
+                            $('#modal-email').text(msg.email);
+                            $('#modal-subject').text(msg.subject);
+                            $('#modal-message').text(msg.message);
+                            $('#modal-reply').val(msg.admin_reply || '');
+                            $('#modal-status').val(msg.status);
+                            $('#messageModal').modal('show');
+                        }
                     }
-                }
+                });
             });
-        });
 
-        // حفظ تغييرات الرسالة
-        $('#saveMessageBtn').click(function() {
-            const data = {
-                status: $('#modal-status').val(),
-                admin_reply: $('#modal-reply').val()
+            // حفظ تغييرات الرسالة
+            $('#saveMessageBtn').click(function () {
+                const data = {
+                    status: $('#modal-status').val(),
+                    admin_reply: $('#modal-reply').val()
+                };
+
+                $.ajax({
+                    url: 'http://localhost:3000/api/admin/messages/' + currentMessageId,
+                    type: 'PUT',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#messageModal').modal('hide');
+                            loadMessages();
+                            loadStats();
+                            alert('✅ تم تحديث الرسالة بنجاح');
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('❌ حدث خطأ في تحديث الرسالة');
+                    }
+                });
+            });
+
+            // حذف رسالة
+            $(document).on('click', '.delete-message', function () {
+                const messageId = $(this).data('id');
+
+                if (!confirm('هل أنت متأكد من حذف هذه الرسالة؟')) return;
+
+                $.ajax({
+                    url: 'http://localhost:3000/api/admin/messages/' + messageId,
+                    type: 'DELETE',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    success: function (response) {
+                        if (response.success) {
+                            loadMessages();
+                            loadStats();
+                            alert('✅ تم حذف الرسالة بنجاح');
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('❌ حدث خطأ في حذف الرسالة');
+                    }
+                });
+            });
+
+            // تغيير صلاحية المستخدم
+            $(document).on('click', '.change-role', function () {
+                const userId = $(this).data('id');
+                const currentRole = $(this).data('role');
+                const newRole = currentRole === 'admin' ? 'user' : 'admin';
+
+                if (!confirm(`هل تريد تغيير صلاحية المستخدم إلى ${newRole === 'admin' ? 'مسؤول' : 'مستخدم'}؟`)) return;
+
+                $.ajax({
+                    url: 'http://localhost:3000/api/admin/users/' + userId + '/role',
+                    type: 'PUT',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({ role: newRole }),
+                    success: function (response) {
+                        if (response.success) {
+                            loadUsers();
+                            alert('✅ تم تحديث صلاحية المستخدم بنجاح');
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('❌ حدث خطأ في تحديث الصلاحية');
+                    }
+                });
+            });
+
+            // حذف مستخدم
+            $(document).on('click', '.delete-user', function () {
+                const userId = $(this).data('id');
+
+                if (!confirm('هل أنت متأكد من حذف هذا المستخدم؟')) return;
+
+                $.ajax({
+                    url: 'http://localhost:3000/api/admin/users/' + userId,
+                    type: 'DELETE',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    success: function (response) {
+                        if (response.success) {
+                            loadUsers();
+                            loadStats();
+                            alert('✅ تم حذف المستخدم بنجاح');
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('❌ حدث خطأ في حذف المستخدم');
+                    }
+                });
+            });
+
+            // تبديل التبويبات
+            window.showTab = function (tab) {
+                $('.admin-tab').hide();
+                $('#' + tab + '-tab').show();
+                $('.right-side .list ul li a').removeClass('active');
+                $(`.right-side .list ul li a[href="#${tab}"]`).addClass('active');
+
+                if (tab === 'messages') loadMessages();
+                if (tab === 'users') loadUsers();
             };
 
-            $.ajax({
-                url: 'http://localhost:3000/api/admin/messages/' + currentMessageId,
-                type: 'PUT',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
-                },
-                data: JSON.stringify(data),
-                success: function(response) {
-                    if (response.success) {
-                        $('#messageModal').modal('hide');
-                        loadMessages();
-                        loadStats();
-                        alert('✅ تم تحديث الرسالة بنجاح');
-                    }
-                },
-                error: function(xhr) {
-                    alert('❌ حدث خطأ في تحديث الرسالة');
-                }
+            // تسجيل الخروج
+            $('#logoutBtn').click(function (e) {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = 'login/login.html';
             });
+
+            // تحميل البيانات
+            loadStats();
         });
-
-        // حذف رسالة
-        $(document).on('click', '.delete-message', function() {
-            const messageId = $(this).data('id');
-            
-            if (!confirm('هل أنت متأكد من حذف هذه الرسالة؟')) return;
-
-            $.ajax({
-                url: 'http://localhost:3000/api/admin/messages/' + messageId,
-                type: 'DELETE',
-                headers: { 'Authorization': 'Bearer ' + token },
-                success: function(response) {
-                    if (response.success) {
-                        loadMessages();
-                        loadStats();
-                        alert('✅ تم حذف الرسالة بنجاح');
-                    }
-                },
-                error: function(xhr) {
-                    alert('❌ حدث خطأ في حذف الرسالة');
-                }
-            });
-        });
-
-        // تغيير صلاحية المستخدم
-        $(document).on('click', '.change-role', function() {
-            const userId = $(this).data('id');
-            const currentRole = $(this).data('role');
-            const newRole = currentRole === 'admin' ? 'user' : 'admin';
-            
-            if (!confirm(`هل تريد تغيير صلاحية المستخدم إلى ${newRole === 'admin' ? 'مسؤول' : 'مستخدم'}؟`)) return;
-
-            $.ajax({
-                url: 'http://localhost:3000/api/admin/users/' + userId + '/role',
-                type: 'PUT',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
-                },
-                data: JSON.stringify({ role: newRole }),
-                success: function(response) {
-                    if (response.success) {
-                        loadUsers();
-                        alert('✅ تم تحديث صلاحية المستخدم بنجاح');
-                    }
-                },
-                error: function(xhr) {
-                    alert('❌ حدث خطأ في تحديث الصلاحية');
-                }
-            });
-        });
-
-        // حذف مستخدم
-        $(document).on('click', '.delete-user', function() {
-            const userId = $(this).data('id');
-            
-            if (!confirm('هل أنت متأكد من حذف هذا المستخدم؟')) return;
-
-            $.ajax({
-                url: 'http://localhost:3000/api/admin/users/' + userId,
-                type: 'DELETE',
-                headers: { 'Authorization': 'Bearer ' + token },
-                success: function(response) {
-                    if (response.success) {
-                        loadUsers();
-                        loadStats();
-                        alert('✅ تم حذف المستخدم بنجاح');
-                    }
-                },
-                error: function(xhr) {
-                    alert('❌ حدث خطأ في حذف المستخدم');
-                }
-            });
-        });
-
-        // تبديل التبويبات
-        window.showTab = function(tab) {
-            $('.admin-tab').hide();
-            $('#' + tab + '-tab').show();
-            $('.right-side .list ul li a').removeClass('active');
-            $(`.right-side .list ul li a[href="#${tab}"]`).addClass('active');
-            
-            if (tab === 'messages') loadMessages();
-            if (tab === 'users') loadUsers();
-        };
-
-        // تسجيل الخروج
-        $('#logoutBtn').click(function(e) {
-            e.preventDefault();
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            window.location.href = 'login/login.html';
-        });
-
-        // تحميل البيانات
-        loadStats();
-    });
     </script>
 </body>
 
