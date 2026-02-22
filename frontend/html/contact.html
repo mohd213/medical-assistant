@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ar">
+
+<head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>الدعم الفني - المساعد الطبي</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../img/logo.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/icofont.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        .contact-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .contact-header i {
+            font-size: 60px;
+            color: #4260a0;
+            margin-bottom: 20px;
+        }
+        
+        .contact-header h2 {
+            color: #2c3e50;
+            font-weight: 700;
+        }
+        
+        .contact-header p {
+            color: #7f8c8d;
+        }
+        
+        .send-message-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #4260a0;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 24px;
+            box-shadow: 0 2px 10px rgba(66, 96, 160, 0.3);
+        }
+        
+        .send-message-icon:hover {
+            background: #2c3e6b;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+            <div class="indicator">
+                <svg width="16px" height="12px">
+                    <polyline points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Area -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo d-flex align-items-center justify-content-start">
+                <div class="logo-img">
+                    <img src="../img/logo.png" alt="">
+                </div>
+                <p class="mb-0">المساعد الطبي</p>
+            </div>
+            <div class="main-menu">
+                <ul class="nav menu">
+                    <li><a href="../index.html">الصفحة الرئيسية</a></li>
+                    <li><a href="./ai-diagnosis.html"><i class="icofont-stethoscope"></i>التشخيص الذكي</a></li>
+                    <li><a href="#"><i class="icofont-ui-user ml-3"></i> حسابي <i class="icofont-rounded-down mr-2"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="./home.html">الملف الشخصي</a></li>
+                            <li><a href="./login/login.html" id="logoutBtn">تسجيل الخروج</a></li>
+                        </ul>
+                    </li>
+                    <li class="notification-list">
+                        <a href="#"><i class="icofont-notification"></i></a>
+                        <ul class="dropdown">
+                            <p>لا توجد اشعارات</p>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- page content -->
+    <div class="page-content">
+        <!-- right sidebar -->
+        <div class="right-side">
+            <div class="avatar d-flex justify-content-start align-items-center">
+                <div class="img ml-3">
+                    <img src="../img/author2.jpg" alt="">
+                </div>
+                <div class="name">
+                    <span id="sidebarName">زائر</span>
+                </div>
+            </div>
+            <div class="list">
+                <ul>
+                    <li><a href="./home.html"><i class="icofont-doctor"></i>الملف الشخصي</a></li>
+                    <li><a href="./blogs.html"><i class="icofont-file-alt"></i>مدوناتي</a></li>
+                    <li><a href="./operations.html"><i class="icofont-calendar"></i>جدول العمليات</a></li>
+                    <li><a href="./patient.html"><i class="icofont-patient-bed"></i>تشخيص المريض</a></li>
+                    <li><a href="./follow-up.html"><i class="icofont-prescription"></i>حالات المتابعة</a></li>
+                    <li><a href="./contact.html" class="active"><i class="icofont-gears"></i>الدعم الفني</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- left side -->
+        <div class="left-side">
+            <div class="contact-header">
+                <i class="icofont-headphone-alt"></i>
+                <h2>الدعم الفني</h2>
+                <p>نحن هنا لمساعدتك، أرسل لنا مشكلتك وسنرد عليك في أقرب وقت</p>
+            </div>
+
+            <!-- contact form -->
+            <form id="contactForm" class="form">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="name" placeholder="الاسم" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="email" placeholder="البريد الإلكتروني" required>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="subject" placeholder="الموضوع" required>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <textarea class="form-control" id="message" rows="6" placeholder="الرسالة" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="icofont-send-mail"></i> إرسال
+                    </button>
+                </div>
+            </form>
+
+            <!-- رسالة النجاح/الخطأ -->
+            <div id="responseMessage" style="display: none;" class="alert mt-3"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/common.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+        // تحديث اسم المستخدم
+        if (user.firstname) {
+            $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
+        }
+
+        // تعبئة البيانات إذا كان المستخدم مسجل دخول
+        if (user.email) {
+            $('#name').val(user.firstname + ' ' + (user.lastname || ''));
+            $('#email').val(user.email);
+        }
+
+        // إرسال النموذج
+        $('#contactForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                name: $('#name').val(),
+                email: $('#email').val(),
+                subject: $('#subject').val(),
+                message: $('#message').val()
+            };
+
+            // التحقق من الحقول
+            if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+                showMessage('الرجاء ملء جميع الحقول', 'danger');
+                return;
+            }
+
+            // إرسال الطلب
+            $.ajax({
+                url: 'http://localhost:3000/api/contact',
+                type: 'POST',
+                headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    if (response.success) {
+                        $('#contactForm')[0].reset();
+                        if (user.email) {
+                            $('#name').val(user.firstname + ' ' + (user.lastname || ''));
+                            $('#email').val(user.email);
+                        }
+                        showMessage('✅ تم إرسال رسالتك بنجاح. سنتواصل معك قريباً', 'success');
+                    } else {
+                        showMessage('❌ ' + (response.message || 'حدث خطأ'), 'danger');
+                    }
+                },
+                error: function(xhr) {
+                    console.error('خطأ:', xhr);
+                    showMessage('❌ حدث خطأ في الاتصال بالخادم', 'danger');
+                }
+            });
+        });
+
+        // دالة عرض الرسائل
+        function showMessage(msg, type) {
+            const msgDiv = $('#responseMessage');
+            msgDiv.removeClass('alert-success alert-danger').addClass('alert-' + type);
+            msgDiv.html(msg);
+            msgDiv.show();
+            
+            setTimeout(function() {
+                msgDiv.fadeOut();
+            }, 5000);
+        }
+    });
+    </script>
+</body>
+
+</html>

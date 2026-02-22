@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="ar">
+
+<head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>مدوناتي - المساعد الطبي</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../img/logo.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/icofont.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+            <div class="indicator">
+                <svg width="16px" height="12px">
+                    <polyline points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Area -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo d-flex align-items-center justify-content-start">
+                <div class="logo-img">
+                    <img src="../img/logo.png" alt="">
+                </div>
+                <p class="mb-0">المساعد الطبي</p>
+            </div>
+            <div class="main-menu">
+                <ul class="nav menu">
+                    <li><a href="../index.html">الصفحة الرئيسية</a></li>
+                    <li><a href="./ai-diagnosis.html"><i class="icofont-stethoscope"></i>التشخيص الذكي</a></li>
+                    <li><a href="#"><i class="icofont-ui-user ml-3"></i> حسابي <i class="icofont-rounded-down mr-2"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="./home.html">الملف الشخصي</a></li>
+                            <li><a href="./login/login.html" id="logoutBtn">تسجيل الخروج</a></li>
+                        </ul>
+                    </li>
+                    <li class="notification-list">
+                        <a href="#"><i class="icofont-notification"></i></a>
+                        <ul class="dropdown">
+                            <p>لا توجد اشعارات</p>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- page content -->
+    <div class="page-content">
+        <!-- right sidebar -->
+        <div class="right-side">
+            <div class="avatar d-flex justify-content-start align-items-center">
+                <div class="img ml-3">
+                    <img src="../img/author2.jpg" alt="">
+                </div>
+                <div class="name">
+                    <span id="sidebarName">جاري التحميل...</span>
+                </div>
+            </div>
+            <div class="list">
+                <ul>
+                    <li><a href="./home.html"><i class="icofont-doctor"></i>الملف الشخصي</a></li>
+                    <li><a href="./blogs.html" class="active"><i class="icofont-file-alt"></i>مدوناتي</a></li>
+                    <li><a href="./operations.html"><i class="icofont-calendar"></i>جدول العمليات</a></li>
+                    <li><a href="./patient.html"><i class="icofont-patient-bed"></i>تشخيص المريض</a></li>
+                    <li><a href="./follow-up.html"><i class="icofont-prescription"></i>حالات المتابعة</a></li>
+                    <li><a href="./contact.html"><i class="icofont-gears"></i>الدعم الفني</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- main content -->
+        <div class="left-side-blogs">
+            <div class="blogs">
+                <!-- Modal إضافة/تعديل مدونة -->
+                <div class="modal fade" id="blogModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="blogModalTitle">إضافة مدونة جديدة</h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span>&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="blogForm" enctype="multipart/form-data">
+                                    <input type="hidden" id="blogId">
+                                    
+                                    <div class="form-group">
+                                        <label for="blogTitle">عنوان المقال</label>
+                                        <input type="text" class="form-control" id="blogTitle" placeholder="أدخل عنوان المقال" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="blogContent">محتوى المقال</label>
+                                        <textarea class="form-control" id="blogContent" rows="6" placeholder="أكتب محتوى المقال هنا..." required></textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <!-- <label for="blogImage">صورة المقال</label> -->
+                                        <div class="custom-file-upload">
+                                            <input type="file" id="blogImage" accept="image/*">
+                                            <label for="blogImage" class="custom-file-label">
+                                                <i class="icofont-ui-camera"></i>
+                                                <span>اختر صورة للمقال...</span>
+                                            </label>
+                                        </div>
+                                        <div id="imagePreview" class="image-preview" style="display: none;">
+                                            <img src="" alt="Preview">
+                                        </div>
+                                        <div id="currentImageContainer" style="display: none;" class="mt-3">
+                                            <p>الصورة الحالية:</p>
+                                            <img id="currentImage" src="" alt="الصورة الحالية" class="img-thumbnail" style="max-width: 200px;">
+                                        </div>
+                                        <small class="text-muted">صيغ مسموحة: jpg, jpeg, png, gif (اختياري - حجم أقصى 5 ميجا)</small>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                                <button type="button" class="btn btn-primary" id="saveBlogBtn">حفظ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- مدوناتي -->
+                <div class="my-blogs">
+                    <div class="blogs-header">
+                        <h2>مدوناتي</h2>
+                        <button type="button" class="add-blog-icon" data-toggle="modal" data-target="#blogModal" title="إضافة مدونة جديدة">
+                            <i class="icofont-plus"></i>
+                        </button>
+                    </div>
+                    <div id="myBlogsContainer">
+                        <!-- سيتم ملؤها بواسطة JavaScript -->
+                        <div class="spinner-container">
+                            <div class="spinner"></div>
+                            <p class="mt-3">جاري تحميل المدونات...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- مقالات الأطباء -->
+            <div class="other-blogs">
+                <h2 style="color: #2c3e50; font-size: 1.5rem; font-weight: 600; margin-bottom: 20px;">مقالات الأطباء</h2>
+                <div id="otherBlogsContainer">
+                    <!-- سيتم ملؤها بواسطة JavaScript -->
+                    <div class="spinner-container">
+                        <div class="spinner"></div>
+                        <p class="mt-3">جاري تحميل المقالات...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/common.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        // ------------------------------------------------------
+        // 1. التحقق من تسجيل الدخول
+        // ------------------------------------------------------
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login/login.html';
+            return;
+        }
+
+        // ------------------------------------------------------
+        // 2. المتغيرات العامة
+        // ------------------------------------------------------
+        let currentBlogId = null;
+
+        // ------------------------------------------------------
+        // 3. تحديث اسم المستخدم في الشريط الجانبي
+        // ------------------------------------------------------
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.firstname) {
+            $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
+        }
+
+        // ------------------------------------------------------
+        // 4. معاينة الصورة قبل الرفع
+        // ------------------------------------------------------
+        $('#blogImage').on('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // التحقق من حجم الصورة (5 ميجا كحد أقصى)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('حجم الصورة كبير جداً. الحد الأقصى 5 ميجا');
+                    $(this).val('');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imagePreview img').attr('src', e.target.result);
+                    $('#imagePreview').show();
+                }
+                reader.readAsDataURL(file);
+                $('.custom-file-label span').text(file.name);
+            }
+        });
+
+        // ------------------------------------------------------
+        // 5. دالة لجلب مدوناتي
+        // ------------------------------------------------------
+        function fetchMyBlogs() {
+            $.ajax({
+                url: 'http://localhost:3000/api/blogs',
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function(response) {
+                    if (response.success) {
+                        displayMyBlogs(response.blogs);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('خطأ في جلب مدوناتي:', error);
+                    $('#myBlogsContainer').html('<div class="alert alert-danger">حدث خطأ في جلب المدونات. يرجى المحاولة مرة أخرى.</div>');
+                }
+            });
+        }
+
+        // ------------------------------------------------------
+        // 6. دالة لعرض مدوناتي (نسخة مبسطة مع أيقونات)
+        // ------------------------------------------------------
+        function displayMyBlogs(blogs) {
+            const container = $('#myBlogsContainer');
+            container.empty();
+
+            if (blogs.length === 0) {
+                container.html('<div class="alert alert-info text-center">📝 لا توجد مدونات بعد. أضف مدونتك الأولى!</div>');
+                return;
+            }
+
+            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">';
+            blogs.forEach(blog => {
+                html += `
+                    <div class="blog-card" data-id="${blog.id}">
+                        ${blog.image ? 
+                            `<div class="blog-image-container">
+                                <img src="..${blog.image}" class="blog-image" alt="${blog.title}">
+                            </div>` : 
+                            `<div class="blog-image-container" style="background: #f5f8ff; display: flex; align-items: center; justify-content: center;">
+                                <i class="icofont-file-alt" style="font-size: 50px; color: #4260a0; opacity: 0.3;"></i>
+                            </div>`
+                        }
+                        <div class="blog-content">
+                            <h3 class="blog-title">${blog.title}</h3>
+                            <div class="blog-meta">
+                                <span><i class="icofont-user"></i> ${user.firstname} ${user.lastname || ''}</span>
+                                <span><i class="icofont-calendar"></i> ${new Date(blog.created_at).toLocaleDateString('ar-EG')}</span>
+                            </div>
+                            <p class="blog-excerpt">${blog.content.substring(0, 100)}${blog.content.length > 100 ? '...' : ''}</p>
+                            <div class="blog-actions">
+                                <button class="btn-icon edit edit-blog" data-id="${blog.id}" title="تعديل">
+                                    <i class="icofont-ui-edit"></i>
+                                </button>
+                                <button class="btn-icon delete delete-blog" data-id="${blog.id}" title="حذف">
+                                    <i class="icofont-ui-delete"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.html(html);
+        }
+
+        // ------------------------------------------------------
+        // 7. دالة لجلب جميع المدونات
+        // ------------------------------------------------------
+        function fetchAllBlogs() {
+            $.ajax({
+                url: 'http://localhost:3000/api/blogs/all',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        displayAllBlogs(response.blogs);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('خطأ في جلب جميع المدونات:', error);
+                    $('#otherBlogsContainer').html('<div class="alert alert-danger">حدث خطأ في جلب المقالات. يرجى المحاولة مرة أخرى.</div>');
+                }
+            });
+        }
+
+        // ------------------------------------------------------
+        // 8. دالة لعرض جميع المدونات (نسخة مبسطة)
+        // ------------------------------------------------------
+        function displayAllBlogs(blogs) {
+            const container = $('#otherBlogsContainer');
+            container.empty();
+
+            if (blogs.length === 0) {
+                container.html('<div class="alert alert-info text-center">📚 لا توجد مقالات من الأطباء بعد</div>');
+                return;
+            }
+
+            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">';
+            blogs.forEach(blog => {
+                html += `
+                    <div class="blog-card">
+                        ${blog.image ? 
+                            `<div class="blog-image-container">
+                                <img src="..${blog.image}" class="blog-image" alt="${blog.title}">
+                            </div>` : 
+                            `<div class="blog-image-container" style="background: #f5f8ff; display: flex; align-items: center; justify-content: center;">
+                                <i class="icofont-file-alt" style="font-size: 40px; color: #4260a0; opacity: 0.3;"></i>
+                            </div>`
+                        }
+                        <div class="blog-content">
+                            <h3 class="blog-title" style="font-size: 1.1rem;">${blog.title}</h3>
+                            <div class="blog-meta">
+                                <span><i class="icofont-user"></i> ${blog.firstname} ${blog.lastname || ''}</span>
+                                <span><i class="icofont-calendar"></i> ${new Date(blog.created_at).toLocaleDateString('ar-EG')}</span>
+                            </div>
+                            <p class="blog-excerpt">${blog.content.substring(0, 100)}${blog.content.length > 100 ? '...' : ''}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.html(html);
+        }
+
+        // ------------------------------------------------------
+        // 9. دالة لحفظ مدونة
+        // ------------------------------------------------------
+        $('#saveBlogBtn').click(function() {
+            const formData = new FormData();
+            formData.append('title', $('#blogTitle').val());
+            formData.append('content', $('#blogContent').val());
+            
+            const imageFile = $('#blogImage')[0].files[0];
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
+            // التحقق من صحة البيانات
+            if (!$('#blogTitle').val().trim()) {
+                alert('الرجاء إدخال عنوان المقال');
+                return;
+            }
+            
+            if (!$('#blogContent').val().trim()) {
+                alert('الرجاء إدخال محتوى المقال');
+                return;
+            }
+
+            const url = currentBlogId ? 
+                'http://localhost:3000/api/blogs/' + currentBlogId : 
+                'http://localhost:3000/api/blogs';
+            
+            const method = currentBlogId ? 'PUT' : 'POST';
+
+            $.ajax({
+                url: url,
+                type: method,
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        $('#blogModal').modal('hide');
+                        resetBlogForm();
+                        fetchMyBlogs();
+                        fetchAllBlogs();
+                        alert(currentBlogId ? '✅ تم تحديث المدونة بنجاح' : '✅ تم إضافة المدونة بنجاح');
+                    } else {
+                        alert('❌ ' + (response.message || 'حدث خطأ'));
+                    }
+                },
+                error: function(xhr) {
+                    console.error('خطأ في حفظ المدونة:', xhr);
+                    alert('❌ حدث خطأ في حفظ المدونة. يرجى المحاولة مرة أخرى.');
+                }
+            });
+        });
+
+        // ------------------------------------------------------
+        // 10. دالة لتعديل مدونة
+        // ------------------------------------------------------
+        $(document).on('click', '.edit-blog', function() {
+            const blogId = $(this).data('id');
+            currentBlogId = blogId;
+            
+            $.ajax({
+                url: 'http://localhost:3000/api/blogs/' + blogId,
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const blog = response.blog;
+                        $('#blogModalTitle').text('تعديل المدونة');
+                        $('#blogId').val(blog.id);
+                        $('#blogTitle').val(blog.title);
+                        $('#blogContent').val(blog.content);
+                        
+                        if (blog.image) {
+                            $('#currentImage').attr('src', '..' + blog.image);
+                            $('#currentImageContainer').show();
+                        } else {
+                            $('#currentImageContainer').hide();
+                        }
+                        
+                        $('#imagePreview').hide();
+                        $('.custom-file-label span').text('اختر صورة جديدة...');
+                        
+                        $('#blogModal').modal('show');
+                    }
+                },
+                error: function(xhr) {
+                    console.error('خطأ في جلب بيانات المدونة:', xhr);
+                    alert('❌ حدث خطأ في جلب بيانات المدونة');
+                }
+            });
+        });
+
+        // ------------------------------------------------------
+        // 11. دالة لحذف مدونة
+        // ------------------------------------------------------
+        $(document).on('click', '.delete-blog', function() {
+            const blogId = $(this).data('id');
+            
+            if (!confirm('هل أنت متأكد من حذف هذه المدونة؟')) {
+                return;
+            }
+
+            $.ajax({
+                url: 'http://localhost:3000/api/blogs/' + blogId,
+                type: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('✅ تم حذف المدونة بنجاح');
+                        fetchMyBlogs();
+                        fetchAllBlogs();
+                    } else {
+                        alert('❌ ' + (response.message || 'حدث خطأ'));
+                    }
+                },
+                error: function(xhr) {
+                    console.error('خطأ في حذف المدونة:', xhr);
+                    alert('❌ حدث خطأ في حذف المدونة');
+                }
+            });
+        });
+
+        // ------------------------------------------------------
+        // 12. دالة لإعادة تعيين النموذج
+        // ------------------------------------------------------
+        function resetBlogForm() {
+            currentBlogId = null;
+            $('#blogModalTitle').text('إضافة مدونة جديدة');
+            $('#blogForm')[0].reset();
+            $('#blogId').val('');
+            $('#currentImageContainer').hide();
+            $('#imagePreview').hide();
+            $('.custom-file-label span').text('اختر صورة للمقال...');
+        }
+
+        // ------------------------------------------------------
+        // 13. عند فتح modal
+        // ------------------------------------------------------
+        $('#blogModal').on('show.bs.modal', function() {
+            if (!currentBlogId) {
+                resetBlogForm();
+            }
+        });
+
+        // ------------------------------------------------------
+        // 14. عند إغلاق modal
+        // ------------------------------------------------------
+        $('#blogModal').on('hidden.bs.modal', function() {
+            resetBlogForm();
+        });
+
+        // ------------------------------------------------------
+        // 15. تسجيل الخروج
+        // ------------------------------------------------------
+        $('#logoutBtn').on('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login/login.html';
+        });
+
+        // ------------------------------------------------------
+        // 16. تحميل البيانات عند فتح الصفحة
+        // ------------------------------------------------------
+        fetchMyBlogs();
+        fetchAllBlogs();
+    });
+    </script>
+</body>
+
+</html>

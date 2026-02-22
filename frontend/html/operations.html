@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="ar">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>جدول العمليات - المساعد الطبي</title>
+    <link rel="icon" href="../img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/datepicker.css">
+    <link rel="stylesheet" href="../css/nice-select.css">
+    <link rel="stylesheet" href="../css/icofont.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .operations-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .add-operation-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #4260a0;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 24px;
+            box-shadow: 0 2px 10px rgba(66, 96, 160, 0.3);
+        }
+        
+        .add-operation-icon:hover {
+            background: #2c3e6b;
+            transform: scale(1.05);
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+        
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: transparent;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        
+        .btn-icon:hover {
+            background: #f5f5f5;
+            color: #4260a0;
+        }
+        
+        .btn-icon.edit:hover {
+            color: #f39c12;
+        }
+        
+        .btn-icon.delete:hover {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+            <div class="indicator">
+                <svg width="16px" height="12px">
+                    <polyline points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Area -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo d-flex align-items-center justify-content-start">
+                <div class="logo-img">
+                    <img src="../img/logo.png" alt="">
+                </div>
+                <p class="mb-0">المساعد الطبي</p>
+            </div>
+            <div class="main-menu">
+                <ul class="nav menu">
+                    <li><a href="../index.html">الصفحة الرئيسية</a></li>
+                    <li><a href="./ai-diagnosis.html"><i class="icofont-stethoscope"></i>التشخيص الذكي</a></li>
+                    <li><a href="#"><i class="icofont-ui-user ml-3"></i> حسابي <i class="icofont-rounded-down mr-2"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="./home.html">الملف الشخصي</a></li>
+                            <li><a href="./login/login.html" id="logoutBtn">تسجيل الخروج</a></li>
+                        </ul>
+                    </li>
+                    <li class="notification-list">
+                        <a href="#"><i class="icofont-notification"></i></a>
+                        <ul class="dropdown">
+                            <p>لا توجد اشعارات</p>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- page content -->
+    <div class="page-content">
+        <!-- right sidebar -->
+        <div class="right-side">
+            <div class="avatar d-flex justify-content-start align-items-center">
+                <div class="img ml-3">
+                    <img src="../img/author2.jpg" alt="">
+                </div>
+                <div class="name">
+                    <span id="sidebarName">جاري التحميل...</span>
+                </div>
+            </div>
+            <div class="list">
+                <ul>
+                    <li><a href="./home.html"><i class="icofont-doctor"></i>الملف الشخصي</a></li>
+                    <li><a href="./blogs.html"><i class="icofont-file-alt"></i>مدوناتي</a></li>
+                    <li><a href="./operations.html" class="active"><i class="icofont-calendar"></i>جدول العمليات</a></li>
+                    <li><a href="./patient.html"><i class="icofont-patient-bed"></i>تشخيص المريض</a></li>
+                    <li><a href="./follow-up.html"><i class="icofont-prescription"></i>حالات المتابعة</a></li>
+                    <li><a href="./contact.html"><i class="icofont-gears"></i>الدعم الفني</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- left side include page content -->
+        <div class="left-side">
+            <!-- Modal إضافة/تعديل عملية -->
+            <div class="modal fade" id="operationModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="operationModalTitle">إضافة عملية جديدة</h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="operationForm">
+                                <input type="hidden" id="operationId">
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>اسم المريض</label>
+                                            <input type="text" class="form-control" id="patientName" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>نوع العملية</label>
+                                            <input type="text" class="form-control" id="operationType" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>المشفى</label>
+                                            <input type="text" class="form-control" id="hospital" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>القسم</label>
+                                            <input type="text" class="form-control" id="department">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>التاريخ</label>
+                                            <input type="date" class="form-control" id="operationDate" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>الوقت</label>
+                                            <input type="time" class="form-control" id="operationTime">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>ملاحظات</label>
+                                            <textarea class="form-control" id="notes" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                            <button type="button" class="btn btn-primary" id="saveOperationBtn">حفظ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- header -->
+            <div class="operations-header">
+                <h3 class="title mb-0">جدول العمليات</h3>
+                <button type="button" class="add-operation-icon" data-toggle="modal" data-target="#operationModal" title="إضافة عملية جديدة">
+                    <i class="icofont-plus"></i>
+                </button>
+            </div>
+
+            <!-- operations table -->
+            <div class="operation-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">اسم المريض</th>
+                            <th scope="col">نوع العملية</th>
+                            <th scope="col">المشفى</th>
+                            <th scope="col">القسم</th>
+                            <th scope="col">التاريخ</th>
+                            <th scope="col">الوقت</th>
+                            <th scope="col">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="operationsTableBody">
+                        <tr>
+                            <td colspan="8" class="text-center">جاري تحميل البيانات...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/common.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login/login.html';
+            return;
+        }
+
+        let currentOperationId = null;
+
+        // تحديث اسم المستخدم
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.firstname) {
+            $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
+        }
+
+        // جلب العمليات
+        function fetchOperations() {
+            $.ajax({
+                url: 'http://localhost:3000/api/operations',
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function(response) {
+                    if (response.success) {
+                        displayOperations(response.operations);
+                    }
+                },
+                error: function(xhr) {
+                    console.error('خطأ في جلب العمليات:', xhr);
+                    $('#operationsTableBody').html('<tr><td colspan="8" class="text-center text-danger">حدث خطأ في جلب البيانات</td></tr>');
+                }
+            });
+        }
+
+        // عرض العمليات في الجدول
+        function displayOperations(operations) {
+            const tbody = $('#operationsTableBody');
+            tbody.empty();
+
+            if (operations.length === 0) {
+                tbody.html('<tr><td colspan="8" class="text-center">لا توجد عمليات مسجلة</td></tr>');
+                return;
+            }
+
+            operations.forEach((op, index) => {
+                const row = `
+                    <tr>
+                        <th scope="row">${index + 1}</th>
+                        <td>${op.patient_name}</td>
+                        <td>${op.operation_type}</td>
+                        <td>${op.hospital}</td>
+                        <td>${op.department || '-'}</td>
+                        <td>${op.operation_date ? new Date(op.operation_date).toLocaleDateString('ar-EG') : '-'}</td>
+                        <td>${op.operation_time || '-'}</td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn-icon edit edit-operation" data-id="${op.id}" title="تعديل">
+                                    <i class="icofont-ui-edit"></i>
+                                </button>
+                                <button class="btn-icon delete delete-operation" data-id="${op.id}" title="حذف">
+                                    <i class="icofont-ui-delete"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+        }
+
+        // حفظ عملية
+        $('#saveOperationBtn').click(function() {
+            const operationData = {
+                patient_name: $('#patientName').val(),
+                operation_type: $('#operationType').val(),
+                hospital: $('#hospital').val(),
+                department: $('#department').val(),
+                operation_date: $('#operationDate').val(),
+                operation_time: $('#operationTime').val(),
+                notes: $('#notes').val()
+            };
+
+            // التحقق من الحقول المطلوبة
+            if (!operationData.patient_name || !operationData.operation_type || !operationData.hospital || !operationData.operation_date) {
+                alert('الرجاء ملء جميع الحقول المطلوبة');
+                return;
+            }
+
+            const url = currentOperationId ? 
+                'http://localhost:3000/api/operations/' + currentOperationId : 
+                'http://localhost:3000/api/operations';
+            
+            const method = currentOperationId ? 'PUT' : 'POST';
+
+            $.ajax({
+                url: url,
+                type: method,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(operationData),
+                success: function(response) {
+                    if (response.success) {
+                        $('#operationModal').modal('hide');
+                        resetForm();
+                        fetchOperations();
+                        alert(currentOperationId ? '✅ تم تحديث العملية بنجاح' : '✅ تم إضافة العملية بنجاح');
+                    }
+                },
+                error: function(xhr) {
+                    console.error('خطأ في حفظ العملية:', xhr);
+                    alert('❌ حدث خطأ في حفظ العملية');
+                }
+            });
+        });
+
+        // تعديل عملية
+        $(document).on('click', '.edit-operation', function() {
+            const operationId = $(this).data('id');
+            currentOperationId = operationId;
+            
+            $.ajax({
+                url: 'http://localhost:3000/api/operations/' + operationId,
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const op = response.operation;
+                        $('#operationModalTitle').text('تعديل العملية');
+                        $('#operationId').val(op.id);
+                        $('#patientName').val(op.patient_name);
+                        $('#operationType').val(op.operation_type);
+                        $('#hospital').val(op.hospital);
+                        $('#department').val(op.department);
+                        $('#operationDate').val(op.operation_date);
+                        $('#operationTime').val(op.operation_time);
+                        $('#notes').val(op.notes);
+                        
+                        $('#operationModal').modal('show');
+                    }
+                },
+                error: function(xhr) {
+                    console.error('خطأ في جلب بيانات العملية:', xhr);
+                    alert('❌ حدث خطأ في جلب بيانات العملية');
+                }
+            });
+        });
+
+        // حذف عملية
+        $(document).on('click', '.delete-operation', function() {
+            const operationId = $(this).data('id');
+            
+            if (!confirm('هل أنت متأكد من حذف هذه العملية؟')) {
+                return;
+            }
+
+            $.ajax({
+                url: 'http://localhost:3000/api/operations/' + operationId,
+                type: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('✅ تم حذف العملية بنجاح');
+                        fetchOperations();
+                    }
+                },
+                error: function(xhr) {
+                    console.error('خطأ في حذف العملية:', xhr);
+                    alert('❌ حدث خطأ في حذف العملية');
+                }
+            });
+        });
+
+        // إعادة تعيين النموذج
+        function resetForm() {
+            currentOperationId = null;
+            $('#operationModalTitle').text('إضافة عملية جديدة');
+            $('#operationForm')[0].reset();
+            $('#operationId').val('');
+        }
+
+        // عند فتح modal
+        $('#operationModal').on('show.bs.modal', function() {
+            if (!currentOperationId) {
+                resetForm();
+            }
+        });
+
+        // عند إغلاق modal
+        $('#operationModal').on('hidden.bs.modal', function() {
+            resetForm();
+        });
+
+        // تحميل البيانات
+        fetchOperations();
+    });
+    </script>
+</body>
+
+</html>

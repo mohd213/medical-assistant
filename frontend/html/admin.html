@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="ar">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>لوحة التحكم - المساعد الطبي</title>
+    <link rel="icon" href="../img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/icofont.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .stats-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid #f0f0f0;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(66,96,160,0.1);
+            border-color: #4260a0;
+        }
+        
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #f0f4ff;
+            color: #4260a0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .stats-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .stats-label {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .nav-tabs {
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 25px;
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: #7f8c8d;
+            font-weight: 600;
+            padding: 12px 25px;
+            margin-left: 5px;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            color: #4260a0;
+            background: #f5f8ff;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: #4260a0;
+            background: white;
+            border-bottom: 3px solid #4260a0;
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: transparent;
+            color: #7f8c8d;
+        }
+        
+        .btn-icon:hover {
+            background: #f5f5f5;
+        }
+        
+        .btn-icon.view:hover { color: #4260a0; }
+        .btn-icon.edit:hover { color: #f39c12; }
+        .btn-icon.delete:hover { color: #e74c3c; }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-new { background: #fee9e7; color: #e74c3c; }
+        .status-read { background: #fff3e0; color: #f39c12; }
+        .status-replied { background: #e3f2fd; color: #4260a0; }
+        
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .admin-header h2 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+            <div class="indicator">
+                <svg width="16px" height="12px">
+                    <polyline points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Area -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo d-flex align-items-center justify-content-start">
+                <div class="logo-img">
+                    <img src="../img/logo.png" alt="">
+                </div>
+                <p class="mb-0">المساعد الطبي - لوحة التحكم</p>
+            </div>
+            <div class="main-menu">
+                <ul class="nav menu">
+                    <li><a href="../index.html">الصفحة الرئيسية</a></li>
+                    <li><a href="#" id="logoutBtn"><i class="icofont-power"></i> تسجيل الخروج</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- page content -->
+    <div class="page-content">
+        <!-- right sidebar -->
+        <div class="right-side">
+            <div class="avatar d-flex justify-content-start align-items-center">
+                <div class="img ml-3">
+                    <img src="../img/author2.jpg" alt="">
+                </div>
+                <div class="name">
+                    <span id="sidebarName">المسؤول</span>
+                </div>
+            </div>
+            <div class="list">
+                <ul>
+                    <li><a href="#dashboard" class="active" onclick="showTab('dashboard')">
+                        <i class="icofont-dashboard"></i> لوحة التحكم
+                    </a></li>
+                    <li><a href="#messages" onclick="showTab('messages')">
+                        <i class="icofont-envelope"></i> الرسائل
+                    </a></li>
+                    <li><a href="#users" onclick="showTab('users')">
+                        <i class="icofont-users"></i> المستخدمين
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- left side -->
+        <div class="left-side">
+            <!-- Dashboard Tab -->
+            <div id="dashboard-tab" class="admin-tab">
+                <div class="admin-header">
+                    <h2>لوحة التحكم</h2>
+                </div>
+                
+                <div class="row" id="stats-container">
+                    <div class="col-md-4 mb-4">
+                        <div class="stats-card text-center">
+                            <div class="stats-icon mx-auto">
+                                <i class="icofont-users"></i>
+                            </div>
+                            <div class="stats-number" id="stats-users">0</div>
+                            <div class="stats-label">المستخدمين</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="stats-card text-center">
+                            <div class="stats-icon mx-auto">
+                                <i class="icofont-file-alt"></i>
+                            </div>
+                            <div class="stats-number" id="stats-blogs">0</div>
+                            <div class="stats-label">المدونات</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="stats-card text-center">
+                            <div class="stats-icon mx-auto">
+                                <i class="icofont-prescription"></i>
+                            </div>
+                            <div class="stats-number" id="stats-cases">0</div>
+                            <div class="stats-label">حالات المتابعة</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="stats-card text-center">
+                            <div class="stats-icon mx-auto">
+                                <i class="icofont-calendar"></i>
+                            </div>
+                            <div class="stats-number" id="stats-operations">0</div>
+                            <div class="stats-label">العمليات</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="stats-card text-center">
+                            <div class="stats-icon mx-auto">
+                                <i class="icofont-envelope"></i>
+                            </div>
+                            <div class="stats-number" id="stats-messages">0</div>
+                            <div class="stats-label">إجمالي الرسائل</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="stats-card text-center">
+                            <div class="stats-icon mx-auto">
+                                <i class="icofont-envelope"></i>
+                            </div>
+                            <div class="stats-number" id="stats-new-messages">0</div>
+                            <div class="stats-label">رسائل جديدة</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Tab -->
+            <div id="messages-tab" class="admin-tab" style="display: none;">
+                <div class="admin-header">
+                    <h2>الرسائل الواردة</h2>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>المرسل</th>
+                                <th>البريد</th>
+                                <th>الموضوع</th>
+                                <th>الحالة</th>
+                                <th>التاريخ</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="messages-table">
+                            <tr>
+                                <td colspan="7" class="text-center">جاري التحميل...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="users-tab" class="admin-tab" style="display: none;">
+                <div class="admin-header">
+                    <h2>المستخدمين</h2>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>الاسم</th>
+                                <th>البريد</th>
+                                <th>التخصص</th>
+                                <th>الصلاحية</th>
+                                <th>تاريخ التسجيل</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table">
+                            <tr>
+                                <td colspan="7" class="text-center">جاري التحميل...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تفاصيل الرسالة</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>المرسل:</strong> <span id="modal-name"></span></p>
+                    <p><strong>البريد:</strong> <span id="modal-email"></span></p>
+                    <p><strong>الموضوع:</strong> <span id="modal-subject"></span></p>
+                    <p><strong>الرسالة:</strong></p>
+                    <p id="modal-message" class="p-3 bg-light rounded"></p>
+                    
+                    <hr>
+                    
+                    <div class="form-group">
+                        <label>الرد على الرسالة</label>
+                        <textarea class="form-control" id="modal-reply" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>تحديث الحالة</label>
+                        <select class="form-control" id="modal-status">
+                            <option value="new">جديدة</option>
+                            <option value="read">تمت القراءة</option>
+                            <option value="replied">تم الرد</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary" id="saveMessageBtn">حفظ التغييرات</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/common.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        const token = localStorage.getItem('token');
+        let currentMessageId = null;
+
+        // التحقق من تسجيل الدخول
+        if (!token) {
+            window.location.href = 'login/login.html';
+            return;
+        }
+
+        // تحديث اسم المستخدم
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.firstname) {
+            $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
+        }
+
+        // تحميل الإحصائيات
+        function loadStats() {
+            $.ajax({
+                url: 'http://localhost:3000/api/admin/stats',
+                type: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                success: function(response) {
+                    if (response.success) {
+                        $('#stats-users').text(response.stats.users);
+                        $('#stats-blogs').text(response.stats.blogs);
+                        $('#stats-cases').text(response.stats.cases);
+                        $('#stats-operations').text(response.stats.operations);
+                        $('#stats-messages').text(response.stats.messages);
+                        $('#stats-new-messages').text(response.stats.newMessages);
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 403) {
+                        alert('ليس لديك صلاحية الوصول إلى لوحة التحكم');
+                        window.location.href = 'home.html';
+                    }
+                }
+            });
+        }
+
+        // تحميل الرسائل
+        function loadMessages() {
+            $('#messages-table').html('<tr><td colspan="7" class="text-center">جاري التحميل...</td></tr>');
+            
+            $.ajax({
+                url: 'http://localhost:3000/api/admin/messages',
+                type: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                success: function(response) {
+                    if (response.success) {
+                        displayMessages(response.messages);
+                    }
+                },
+                error: function(xhr) {
+                    console.error('خطأ في تحميل الرسائل:', xhr);
+                    $('#messages-table').html('<tr><td colspan="7" class="text-center text-danger">حدث خطأ في التحميل</td></tr>');
+                }
+            });
+        }
+
+        // عرض الرسائل
+        function displayMessages(messages) {
+            const tbody = $('#messages-table');
+            tbody.empty();
+
+            if (messages.length === 0) {
+                tbody.html('<tr><td colspan="7" class="text-center">لا توجد رسائل</td></tr>');
+                return;
+            }
+
+            messages.forEach((msg, index) => {
+                const statusClass = msg.status === 'new' ? 'status-new' : 
+                                   msg.status === 'read' ? 'status-read' : 'status-replied';
+                
+                const statusText = msg.status === 'new' ? 'جديدة' :
+                                  msg.status === 'read' ? 'مقروءة' : 'تم الرد';
+
+                const row = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${msg.name} ${msg.user_id ? '(مسجل)' : '(زائر)'}</td>
+                        <td>${msg.email}</td>
+                        <td>${msg.subject}</td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td>${new Date(msg.created_at).toLocaleDateString('ar-EG')}</td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn-icon view view-message" data-id="${msg.id}" title="عرض">
+                                    <i class="icofont-eye"></i>
+                                </button>
+                                <button class="btn-icon delete delete-message" data-id="${msg.id}" title="حذف">
+                                    <i class="icofont-ui-delete"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+        }
+
+        // تحميل المستخدمين
+        function loadUsers() {
+            $('#users-table').html('<tr><td colspan="7" class="text-center">جاري التحميل...</td></tr>');
+            
+            $.ajax({
+                url: 'http://localhost:3000/api/admin/users',
+                type: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                success: function(response) {
+                    if (response.success) {
+                        displayUsers(response.users);
+                    }
+                },
+                error: function(xhr) {
+                    console.error('خطأ في تحميل المستخدمين:', xhr);
+                    $('#users-table').html('<tr><td colspan="7" class="text-center text-danger">حدث خطأ في التحميل</td></tr>');
+                }
+            });
+        }
+
+        // عرض المستخدمين
+        function displayUsers(users) {
+            const tbody = $('#users-table');
+            tbody.empty();
+
+            if (users.length === 0) {
+                tbody.html('<tr><td colspan="7" class="text-center">لا توجد مستخدمين</td></tr>');
+                return;
+            }
+
+            users.forEach((user, index) => {
+                const roleBadge = user.role === 'admin' ? 
+                    '<span class="badge badge-primary">مسؤول</span>' : 
+                    '<span class="badge badge-secondary">مستخدم</span>';
+
+                const row = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${user.firstname} ${user.lastname || ''}</td>
+                        <td>${user.email}</td>
+                        <td>${user.specialization || '-'}</td>
+                        <td>${roleBadge}</td>
+                        <td>${user.created_at}</td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn-icon edit change-role" data-id="${user.id}" data-role="${user.role}" title="تغيير الصلاحية">
+                                    <i class="icofont-ui-edit"></i>
+                                </button>
+                                <button class="btn-icon delete delete-user" data-id="${user.id}" title="حذف">
+                                    <i class="icofont-ui-delete"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+        }
+
+        // عرض رسالة
+        $(document).on('click', '.view-message', function() {
+            const messageId = $(this).data('id');
+            currentMessageId = messageId;
+            
+            $.ajax({
+                url: 'http://localhost:3000/api/admin/messages',
+                type: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                success: function(response) {
+                    const msg = response.messages.find(m => m.id == messageId);
+                    if (msg) {
+                        $('#modal-name').text(msg.name);
+                        $('#modal-email').text(msg.email);
+                        $('#modal-subject').text(msg.subject);
+                        $('#modal-message').text(msg.message);
+                        $('#modal-reply').val(msg.admin_reply || '');
+                        $('#modal-status').val(msg.status);
+                        $('#messageModal').modal('show');
+                    }
+                }
+            });
+        });
+
+        // حفظ تغييرات الرسالة
+        $('#saveMessageBtn').click(function() {
+            const data = {
+                status: $('#modal-status').val(),
+                admin_reply: $('#modal-reply').val()
+            };
+
+            $.ajax({
+                url: 'http://localhost:3000/api/admin/messages/' + currentMessageId,
+                type: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(data),
+                success: function(response) {
+                    if (response.success) {
+                        $('#messageModal').modal('hide');
+                        loadMessages();
+                        loadStats();
+                        alert('✅ تم تحديث الرسالة بنجاح');
+                    }
+                },
+                error: function(xhr) {
+                    alert('❌ حدث خطأ في تحديث الرسالة');
+                }
+            });
+        });
+
+        // حذف رسالة
+        $(document).on('click', '.delete-message', function() {
+            const messageId = $(this).data('id');
+            
+            if (!confirm('هل أنت متأكد من حذف هذه الرسالة؟')) return;
+
+            $.ajax({
+                url: 'http://localhost:3000/api/admin/messages/' + messageId,
+                type: 'DELETE',
+                headers: { 'Authorization': 'Bearer ' + token },
+                success: function(response) {
+                    if (response.success) {
+                        loadMessages();
+                        loadStats();
+                        alert('✅ تم حذف الرسالة بنجاح');
+                    }
+                },
+                error: function(xhr) {
+                    alert('❌ حدث خطأ في حذف الرسالة');
+                }
+            });
+        });
+
+        // تغيير صلاحية المستخدم
+        $(document).on('click', '.change-role', function() {
+            const userId = $(this).data('id');
+            const currentRole = $(this).data('role');
+            const newRole = currentRole === 'admin' ? 'user' : 'admin';
+            
+            if (!confirm(`هل تريد تغيير صلاحية المستخدم إلى ${newRole === 'admin' ? 'مسؤول' : 'مستخدم'}؟`)) return;
+
+            $.ajax({
+                url: 'http://localhost:3000/api/admin/users/' + userId + '/role',
+                type: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify({ role: newRole }),
+                success: function(response) {
+                    if (response.success) {
+                        loadUsers();
+                        alert('✅ تم تحديث صلاحية المستخدم بنجاح');
+                    }
+                },
+                error: function(xhr) {
+                    alert('❌ حدث خطأ في تحديث الصلاحية');
+                }
+            });
+        });
+
+        // حذف مستخدم
+        $(document).on('click', '.delete-user', function() {
+            const userId = $(this).data('id');
+            
+            if (!confirm('هل أنت متأكد من حذف هذا المستخدم؟')) return;
+
+            $.ajax({
+                url: 'http://localhost:3000/api/admin/users/' + userId,
+                type: 'DELETE',
+                headers: { 'Authorization': 'Bearer ' + token },
+                success: function(response) {
+                    if (response.success) {
+                        loadUsers();
+                        loadStats();
+                        alert('✅ تم حذف المستخدم بنجاح');
+                    }
+                },
+                error: function(xhr) {
+                    alert('❌ حدث خطأ في حذف المستخدم');
+                }
+            });
+        });
+
+        // تبديل التبويبات
+        window.showTab = function(tab) {
+            $('.admin-tab').hide();
+            $('#' + tab + '-tab').show();
+            $('.right-side .list ul li a').removeClass('active');
+            $(`.right-side .list ul li a[href="#${tab}"]`).addClass('active');
+            
+            if (tab === 'messages') loadMessages();
+            if (tab === 'users') loadUsers();
+        };
+
+        // تسجيل الخروج
+        $('#logoutBtn').click(function(e) {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login/login.html';
+        });
+
+        // تحميل البيانات
+        loadStats();
+    });
+    </script>
+</body>
+
+</html>
