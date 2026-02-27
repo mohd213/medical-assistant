@@ -45,6 +45,10 @@ const upload = multer({
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 
+// ========== مسارات إعداد الأدمن (عامة) ==========
+router.get('/check-admin', userController.checkAdminExists);
+router.post('/setup-admin', userController.setupFirstAdmin);
+
 // ========== المسارات المحمية (تحتاج مصادقة) ==========
 router.get('/profile', authenticateToken, userController.getProfile);
 router.put('/profile', authenticateToken, upload.single('profile_image'), userController.updateProfile);

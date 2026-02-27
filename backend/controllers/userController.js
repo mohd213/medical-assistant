@@ -1,11 +1,13 @@
 const db = require('../config/database');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config(); // <-- أضف هذا السطر
 
 // =============================================
-// ثابت JWT_SECRET - نفس القيمة في جميع الملفات
+// استخدام المتغيرات من ملف .env
 // =============================================
-const JWT_SECRET = 'your-secret-key-2026';  // نفس القيمة في auth.js
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRE = process.env.JWT_EXPIRE || '7d'; // 30d من ملف .env
 
 // =============================================
 // تسجيل مستخدم جديد
@@ -39,11 +41,11 @@ const register = async (req, res) => {
 
         console.log('✅ تم إدخال المستخدم في قاعدة البيانات، ID:', result.insertId);
 
-        // إنشاء JWT token - استخدام JWT_SECRET مباشرة
+        // إنشاء JWT token - استخدام المتغيرات من .env
         const token = jwt.sign(
             { id: result.insertId, email },
-            JWT_SECRET,  // استخدام الثابت مباشرة
-            { expiresIn: '7d' }
+            JWT_SECRET,
+            { expiresIn: JWT_EXPIRE }
         );
 
         console.log('🔑 تم إنشاء التوكن بنجاح');
@@ -106,11 +108,11 @@ const login = async (req, res) => {
             });
         }
 
-        // إنشاء JWT token - استخدام JWT_SECRET مباشرة (وليس process.env)
+        // إنشاء JWT token - استخدام المتغيرات من .env
         const token = jwt.sign(
             { id: user.id, email: user.email, role: user.role },
-            JWT_SECRET,  // استخدام الثابت مباشرة
-            { expiresIn: '7d' }
+            JWT_SECRET,
+            { expiresIn: JWT_EXPIRE }
         );
 
         console.log('🔑 تم إنشاء التوكن بنجاح');
@@ -246,9 +248,111 @@ const updateProfile = async (req, res) => {
     }
 };
 
+// =============================================
+// التحقق من وجود أدمن
+// =============================================
+const checkAdminExists = async (req, res) => {
+    try {
+        const [admins] = await db.query(
+            'SELECT COUNT(*) as count FROM users WHERE role = "admin"'
+        );
+
+        res.json({
+            success: true,
+            hasAdmin: admins[0].count > 0
+        });
+
+    } catch (error) {
+        console.error('❌ خطأ في التحقق من وجود أدمن:', error);
+        res.status(500).json({
+            success: false,
+            message: 'حدث خطأ في الخادم'
+        });
+    }
+};
+
+// =============================================
+// إعداد أول أدمن
+// =============================================
+const setupFirstAdmin = async (req, res) => {
+    try {
+        const { firstname, lastname, email, password, phone, specialization } = req.body;
+
+        // التحقق من عدم وجود أدمن مسبقاً
+        const [existingAdmins] = await db.query(
+            'SELECT COUNT(*) as count FROM users WHERE role = "admin"'
+        );
+
+        if (existingAdmins[0].count > 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'يوجد مسؤول بالفعل. لا يمكن إنشاء مسؤول جديد بهذه الطريقة.'
+            });
+        }
+
+        // التحقق من عدم استخدام البريد الإلكتروني
+        const [existingUsers] = await db.query(
+            'SELECT id FROM users WHERE email = ?',
+            [email]
+        );
+
+        if (existingUsers.length > 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'البريد الإلكتروني مستخدم بالفعل'
+            });
+        }
+
+        // تشفير كلمة المرور
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // إدخال المستخدم كأدمن
+        const [result] = await db.query(
+            `INSERT INTO users 
+            (firstname, lastname, email, password, phone, specialization, role) 
+            VALUES (?, ?, ?, ?, ?, ?, 'admin')`,
+            [firstname, lastname, email, hashedPassword, phone, specialization]
+        );
+
+        // إنشاء JWT token - استخدام المتغيرات من .env
+        const token = jwt.sign(
+            { id: result.insertId, email, role: 'admin' },
+            JWT_SECRET,
+            { expiresIn: JWT_EXPIRE }
+        );
+
+        res.status(201).json({
+            success: true,
+            message: 'تم إنشاء المسؤول الأول بنجاح',
+            user: {
+                id: result.insertId,
+                firstname,
+                lastname,
+                email,
+                phone,
+                specialization,
+                role: 'admin'
+            },
+            token
+        });
+
+    } catch (error) {
+        console.error('❌ خطأ في إعداد أول أدمن:', error);
+        res.status(500).json({
+            success: false,
+            message: 'حدث خطأ في الخادم: ' + error.message
+        });
+    }
+};
+
+// =============================================
+// تصدير الدوال
+// =============================================
 module.exports = {
     register,
     login,
     getProfile,
-    updateProfile
+    updateProfile,
+    checkAdminExists,
+    setupFirstAdmin
 };

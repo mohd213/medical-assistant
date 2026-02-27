@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config(); // <-- أضف هذا السطر
 
-const JWT_SECRET = 'your-secret-key-2026';
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-2026';
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -16,29 +17,27 @@ const authenticateToken = (req, res, next) => {
         });
     }
 
-    // تجاهل التحقق مؤقتاً للتجربة (للاختبار فقط!)
-    try {
-        // محاولة فك التوكن بدون تحقق
-        const decoded = jwt.decode(token);
-        console.log('📦 التوكن المفكوك (بدون تحقق):', decoded);
-        
-        if (decoded && decoded.id) {
-            console.log('✅ استخدام التوكن بدون تحقق مؤقتاً');
-            req.user = { id: decoded.id, email: decoded.email };
-            return next();
-        }
-    } catch (e) {
-        console.log('❌ فشل فك التوكن:', e.message);
-    }
-
-    // التحقق العادي
+    // ✅ التحقق الصحيح من التوكن
     jwt.verify(token, JWT_SECRET, (err, user) => {
         if (err) {
             console.log('❌ Middleware - خطأ في التحقق:', err.message);
-            return res.status(403).json({
-                success: false,
-                message: 'انتهت صلاحية الجلسة، الرجاء تسجيل الدخول مجدداً'
-            });
+            
+            if (err.name === 'TokenExpiredError') {
+                return res.status(403).json({
+                    success: false,
+                    message: 'انتهت صلاحية الجلسة، الرجاء تسجيل الدخول مجدداً'
+                });
+            } else if (err.name === 'JsonWebTokenError') {
+                return res.status(403).json({
+                    success: false,
+                    message: 'توكن غير صالح، الرجاء تسجيل الدخول مجدداً'
+                });
+            } else {
+                return res.status(403).json({
+                    success: false,
+                    message: 'خطأ في المصادقة، الرجاء تسجيل الدخول مجدداً'
+                });
+            }
         }
 
         console.log('✅ Middleware - تم التحقق بنجاح:', user);

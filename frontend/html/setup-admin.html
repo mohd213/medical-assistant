@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="ar">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>إعداد المسؤول الأول - المساعد الطبي</title>
+    <link rel="icon" href="../img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/icofont.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/nice-select.css">
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        /* تنسيق بسيط ونظيف - بألوان المشروع */
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #6d8acb 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .setup-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(66, 96, 160, 0.3);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+        
+        .setup-header {
+            background: linear-gradient(135deg, #4260a0 0%, #2c3e6b 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .setup-header .logo {
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            border: 4px solid rgba(255,255,255,0.3);
+        }
+        
+        .setup-header .logo img {
+            width: 60px;
+            height: 60px;
+            filter: brightness(0) invert(1);
+        }
+        
+        .setup-header h2 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .setup-header p {
+            color: rgba(255,255,255,0.9);
+            margin: 0;
+        }
+        
+        .setup-body {
+            padding: 30px;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .alert.show {
+            display: flex;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-right: 4px solid #28a745;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border-right: 4px solid #dc3545;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-right: 4px solid #ffc107;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .form-group label i {
+            color: #4260a0;
+            margin-left: 5px;
+        }
+        
+        .form-control {
+            height: 50px;
+            border: 2px solid #e8e8e8 !important;
+            border-radius: 10px;
+            padding: 10px 15px;
+            width: 100%;
+            background: #fafafa;
+        }
+        
+        .form-control:focus {
+            border-color: #4260a0 !important;
+            box-shadow: 0 0 0 3px rgba(66,96,160,0.1);
+            background: white;
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234260a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 15px center;
+        }
+        
+        .password-hint {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        
+        .btn-primary {
+            background: #4260a0;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            width: 100%;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary:hover {
+            background: #2c3e6b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(66,96,160,0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .info-box {
+            background: #f0f4ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 25px;
+            border: 1px dashed #4260a0;
+            display: flex;
+            gap: 12px;
+        }
+        
+        .info-box i {
+            font-size: 24px;
+            color: #4260a0;
+        }
+        
+        .info-box-content p {
+            color: #2c3e50;
+            margin: 5px 0 0;
+            font-size: 13px;
+        }
+        
+        .success-box {
+            text-align: center;
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #d4edda;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: #28a745;
+            font-size: 40px;
+        }
+        
+        .user-details {
+            background: #f0f4ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: right;
+        }
+        
+        .user-details p {
+            margin-bottom: 12px;
+            color: #2c3e50;
+        }
+        
+        .user-details strong {
+            color: #4260a0;
+            min-width: 100px;
+            display: inline-block;
+        }
+        
+        .login-link {
+            display: inline-block;
+            background: #4260a0;
+            color: white;
+            padding: 12px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .login-link:hover {
+            background: #2c3e6b;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 576px) {
+            .setup-header {
+                padding: 30px 20px;
+            }
+            
+            .setup-body {
+                padding: 25px 20px;
+            }
+            
+            .info-box {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .user-details p {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .user-details strong {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+            <div class="indicator">
+                <svg width="16px" height="12px">
+                    <polyline points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- بطاقة إعداد الأدمن -->
+    <div class="setup-card">
+        <div class="setup-header">
+            <div class="logo">
+                <img src="../img/logo.png" alt="المساعد الطبي">
+            </div>
+            <h2>إعداد المسؤول الأول</h2>
+            <p>إنشاء حساب المسؤول الأول للنظام</p>
+        </div>
+        
+        <div class="setup-body">
+            <!-- رسائل التنبيه -->
+            <div id="messageAlert" class="alert">
+                <i></i>
+                <span></span>
+            </div>
+            
+            <!-- النموذج -->
+            <div id="formContainer">
+                <form id="setupForm">
+                    <div class="form-group">
+                        <label><i class="icofont-user"></i> الاسم الأول</label>
+                        <input type="text" class="form-control" id="firstname" placeholder="أحمد" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="icofont-user"></i> الاسم الأخير</label>
+                        <input type="text" class="form-control" id="lastname" placeholder="محمد" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="icofont-envelope"></i> البريد الإلكتروني</label>
+                        <input type="email" class="form-control" id="email" placeholder="admin@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="icofont-lock"></i> كلمة المرور</label>
+                        <input type="password" class="form-control" id="password" placeholder="6 أحرف على الأقل" required>
+                        <small class="password-hint"><i class="icofont-info-circle"></i> 6 أحرف على الأقل</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="icofont-lock"></i> تأكيد كلمة المرور</label>
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="أعد إدخال كلمة المرور" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="icofont-phone"></i> رقم الموبايل</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="05XXXXXXXX" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="icofont-stethoscope"></i> التخصص</label>
+                        <select class="form-control wide" id="specialization" required>
+                            <option value="" disabled selected>اختر التخصص</option>
+                            <option value="باطني">باطني</option>
+                            <option value="أنف وأذن وحنجرة">أنف وأذن وحنجرة</option>
+                            <option value="جلدية">جلدية</option>
+                            <option value="قلب وأوعية دموية">قلب وأوعية دموية</option>
+                            <option value="جهاز هضمي">جهاز هضمي</option>
+                            <option value="كلى">كلى</option>
+                            <option value="نفسي">نفسي</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" id="submitBtn">
+                        <i class="icofont-check-circled"></i>
+                        إنشاء المسؤول الأول
+                    </button>
+                </form>
+                
+                <div class="info-box">
+                    <i class="icofont-info-circle"></i>
+                    <div class="info-box-content">
+                        <strong>ملاحظة:</strong>
+                        <p>هذه الصفحة تستخدم لمرة واحدة فقط لإنشاء أول مسؤول في النظام.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- رسالة النجاح -->
+            <div id="successMessage" style="display: none;">
+                <div class="success-box">
+                    <div class="success-icon">
+                        <i class="icofont-check-circled"></i>
+                    </div>
+                    
+                    <h3 style="color: #28a745;">تم الإنشاء بنجاح!</h3>
+                    
+                    <div class="user-details" id="userDetails"></div>
+                    
+                    <a href="login/login.html" class="login-link">
+                        <i class="icofont-login"></i>
+                        تسجيل الدخول
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/niceselect.js"></script>
+    
+    <script>
+    $(document).ready(function() {
+        $('.preloader').fadeOut(300);
+        if ($.fn.niceSelect) $('select').niceSelect();
+        
+        function showMessage(msg, type) {
+            const alert = $('#messageAlert');
+            alert.removeClass('show alert-success alert-danger alert-warning')
+                 .addClass('alert-' + type + ' show');
+            alert.find('span').text(msg);
+            
+            const icon = alert.find('i');
+            if (type === 'success') icon.attr('class', 'icofont-check-circled');
+            else if (type === 'danger') icon.attr('class', 'icofont-exclamation-circle');
+            else if (type === 'warning') icon.attr('class', 'icofont-warning');
+            
+            setTimeout(() => alert.removeClass('show'), 5000);
+        }
+        
+        // التحقق من وجود أدمن
+        $.ajax({
+            url: 'http://localhost:3000/api/users/check-admin',
+            success: function(res) {
+                if (res.hasAdmin) {
+                    showMessage('⚠️ يوجد مسؤول بالفعل... جاري التحويل', 'warning');
+                    setTimeout(() => window.location.href = 'login/login.html', 2000);
+                }
+            }
+        });
+        
+        // تقديم النموذج
+        $('#setupForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            const pass = $('#password').val();
+            const confirm = $('#confirmPassword').val();
+            
+            if (pass.length < 6) return showMessage('❌ كلمة المرور 6 أحرف على الأقل', 'danger');
+            if (pass !== confirm) return showMessage('❌ كلمة المرور غير متطابقة', 'danger');
+            
+            const userData = {
+                firstname: $('#firstname').val(),
+                lastname: $('#lastname').val(),
+                email: $('#email').val(),
+                password: pass,
+                phone: $('#phone').val(),
+                specialization: $('#specialization').val()
+            };
+            
+            $('#submitBtn').prop('disabled', true).html('<span class="spinner"></span> جاري الإنشاء...');
+            
+            $.ajax({
+                url: 'http://localhost:3000/api/users/setup-admin',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(userData),
+                success: function(res) {
+                    if (res.success) {
+                        $('#formContainer').hide();
+                        $('#userDetails').html(`
+                            <p><strong>الاسم:</strong> ${userData.firstname} ${userData.lastname}</p>
+                            <p><strong>البريد:</strong> ${userData.email}</p>
+                            <p><strong>الموبايل:</strong> ${userData.phone}</p>
+                            <p><strong>التخصص:</strong> ${userData.specialization}</p>
+                            <p><strong>الصلاحية:</strong> <span style="color: #4260a0; font-weight: bold;">مسؤول</span></p>
+                        `);
+                        $('#successMessage').show();
+                        showMessage('✅ تم الإنشاء بنجاح', 'success');
+                    } else {
+                        showMessage('❌ ' + res.message, 'danger');
+                        $('#submitBtn').prop('disabled', false).html('<i class="icofont-check-circled"></i> إنشاء المسؤول الأول');
+                    }
+                },
+                error: function(xhr) {
+                    showMessage('❌ ' + (xhr.responseJSON?.message || 'خطأ في الاتصال'), 'danger');
+                    $('#submitBtn').prop('disabled', false).html('<i class="icofont-check-circled"></i> إنشاء المسؤول الأول');
+                }
+            });
+        });
+    });
+    </script>
+</body>
+
+</html>
