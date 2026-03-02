@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import * as contactController from '../controllers/contactController.js';
+import authenticateToken from '../middleware/auth.js';
+
 const router = express.Router();
-const contactController = require('../controllers/contactController');
-const authenticateToken = require('../middleware/auth');
 
 // ========== مسار عام (لا يحتاج مصادقة) ==========
 router.post('/', contactController.sendMessage);
@@ -13,4 +14,4 @@ router.get('/my-messages', authenticateToken, contactController.getUserMessages)
 // router.get('/all', authenticateToken, checkAdmin, contactController.getAllMessages);
 // router.put('/:id', authenticateToken, checkAdmin, contactController.updateMessageStatus);
 
-module.exports = router;
+export default router;

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>لوحة التحكم - المساعد الطبي</title>
+    <title>لوحة التحكم المتكاملة - المساعد الطبي</title>
     <link rel="icon" href="../img/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,20 +14,27 @@
     <link rel="stylesheet" href="../css/icofont.css">
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    
     <style>
+        /* ===== تحسينات عامة ===== */
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        /* ===== بطاقات الإحصائيات ===== */
         .stats-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-            border: 1px solid #f0f0f0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
             height: 100%;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
+            border: 1px solid #f0f0f0;
         }
 
         .stats-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(66, 96, 160, 0.1);
+            box-shadow: 0 10px 30px rgba(66,96,160,0.15);
             border-color: #4260a0;
         }
 
@@ -56,69 +63,69 @@
             font-size: 14px;
         }
 
-        .nav-tabs {
-            border-bottom: 2px solid #f0f0f0;
+        /* ===== تبويبات أنيقة ===== */
+        .tabs-container {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
             margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
         }
 
-        .nav-tabs .nav-link {
+        .nav-tabs-custom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            border: none;
+        }
+
+        .nav-tabs-custom .nav-link {
             border: none;
             color: #7f8c8d;
             font-weight: 600;
-            padding: 12px 25px;
-            margin-left: 5px;
-            border-radius: 8px 8px 0 0;
+            padding: 12px 20px;
+            border-radius: 10px;
+            transition: all 0.3s;
         }
 
-        .nav-tabs .nav-link:hover {
+        .nav-tabs-custom .nav-link:hover {
+            background: #f0f4ff;
             color: #4260a0;
+        }
+
+        .nav-tabs-custom .nav-link.active {
+            background: #4260a0;
+            color: white;
+        }
+
+        /* ===== جدول أنيق ===== */
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .table thead th {
+            border: none;
+            background: #f8f9fa;
+            color: #2c3e50;
+            font-weight: 600;
+            padding: 15px;
+        }
+
+        .table tbody tr {
+            transition: all 0.2s;
+        }
+
+        .table tbody tr:hover {
             background: #f5f8ff;
         }
 
-        .nav-tabs .nav-link.active {
-            color: #4260a0;
-            background: white;
-            border-bottom: 3px solid #4260a0;
-        }
-
-        .table-actions {
-            display: flex;
-            gap: 5px;
-        }
-
-        .btn-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            background: transparent;
-            color: #7f8c8d;
-        }
-
-        .btn-icon:hover {
-            background: #f5f5f5;
-        }
-
-        .btn-icon.view:hover {
-            color: #4260a0;
-        }
-
-        .btn-icon.edit:hover {
-            color: #f39c12;
-        }
-
-        .btn-icon.delete:hover {
-            color: #e74c3c;
-        }
-
+        /* ===== شارات الحالة ===== */
         .status-badge {
             padding: 5px 12px;
-            border-radius: 20px;
+            border-radius: 50px;
             font-size: 12px;
             font-weight: 600;
         }
@@ -138,19 +145,147 @@
             color: #4260a0;
         }
 
-        .admin-header {
+        /* ===== شارات المستخدمين ===== */
+        .badge-user {
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-admin {
+            background: #4260a0;
+            color: white;
+        }
+
+        .badge-normal {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* ===== أزرار الإجراءات ===== */
+        .action-buttons {
             display: flex;
+            gap: 5px;
+        }
+
+        .btn-icon-sm {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: inline-flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+        }
+
+        .btn-icon-sm.view {
+            color: #4260a0;
+        }
+        
+        .btn-icon-sm.view:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .btn-icon-sm.edit {
+            color: #f39c12;
+        }
+        
+        .btn-icon-sm.edit:hover {
+            background: #fff3e0;
+            color: #f39c12;
+        }
+
+        .btn-icon-sm.delete {
+            color: #e74c3c;
+        }
+        
+        .btn-icon-sm.delete:hover {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .btn-icon-sm.wipe {
+            color: #ef6c00;
+        }
+        
+        .btn-icon-sm.wipe:hover {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        /* ===== صور المستخدمين ===== */
+        .user-avatar-sm {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #4260a0;
+        }
+
+        /* ===== شريط البحث والفلترة ===== */
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            border: 2px solid #e1e1e1;
+            border-radius: 50px;
+            padding: 10px 20px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: #4260a0;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66,96,160,0.1);
+        }
+
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* ===== رأس الصفحة ===== */
+        .admin-header {
+            background: linear-gradient(135deg, #4260a0, #2c3e6b);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 15px;
             margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 15px;
+            box-shadow: 0 10px 30px rgba(66,96,160,0.3);
         }
 
         .admin-header h2 {
-            color: #2c3e50;
-            font-weight: 700;
             margin: 0;
+            font-weight: 700;
+        }
+
+        .admin-header p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+        }
+
+        /* ===== متجاوب ===== */
+        @media (max-width: 768px) {
+            .nav-tabs-custom {
+                flex-direction: column;
+            }
+            
+            .stats-card {
+                margin-bottom: 15px;
+            }
+            
+            .table-container {
+                padding: 15px;
+            }
         }
     </style>
 </head>
@@ -169,29 +304,29 @@
         </div>
     </div>
 
-    <!-- Header Area -->
+    <!-- Header -->
     <header class="header">
         <div class="header-inner">
-            <div class="logo d-flex align-items-center justify-content-start">
+            <div class="logo d-flex align-items-center">
                 <div class="logo-img">
                     <img src="../img/logo.png" alt="">
                 </div>
-                <p class="mb-0">المساعد الطبي - لوحة التحكم</p>
+                <p class="mb-0">المساعد الطبي - لوحة التحكم المتكاملة</p>
             </div>
             <div class="main-menu">
                 <ul class="nav menu">
-                    <li><a href="../index.html">الصفحة الرئيسية</a></li>
-                    <li><a href="#" id="logoutBtn"><i class="icofont-power"></i> تسجيل الخروج</a></li>
+                    <li><a href="../index.html">الرئيسية</a></li>
+                    <li><a href="#" id="logoutBtn"><i class="icofont-power"></i> خروج</a></li>
                 </ul>
             </div>
         </div>
     </header>
 
-    <!-- page content -->
+    <!-- Main Content -->
     <div class="page-content">
-        <!-- right sidebar -->
+        <!-- Right Sidebar -->
         <div class="right-side">
-            <div class="avatar d-flex justify-content-start align-items-center">
+            <div class="avatar d-flex align-items-center">
                 <div class="img ml-3">
                     <img src="../img/author2.jpg" alt="" id="sidebarImage">
                 </div>
@@ -202,24 +337,34 @@
             <div class="list">
                 <ul>
                     <li><a href="#dashboard" class="active" onclick="showTab('dashboard')">
-                            <i class="icofont-dashboard"></i> لوحة التحكم
-                        </a></li>
-                    <li><a href="#messages" onclick="showTab('messages')">
-                            <i class="icofont-envelope"></i> الرسائل
-                        </a></li>
+                        <i class="icofont-dashboard"></i> لوحة التحكم
+                    </a></li>
                     <li><a href="#users" onclick="showTab('users')">
-                            <i class="icofont-users"></i> المستخدمين
-                        </a></li>
+                        <i class="icofont-users"></i> المستخدمين
+                    </a></li>
+                    <li><a href="#messages" onclick="showTab('messages')">
+                        <i class="icofont-envelope"></i> الرسائل
+                    </a></li>
+                    <li><a href="#blogs" onclick="showTab('blogs')">
+                        <i class="icofont-file-alt"></i> كل المدونات
+                    </a></li>
+                    <li><a href="#operations" onclick="showTab('operations')">
+                        <i class="icofont-calendar"></i> كل العمليات
+                    </a></li>
+                    <li><a href="#cases" onclick="showTab('cases')">
+                        <i class="icofont-prescription"></i> كل الحالات
+                    </a></li>
                 </ul>
             </div>
         </div>
 
-        <!-- left side -->
+        <!-- Left Content -->
         <div class="left-side">
-            <!-- Dashboard Tab -->
+            <!-- ================== DASHBOARD TAB ================== -->
             <div id="dashboard-tab" class="admin-tab">
                 <div class="admin-header">
-                    <h2>لوحة التحكم</h2>
+                    <h2>📊 لوحة التحكم</h2>
+                    <p>نظرة عامة على الموقع</p>
                 </div>
 
                 <div class="row" id="stats-container">
@@ -280,91 +425,203 @@
                 </div>
             </div>
 
-            <!-- Messages Tab -->
-            <div id="messages-tab" class="admin-tab" style="display: none;">
+            <!-- ================== USERS TAB ================== -->
+            <div id="users-tab" class="admin-tab" style="display: none;">
                 <div class="admin-header">
-                    <h2>الرسائل الواردة</h2>
+                    <h2>👥 إدارة المستخدمين</h2>
+                    <p>عرض وتحكم كامل بجميع المستخدمين</p>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>المرسل</th>
-                                <th>البريد</th>
-                                <th>الموضوع</th>
-                                <th>الحالة</th>
-                                <th>التاريخ</th>
-                                <th>الإجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="messages-table">
-                            <tr>
-                                <td colspan="7" class="text-center">جاري التحميل...</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="table-container">
+                    <div class="search-box">
+                        <input type="text" id="searchUsers" placeholder="🔍 بحث عن مستخدم...">
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>المستخدم</th>
+                                    <th>البريد</th>
+                                    <th>التخصص</th>
+                                    <th>الصلاحية</th>
+                                    <th>تاريخ التسجيل</th>
+                                    <th>النشاط</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTable">
+                                <tr>
+                                    <td colspan="7" class="text-center">جاري التحميل...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <!-- Users Tab -->
-            <div id="users-tab" class="admin-tab" style="display: none;">
+            <!-- ================== MESSAGES TAB ================== -->
+            <div id="messages-tab" class="admin-tab" style="display: none;">
                 <div class="admin-header">
-                    <h2>المستخدمين</h2>
+                    <h2>📨 إدارة الرسائل</h2>
+                    <p>عرض والرد على رسائل الدعم الفني</p>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>الاسم</th>
-                                <th>البريد</th>
-                                <th>التخصص</th>
-                                <th>الصلاحية</th>
-                                <th>تاريخ التسجيل</th>
-                                <th>الإجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="users-table">
-                            <tr>
-                                <td colspan="7" class="text-center">جاري التحميل...</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>المرسل</th>
+                                    <th>البريد</th>
+                                    <th>الموضوع</th>
+                                    <th>الحالة</th>
+                                    <th>التاريخ</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="messagesTable">
+                                <tr>
+                                    <td colspan="7" class="text-center">جاري التحميل...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================== BLOGS TAB ================== -->
+            <div id="blogs-tab" class="admin-tab" style="display: none;">
+                <div class="admin-header">
+                    <h2>📝 كل المدونات</h2>
+                    <p>عرض وحذف أي مدونة في الموقع</p>
+                </div>
+
+                <div class="filter-section">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" id="searchBlogs" class="form-control" placeholder="🔍 بحث في المدونات...">
+                        </div>
+                        <div class="col-md-6">
+                            <select id="filterUser" class="form-control">
+                                <option value="">كل المستخدمين</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>العنوان</th>
+                                    <th>الكاتب</th>
+                                    <th>التاريخ</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="blogsTable">
+                                <tr>
+                                    <td colspan="5" class="text-center">جاري التحميل...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================== OPERATIONS TAB ================== -->
+            <div id="operations-tab" class="admin-tab" style="display: none;">
+                <div class="admin-header">
+                    <h2>🔪 كل العمليات</h2>
+                    <p>عرض وحذف أي عملية</p>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>المريض</th>
+                                    <th>نوع العملية</th>
+                                    <th>المشفى</th>
+                                    <th>المستخدم</th>
+                                    <th>التاريخ</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="operationsTable">
+                                <tr>
+                                    <td colspan="7" class="text-center">جاري التحميل...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================== CASES TAB ================== -->
+            <div id="cases-tab" class="admin-tab" style="display: none;">
+                <div class="admin-header">
+                    <h2>📋 كل حالات المتابعة</h2>
+                    <p>عرض وحذف أي حالة</p>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>المريض</th>
+                                    <th>المرض</th>
+                                    <th>المستخدم</th>
+                                    <th>التاريخ</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="casesTable">
+                                <tr>
+                                    <td colspan="6" class="text-center">جاري التحميل...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Message Modal -->
-    <div class="modal fade" id="messageModal" tabindex="-1">
+    <!-- Message Reply Modal -->
+    <div class="modal fade" id="messageReplyModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">تفاصيل الرسالة</h5>
+                    <h5 class="modal-title">الرد على الرسالة</h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span>&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p><strong>المرسل:</strong> <span id="modal-name"></span></p>
-                    <p><strong>البريد:</strong> <span id="modal-email"></span></p>
-                    <p><strong>الموضوع:</strong> <span id="modal-subject"></span></p>
+                    <p><strong id="replyModalSender"></strong></p>
+                    <p><strong>الموضوع:</strong> <span id="replyModalSubject"></span></p>
                     <p><strong>الرسالة:</strong></p>
-                    <p id="modal-message" class="p-3 bg-light rounded"></p>
-
+                    <div class="p-3 bg-light rounded mb-3" id="replyModalMessage"></div>
+                    
                     <hr>
-
+                    
                     <div class="form-group">
                         <label>الرد على الرسالة</label>
-                        <textarea class="form-control" id="modal-reply" rows="4"></textarea>
+                        <textarea class="form-control" id="modalReply" rows="4"></textarea>
                     </div>
 
                     <div class="form-group">
                         <label>تحديث الحالة</label>
-                        <select class="form-control" id="modal-status">
+                        <select class="form-control" id="modalStatus">
                             <option value="new">جديدة</option>
                             <option value="read">تمت القراءة</option>
                             <option value="replied">تم الرد</option>
@@ -379,39 +636,69 @@
         </div>
     </div>
 
+    <!-- User Activity Modal -->
+    <div class="modal fade" id="userActivityModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">📊 نشاط المستخدم</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="activityContent">
+                    جاري التحميل...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/common.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
+            // =============================================
+            // 1. التحقق من تسجيل الدخول وصلاحية الأدمن
+            // =============================================
             const token = localStorage.getItem('token');
-            let currentMessageId = null;
-
-            // التحقق من تسجيل الدخول
+            
             if (!token) {
                 window.location.href = 'login/login.html';
                 return;
             }
 
-            // تحديث اسم المستخدم
             const user = JSON.parse(localStorage.getItem('user') || '{}');
-            if (user.firstname) {
-                $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
-                if (user.profile_img) {
-                    $('#sidebarImage').attr('src', '..' + user.profile_img);
-                }
+            if (user.role !== 'admin') {
+                msg.error('هذه الصفحة مخصصة للمسؤولين فقط');
+                window.location.href = 'home.html';
+                return;
             }
 
+            $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
+            if (user.profile_img) {
+                $('#sidebarImage').attr('src', '..' + user.profile_img);
+            }
 
-            // تحميل الإحصائيات
+            // =============================================
+            // 2. المتغيرات العامة
+            // =============================================
+            let currentMessageId = null;
+
+            // =============================================
+            // 3. تحميل الإحصائيات
+            // =============================================
             function loadStats() {
                 $.ajax({
                     url: 'http://localhost:3000/api/admin/stats',
                     type: 'GET',
                     headers: { 'Authorization': 'Bearer ' + token },
-                    success: function (response) {
+                    success: function(response) {
                         if (response.success) {
                             $('#stats-users').text(response.stats.users);
                             $('#stats-blogs').text(response.stats.blogs);
@@ -420,39 +707,95 @@
                             $('#stats-messages').text(response.stats.messages);
                             $('#stats-new-messages').text(response.stats.newMessages);
                         }
-                    },
-                    error: function (xhr) {
-                        if (xhr.status === 403) {
-                            alert('ليس لديك صلاحية الوصول إلى لوحة التحكم');
-                            window.location.href = 'home.html';
+                    }
+                });
+            }
+
+            // =============================================
+            // 4. دوال المستخدمين
+            // =============================================
+            function loadUsers() {
+                $.ajax({
+                    url: 'http://localhost:3000/api/admin/users',
+                    type: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    success: function(response) {
+                        if (response.success) {
+                            displayUsers(response.users);
                         }
                     }
                 });
             }
 
-            // تحميل الرسائل
+            function displayUsers(users) {
+                const tbody = $('#usersTable');
+                tbody.empty();
+
+                users.forEach(user => {
+                    const roleClass = user.role === 'admin' ? 'badge-admin' : 'badge-normal';
+                    const roleText = user.role === 'admin' ? 'مسؤول' : 'مستخدم';
+                    
+                    tbody.append(`
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="${user.profile_img ? '..' + user.profile_img : '../img/author2.jpg'}" 
+                                         class="user-avatar-sm ml-2">
+                                    ${user.firstname} ${user.lastname}
+                                </div>
+                            </td>
+                            <td>${user.email}</td>
+                            <td>${user.specialization || '-'}</td>
+                            <td><span class="badge-user ${roleClass}">${roleText}</span></td>
+                            <td>${user.created_at}</td>
+                            <td>
+                                <button class="btn-icon-sm view view-activity" data-id="${user.id}" 
+                                        data-name="${user.firstname} ${user.lastname}" title="عرض النشاط">
+                                    <i class="icofont-chart-histogram"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-icon-sm edit change-role" data-id="${user.id}" data-role="${user.role}" title="تغيير الصلاحية">
+                                        <i class="icofont-ui-edit"></i>
+                                    </button>
+                                    <button class="btn-icon-sm delete delete-user" data-id="${user.id}" title="حذف المستخدم">
+                                        <i class="icofont-ui-delete"></i>
+                                    </button>
+                                    <button class="btn-icon-sm wipe wipe-user-data" data-id="${user.id}" title="مسح بيانات المستخدم">
+                                        <i class="icofont-ui-remove"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
+                });
+            }
+
+            // =============================================
+            // 5. دوال الرسائل
+            // =============================================
             function loadMessages() {
-                $('#messages-table').html('<tr><td colspan="7" class="text-center">جاري التحميل...</td></tr>');
+                $('#messagesTable').html('<tr><td colspan="7" class="text-center">جاري التحميل...</td></tr>');
 
                 $.ajax({
                     url: 'http://localhost:3000/api/admin/messages',
                     type: 'GET',
                     headers: { 'Authorization': 'Bearer ' + token },
-                    success: function (response) {
+                    success: function(response) {
                         if (response.success) {
                             displayMessages(response.messages);
                         }
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         console.error('خطأ في تحميل الرسائل:', xhr);
-                        $('#messages-table').html('<tr><td colspan="7" class="text-center text-danger">حدث خطأ في التحميل</td></tr>');
+                        $('#messagesTable').html('<tr><td colspan="7" class="text-center text-danger">حدث خطأ في التحميل</td></tr>');
                     }
                 });
             }
 
-            // عرض الرسائل
             function displayMessages(messages) {
-                const tbody = $('#messages-table');
+                const tbody = $('#messagesTable');
                 tbody.empty();
 
                 if (messages.length === 0) {
@@ -463,95 +806,280 @@
                 messages.forEach((msg, index) => {
                     const statusClass = msg.status === 'new' ? 'status-new' :
                         msg.status === 'read' ? 'status-read' : 'status-replied';
-
                     const statusText = msg.status === 'new' ? 'جديدة' :
                         msg.status === 'read' ? 'مقروءة' : 'تم الرد';
 
-                    const row = `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${msg.name} ${msg.user_id ? '(مسجل)' : '(زائر)'}</td>
-                        <td>${msg.email}</td>
-                        <td>${msg.subject}</td>
-                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                        <td>${new Date(msg.created_at).toLocaleDateString('ar-EG')}</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="btn-icon view view-message" data-id="${msg.id}" title="عرض">
-                                    <i class="icofont-eye"></i>
-                                </button>
-                                <button class="btn-icon delete delete-message" data-id="${msg.id}" title="حذف">
-                                    <i class="icofont-ui-delete"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                    tbody.append(row);
+                    tbody.append(`
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${msg.name} ${msg.user_id ? '(مسجل)' : '(زائر)'}</td>
+                            <td>${msg.email}</td>
+                            <td>${msg.subject}</td>
+                            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                            <td>${new Date(msg.created_at).toLocaleDateString('ar-EG')}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-icon-sm view view-message" data-id="${msg.id}" title="عرض">
+                                        <i class="icofont-eye"></i>
+                                    </button>
+                                    <button class="btn-icon-sm delete delete-message" data-id="${msg.id}" title="حذف">
+                                        <i class="icofont-ui-delete"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
                 });
             }
 
-            // تحميل المستخدمين
-            function loadUsers() {
-                $('#users-table').html('<tr><td colspan="7" class="text-center">جاري التحميل...</td></tr>');
-
+            // =============================================
+            // 6. دوال المدونات
+            // =============================================
+            function loadAllBlogs() {
                 $.ajax({
-                    url: 'http://localhost:3000/api/admin/users',
+                    url: 'http://localhost:3000/api/admin/blogs',
                     type: 'GET',
                     headers: { 'Authorization': 'Bearer ' + token },
-                    success: function (response) {
+                    success: function(response) {
                         if (response.success) {
-                            displayUsers(response.users);
+                            displayBlogs(response.blogs);
+                            populateUserFilter(response.blogs);
                         }
-                    },
-                    error: function (xhr) {
-                        console.error('خطأ في تحميل المستخدمين:', xhr);
-                        $('#users-table').html('<tr><td colspan="7" class="text-center text-danger">حدث خطأ في التحميل</td></tr>');
                     }
                 });
             }
 
-            // عرض المستخدمين
-            function displayUsers(users) {
-                const tbody = $('#users-table');
+            function displayBlogs(blogs) {
+                const tbody = $('#blogsTable');
                 tbody.empty();
 
-                if (users.length === 0) {
-                    tbody.html('<tr><td colspan="7" class="text-center">لا توجد مستخدمين</td></tr>');
+                if (blogs.length === 0) {
+                    tbody.html('<tr><td colspan="5" class="text-center">لا توجد مدونات</td></tr>');
                     return;
                 }
 
-                users.forEach((user, index) => {
-                    const roleBadge = user.role === 'admin' ?
-                        '<span class="badge badge-primary">مسؤول</span>' :
-                        '<span class="badge badge-secondary">مستخدم</span>';
-
-                    const row = `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${user.firstname} ${user.lastname || ''}</td>
-                        <td>${user.email}</td>
-                        <td>${user.specialization || '-'}</td>
-                        <td>${roleBadge}</td>
-                        <td>${user.created_at}</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="btn-icon edit change-role" data-id="${user.id}" data-role="${user.role}" title="تغيير الصلاحية">
-                                    <i class="icofont-ui-edit"></i>
-                                </button>
-                                <button class="btn-icon delete delete-user" data-id="${user.id}" title="حذف">
+                blogs.forEach((blog, index) => {
+                    tbody.append(`
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${blog.title.substring(0, 50)}${blog.title.length > 50 ? '...' : ''}</td>
+                            <td>${blog.firstname} ${blog.lastname}</td>
+                            <td>${new Date(blog.created_at).toLocaleDateString('ar-EG')}</td>
+                            <td>
+                                <button class="btn-icon-sm delete delete-blog" data-id="${blog.id}" title="حذف المدونة">
                                     <i class="icofont-ui-delete"></i>
                                 </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                    tbody.append(row);
+                            </td>
+                        </tr>
+                    `);
                 });
             }
 
-            // عرض رسالة
-            $(document).on('click', '.view-message', function () {
+            function populateUserFilter(blogs) {
+                const users = new Set();
+                blogs.forEach(blog => {
+                    users.add(JSON.stringify({
+                        id: blog.user_id,
+                        name: blog.firstname + ' ' + blog.lastname
+                    }));
+                });
+
+                const filter = $('#filterUser');
+                filter.empty().append('<option value="">كل المستخدمين</option>');
+                
+                Array.from(users).forEach(u => {
+                    const user = JSON.parse(u);
+                    filter.append(`<option value="${user.id}">${user.name}</option>`);
+                });
+            }
+
+            // =============================================
+            // 7. دوال العمليات
+            // =============================================
+            function loadAllOperations() {
+                $.ajax({
+                    url: 'http://localhost:3000/api/admin/operations',
+                    type: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    success: function(response) {
+                        if (response.success) {
+                            displayOperations(response.operations);
+                        }
+                    }
+                });
+            }
+
+            function displayOperations(operations) {
+                const tbody = $('#operationsTable');
+                tbody.empty();
+
+                if (operations.length === 0) {
+                    tbody.html('<tr><td colspan="7" class="text-center">لا توجد عمليات</td></tr>');
+                    return;
+                }
+
+                operations.forEach((op, index) => {
+                    tbody.append(`
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${op.patient_name}</td>
+                            <td>${op.operation_type}</td>
+                            <td>${op.hospital}</td>
+                            <td>${op.firstname} ${op.lastname}</td>
+                            <td>${op.operation_date || '-'}</td>
+                            <td>
+                                <button class="btn-icon-sm delete delete-operation" data-id="${op.id}" title="حذف العملية">
+                                    <i class="icofont-ui-delete"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            }
+
+            // =============================================
+            // 8. دوال الحالات
+            // =============================================
+            function loadAllCases() {
+                $.ajax({
+                    url: 'http://localhost:3000/api/admin/follow-up-cases',
+                    type: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    success: function(response) {
+                        if (response.success) {
+                            displayCases(response.cases);
+                        }
+                    }
+                });
+            }
+
+            function displayCases(cases) {
+                const tbody = $('#casesTable');
+                tbody.empty();
+
+                if (cases.length === 0) {
+                    tbody.html('<tr><td colspan="6" class="text-center">لا توجد حالات</td></tr>');
+                    return;
+                }
+
+                cases.forEach((caseItem, index) => {
+                    tbody.append(`
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${caseItem.patient_name}</td>
+                            <td>${caseItem.disease.substring(0, 30)}${caseItem.disease.length > 30 ? '...' : ''}</td>
+                            <td>${caseItem.firstname} ${caseItem.lastname}</td>
+                            <td>${new Date(caseItem.created_at).toLocaleDateString('ar-EG')}</td>
+                            <td>
+                                <button class="btn-icon-sm delete delete-case" data-id="${caseItem.id}" title="حذف الحالة">
+                                    <i class="icofont-ui-delete"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            }
+
+            // =============================================
+            // 9. أحداث المستخدمين
+            // =============================================
+            $(document).on('click', '.change-role', function() {
+                const userId = $(this).data('id');
+                const currentRole = $(this).data('role');
+                const newRole = currentRole === 'admin' ? 'user' : 'admin';
+                const roleText = newRole === 'admin' ? 'مسؤول' : 'مستخدم';
+
+                msg.confirm(`هل تريد تغيير صلاحية المستخدم إلى ${roleText}؟`, function() {
+                    $.ajax({
+                        url: 'http://localhost:3000/api/admin/users/' + userId + '/role',
+                        type: 'PUT',
+                        headers: {
+                            'Authorization': 'Bearer ' + token,
+                            'Content-Type': 'application/json'
+                        },
+                        data: JSON.stringify({ role: newRole }),
+                        success: function(response) {
+                            if (response.success) {
+                                msg.success('تم تحديث صلاحية المستخدم بنجاح');
+                                loadUsers();
+                            }
+                        },
+                        error: function(xhr) {
+                            msg.error('حدث خطأ في تحديث الصلاحية');
+                        }
+                    });
+                });
+            });
+
+            $(document).on('click', '.delete-user', function() {
+                const userId = $(this).data('id');
+
+                msg.confirm('هل أنت متأكد من حذف هذا المستخدم؟', function() {
+                    $.ajax({
+                        url: 'http://localhost:3000/api/admin/users/' + userId,
+                        type: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + token },
+                        success: function(response) {
+                            if (response.success) {
+                                msg.success('تم حذف المستخدم بنجاح');
+                                loadUsers();
+                                loadStats();
+                            }
+                        },
+                        error: function(xhr) {
+                            msg.error('حدث خطأ في حذف المستخدم');
+                        }
+                    });
+                });
+            });
+
+            $(document).on('click', '.view-activity', function() {
+                const userId = $(this).data('id');
+                const userName = $(this).data('name');
+
+                $.ajax({
+                    url: 'http://localhost:3000/api/admin/users/' + userId + '/activity',
+                    type: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    success: function(response) {
+                        if (response.success) {
+                            const act = response.activity;
+                            $('#activityContent').html(`
+                                <h5>${userName}</h5>
+                                <hr>
+                                <p><strong>📝 المدونات:</strong> ${act.blogs}</p>
+                                <p><strong>🔪 العمليات:</strong> ${act.operations}</p>
+                                <p><strong>📋 الحالات:</strong> ${act.cases}</p>
+                                <p><strong>⏰ آخر نشاط:</strong> ${act.lastActive ? new Date(act.lastActive).toLocaleString('ar-EG') : 'لا يوجد'}</p>
+                            `);
+                            $('#userActivityModal').modal('show');
+                        }
+                    }
+                });
+            });
+
+            $(document).on('click', '.wipe-user-data', function() {
+                const userId = $(this).data('id');
+
+                msg.confirm('⚠️ تحذير! سيتم حذف جميع مدونات وعمليات وحالات المستخدم. هل أنت متأكد؟', function() {
+                    $.ajax({
+                        url: 'http://localhost:3000/api/admin/users/' + userId + '/wipe-data',
+                        type: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + token },
+                        success: function(response) {
+                            if (response.success) {
+                                msg.success('تم مسح جميع بيانات المستخدم');
+                                loadUsers();
+                            }
+                        }
+                    });
+                });
+            });
+
+            // =============================================
+            // 10. أحداث الرسائل
+            // =============================================
+            $(document).on('click', '.view-message', function() {
                 const messageId = $(this).data('id');
                 currentMessageId = messageId;
 
@@ -559,26 +1087,24 @@
                     url: 'http://localhost:3000/api/admin/messages',
                     type: 'GET',
                     headers: { 'Authorization': 'Bearer ' + token },
-                    success: function (response) {
+                    success: function(response) {
                         const msg = response.messages.find(m => m.id == messageId);
                         if (msg) {
-                            $('#modal-name').text(msg.name);
-                            $('#modal-email').text(msg.email);
-                            $('#modal-subject').text(msg.subject);
-                            $('#modal-message').text(msg.message);
-                            $('#modal-reply').val(msg.admin_reply || '');
-                            $('#modal-status').val(msg.status);
-                            $('#messageModal').modal('show');
+                            $('#replyModalSender').text(msg.name + ' (' + msg.email + ')');
+                            $('#replyModalSubject').text(msg.subject);
+                            $('#replyModalMessage').text(msg.message);
+                            $('#modalReply').val(msg.admin_reply || '');
+                            $('#modalStatus').val(msg.status);
+                            $('#messageReplyModal').modal('show');
                         }
                     }
                 });
             });
 
-            // حفظ تغييرات الرسالة
-            $('#saveMessageBtn').click(function () {
+            $('#saveMessageBtn').click(function() {
                 const data = {
-                    status: $('#modal-status').val(),
-                    admin_reply: $('#modal-reply').val()
+                    status: $('#modalStatus').val(),
+                    admin_reply: $('#modalReply').val()
                 };
 
                 $.ajax({
@@ -589,114 +1115,171 @@
                         'Content-Type': 'application/json'
                     },
                     data: JSON.stringify(data),
-                    success: function (response) {
+                    success: function(response) {
                         if (response.success) {
-                            $('#messageModal').modal('hide');
+                            $('#messageReplyModal').modal('hide');
                             loadMessages();
                             loadStats();
-                            alert('✅ تم تحديث الرسالة بنجاح');
+                            msg.success('تم تحديث الرسالة بنجاح');
                         }
                     },
-                    error: function (xhr) {
-                        alert('❌ حدث خطأ في تحديث الرسالة');
+                    error: function(xhr) {
+                        msg.error('حدث خطأ في تحديث الرسالة');
                     }
                 });
             });
 
-            // حذف رسالة
-            $(document).on('click', '.delete-message', function () {
+            $(document).on('click', '.delete-message', function() {
                 const messageId = $(this).data('id');
 
-                if (!confirm('هل أنت متأكد من حذف هذه الرسالة؟')) return;
-
-                $.ajax({
-                    url: 'http://localhost:3000/api/admin/messages/' + messageId,
-                    type: 'DELETE',
-                    headers: { 'Authorization': 'Bearer ' + token },
-                    success: function (response) {
-                        if (response.success) {
-                            loadMessages();
-                            loadStats();
-                            alert('✅ تم حذف الرسالة بنجاح');
+                msg.confirm('هل أنت متأكد من حذف هذه الرسالة؟', function() {
+                    $.ajax({
+                        url: 'http://localhost:3000/api/admin/messages/' + messageId,
+                        type: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + token },
+                        success: function(response) {
+                            if (response.success) {
+                                loadMessages();
+                                loadStats();
+                                msg.success('تم حذف الرسالة بنجاح');
+                            }
+                        },
+                        error: function(xhr) {
+                            msg.error('حدث خطأ في حذف الرسالة');
                         }
-                    },
-                    error: function (xhr) {
-                        alert('❌ حدث خطأ في حذف الرسالة');
-                    }
+                    });
                 });
             });
 
-            // تغيير صلاحية المستخدم
-            $(document).on('click', '.change-role', function () {
-                const userId = $(this).data('id');
-                const currentRole = $(this).data('role');
-                const newRole = currentRole === 'admin' ? 'user' : 'admin';
+            // =============================================
+            // 11. أحداث المدونات
+            // =============================================
+            $(document).on('click', '.delete-blog', function() {
+                const blogId = $(this).data('id');
 
-                if (!confirm(`هل تريد تغيير صلاحية المستخدم إلى ${newRole === 'admin' ? 'مسؤول' : 'مستخدم'}؟`)) return;
-
-                $.ajax({
-                    url: 'http://localhost:3000/api/admin/users/' + userId + '/role',
-                    type: 'PUT',
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                        'Content-Type': 'application/json'
-                    },
-                    data: JSON.stringify({ role: newRole }),
-                    success: function (response) {
-                        if (response.success) {
-                            loadUsers();
-                            alert('✅ تم تحديث صلاحية المستخدم بنجاح');
+                msg.confirm('هل أنت متأكد من حذف هذه المدونة؟', function() {
+                    $.ajax({
+                        url: 'http://localhost:3000/api/admin/blogs/' + blogId,
+                        type: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + token },
+                        success: function(response) {
+                            if (response.success) {
+                                msg.success('تم حذف المدونة بنجاح');
+                                loadAllBlogs();
+                                loadStats();
+                            }
                         }
-                    },
-                    error: function (xhr) {
-                        alert('❌ حدث خطأ في تحديث الصلاحية');
-                    }
+                    });
                 });
             });
 
-            // حذف مستخدم
-            $(document).on('click', '.delete-user', function () {
-                const userId = $(this).data('id');
+            // =============================================
+            // 12. أحداث العمليات
+            // =============================================
+            $(document).on('click', '.delete-operation', function() {
+                const operationId = $(this).data('id');
 
-                if (!confirm('هل أنت متأكد من حذف هذا المستخدم؟')) return;
-
-                $.ajax({
-                    url: 'http://localhost:3000/api/admin/users/' + userId,
-                    type: 'DELETE',
-                    headers: { 'Authorization': 'Bearer ' + token },
-                    success: function (response) {
-                        if (response.success) {
-                            loadUsers();
-                            loadStats();
-                            alert('✅ تم حذف المستخدم بنجاح');
+                msg.confirm('هل أنت متأكد من حذف هذه العملية؟', function() {
+                    $.ajax({
+                        url: 'http://localhost:3000/api/admin/operations/' + operationId,
+                        type: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + token },
+                        success: function(response) {
+                            if (response.success) {
+                                msg.success('تم حذف العملية بنجاح');
+                                loadAllOperations();
+                                loadStats();
+                            }
                         }
-                    },
-                    error: function (xhr) {
-                        alert('❌ حدث خطأ في حذف المستخدم');
-                    }
+                    });
                 });
             });
 
-            // تبديل التبويبات
-            window.showTab = function (tab) {
+            // =============================================
+            // 13. أحداث الحالات
+            // =============================================
+            $(document).on('click', '.delete-case', function() {
+                const caseId = $(this).data('id');
+
+                msg.confirm('هل أنت متأكد من حذف هذه الحالة؟', function() {
+                    $.ajax({
+                        url: 'http://localhost:3000/api/admin/follow-up-cases/' + caseId,
+                        type: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + token },
+                        success: function(response) {
+                            if (response.success) {
+                                msg.success('تم حذف الحالة بنجاح');
+                                loadAllCases();
+                                loadStats();
+                            }
+                        }
+                    });
+                });
+            });
+
+            // =============================================
+            // 14. بحث وفلترة
+            // =============================================
+            $('#searchUsers').on('keyup', function() {
+                const value = $(this).val().toLowerCase();
+                $('#usersTable tr').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $('#searchBlogs').on('keyup', function() {
+                const value = $(this).val().toLowerCase();
+                $('#blogsTable tr').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $('#filterUser').on('change', function() {
+                const userId = $(this).val();
+                if (userId) {
+                    $.ajax({
+                        url: 'http://localhost:3000/api/admin/blogs?user_id=' + userId,
+                        type: 'GET',
+                        headers: { 'Authorization': 'Bearer ' + token },
+                        success: function(response) {
+                            if (response.success) {
+                                displayBlogs(response.blogs);
+                            }
+                        }
+                    });
+                } else {
+                    loadAllBlogs();
+                }
+            });
+
+            // =============================================
+            // 15. تبديل التبويبات
+            // =============================================
+            window.showTab = function(tab) {
                 $('.admin-tab').hide();
                 $('#' + tab + '-tab').show();
                 $('.right-side .list ul li a').removeClass('active');
                 $(`.right-side .list ul li a[href="#${tab}"]`).addClass('active');
 
-                if (tab === 'messages') loadMessages();
+                if (tab === 'dashboard') loadStats();
                 if (tab === 'users') loadUsers();
+                if (tab === 'messages') loadMessages();
+                if (tab === 'blogs') loadAllBlogs();
+                if (tab === 'operations') loadAllOperations();
+                if (tab === 'cases') loadAllCases();
             };
 
-            // تسجيل الخروج
-            $('#logoutBtn').click(function (e) {
+            // =============================================
+            // 16. تسجيل الخروج
+            // =============================================
+            $('#logoutBtn').click(function(e) {
                 e.preventDefault();
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                window.location.href = 'login/login.html';
+                logout();
             });
 
-            // تحميل البيانات
+            // =============================================
+            // 17. تحميل البيانات الأولية
+            // =============================================
             loadStats();
         });
     </script>

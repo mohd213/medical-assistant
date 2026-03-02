@@ -1,5 +1,7 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config(); // <-- أضف هذا السطر
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-2026';
 
@@ -17,7 +19,6 @@ const authenticateToken = (req, res, next) => {
         });
     }
 
-    // ✅ التحقق الصحيح من التوكن
     jwt.verify(token, JWT_SECRET, (err, user) => {
         if (err) {
             console.log('❌ Middleware - خطأ في التحقق:', err.message);
@@ -46,4 +47,4 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
-module.exports = authenticateToken;
+export default authenticateToken;

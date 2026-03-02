@@ -2,282 +2,270 @@
 <html lang="ar">
 
 <head>
-    <!-- Meta Tags -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="keywords" content="Site keywords here">
-    <meta name="description" content="">
-    <meta name='copyright' content=''>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Title -->
-    <title>المساعد الطبي</title>
-    <!-- Favicon -->
+    <title>إضافة حالة متابعة - المساعد الطبي</title>
     <link rel="icon" href="../img/logo.png">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/datepicker.css">
     <link rel="stylesheet" href="../css/nice-select.css">
     <link rel="stylesheet" href="../css/icofont.css">
     <link rel="stylesheet" href="../css/font-awesome.min.css">
-    <!-- Medipro CSS -->
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
-    <!-- Preloader -->
     <div class="preloader">
         <div class="loader">
             <div class="loader-outter"></div>
             <div class="loader-inner"></div>
             <div class="indicator">
                 <svg width="16px" height="12px">
-                    <polyline id="back" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
-                    <polyline id="front" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                    <polyline points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
                 </svg>
             </div>
         </div>
     </div>
-    <!-- End Preloader -->
-    <!-- Header Area -->
+    
     <header class="header">
-        <!-- Header Inner -->
         <div class="header-inner">
-            <div class="logo d-flex align-items-center justify-content-start">
+            <div class="logo d-flex align-items-center">
                 <div class="logo-img">
                     <img src="../img/logo.png" alt="">
                 </div>
-                <p class="mb-0">
-                    المساعد الطبي
-                </p>
+                <p class="mb-0">المساعد الطبي</p>
             </div>
             <div class="main-menu">
                 <ul class="nav menu">
-                    <li><a href="../index.html">الصفحة الرئيسية</a></li>
+                    <li><a href="../index.html">الرئيسية</a></li>
                     <li><a href="ai-diagnosis.html"><i class="icofont-stethoscope"></i>التشخيص الذكي</a></li>
-                    <li><a href="#"><i class="icofont-ui-user ml-3"></i> حسابي <i
-                                class="icofont-rounded-down mr-2"></i></a>
+                    <li><a href="#"><i class="icofont-ui-user ml-3"></i> حسابي <i class="icofont-rounded-down mr-2"></i></a>
                         <ul class="dropdown">
                             <li><a href="./home.html">الملف الشخصي</a></li>
                             <li><a href="./login/login.html">تسجيل الخروج</a></li>
                         </ul>
                     </li>
-
-                    <li class="notification-list">
-                        <a href="#"><i class="icofont-notification"></i></a>
-                        <ul class="dropdown">
-                            <p>لا توجد اشعارات</p>
-                        </ul>
-                    </li>
                 </ul>
             </div>
         </div>
-        <!--/ End Header Inner -->
     </header>
-    <!-- End Header Area -->
-    <!-- page content -->
+    
     <div class="page-content">
-        <!-- right side include menu for move between website pages -->
         <div class="right-side">
-            <div class="avatar d-flex justify-content-start align-items-center">
+            <div class="avatar d-flex align-items-center">
                 <div class="img ml-3">
                     <img src="../img/author2.jpg" alt="" id="sidebarImage">
                 </div>
                 <div class="name">
-                    <span>أحمد محمد</span>
+                    <span id="sidebarName">جاري التحميل...</span>
                 </div>
             </div>
             <div class="list">
                 <ul>
-                    <li><a href="./home.html"> <i class="icofont-doctor"></i>الملف الشخصي</a></li>
+                    <li><a href="./home.html"><i class="icofont-doctor"></i>الملف الشخصي</a></li>
                     <li><a href="./blogs.html"><i class="icofont-file-alt"></i>مدوناتي</a></li>
                     <li><a href="./operations.html"><i class="icofont-calendar"></i>جدول العمليات</a></li>
                     <li><a href="./patient.html"><i class="icofont-patient-bed"></i>تشخيص المريض</a></li>
-                    <li><a href="./follow-up.html" class="active"><i class="icofont-prescription"></i>حالات المتابعة</a>
-                    </li>
+                    <li><a href="./follow-up.html" class="active"><i class="icofont-prescription"></i>حالات المتابعة</a></li>
                     <li><a href="./contact.html"><i class="icofont-gears"></i>الدعم الفني</a></li>
                 </ul>
             </div>
         </div>
-        <!-- left side include page content -->
-        <div class="left-side" id="my-div">
-            <!-- page header -->
-            <div class="header-page mb-5">
+        
+        <div class="left-side">
+            <div class="header-page mb-4">
                 <h3 class="title">إضافة / تعديل حالة المتابعة</h3>
                 <a href="./follow-up.html"><i class="icofont-swoosh-right"></i></a>
             </div>
-            <!-- case form -->
-            <form class="form" method="" action="">
+            
+            <form class="form" id="caseForm">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="name" placeholder="الاسم " required="required">
+                            <input type="text" name="patient_name" id="patient_name" class="form-control" 
+                                   placeholder="اسم المريض" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="age" placeholder="العمر" required="required">
+                            <input type="number" name="age" id="age" class="form-control" 
+                                   placeholder="العمر" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <select name="gender" id="gender" class="form-control wide" required>
-                                        <option value="" disabled selected>اختر الجنس</option>
-                                        <option value="ذكر">ذكر</option>
-                                        <option value="أنثى">أنثى</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <select name="gender" id="gender" class="form-control wide" required>
+                                <option value="" disabled selected>اختر الجنس</option>
+                                <option value="ذكر">ذكر</option>
+                                <option value="أنثى">أنثى</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="sick" placeholder="المرض" required="required">
+                            <input type="text" name="disease" id="disease" class="form-control" 
+                                   placeholder="المرض" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="medicine" placeholder="الدواء المستخدم" required="required">
+                            <input type="text" name="medicine" id="medicine" class="form-control" 
+                                   placeholder="الدواء المستخدم" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="surgery" placeholder="العملية المجراة إن توفر">
+                            <input type="text" name="surgery" id="surgery" class="form-control" 
+                                   placeholder="العملية المجراة إن وجدت">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" name="healing" placeholder="نسبة التشافي" required="required">
+                            <input type="number" name="healing_rate" id="healing_rate" class="form-control" 
+                                   placeholder="نسبة التشافي" required>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            <textarea name="notes" placeholder="ملاحظات الطبيب"></textarea>
+                            <textarea name="notes" id="notes" class="form-control" rows="5" 
+                                      placeholder="ملاحظات الطبيب"></textarea>
                         </div>
                     </div>
                 </div>
+                
                 <div class="form-group d-flex justify-content-end">
-                    <a href="./follow-up.html"><button class="btn" type="submit">حفظ</button></a>
+                    <a href="./follow-up.html" class="btn btn-secondary ml-2" 
+                       style="background: #95a5a6; color: white; padding: 10px 25px; border-radius: 5px; text-decoration: none;">
+                        إلغاء
+                    </a>
+                    <button class="btn" type="submit" id="saveBtn">حفظ</button>
                 </div>
             </form>
         </div>
     </div>
-    <!-- End page content  -->
-    <!-- jquery Min JS -->
-    <!-- هذا السطر موجود مرتين -->
+    
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/bootstrap-datepicker.js"></script>
     <script src="../js/niceselect.js"></script>
-    <script src="../js/api.js"></script>
-    <script src="../js/auth.js"></script>
-    <script src="../js/cases.js"></script>
-    <script src="../js/main.js"></script>
+    <script src="../js/validation.js"></script>
     <script src="../js/common.js"></script>
+    
     <script>
-        $(document).ready(function () {
-            // التحقق من تسجيل الدخول
-            const token = localStorage.getItem('token');
-            if (!token) {
-                window.location.href = 'login/login.html';
-                return;
+    $(document).ready(function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login/login.html';
+            return;
+        }
+
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.firstname) {
+            $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
+            if (user.profile_img) {
+                $('#sidebarImage').attr('src', '..' + user.profile_img);
             }
+        }
 
-            // تحديث معلومات المستخدم
-            const user = JSON.parse(localStorage.getItem('user') || '{}');
-            if (user.firstname) {
-                $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
-                if (user.profile_img) {
-                    $('#sidebarImage').attr('src', '..' + user.profile_img);
-                }
-            }
-            // التحقق من وجود معرف للتعديل
-            const urlParams = new URLSearchParams(window.location.search);
-            const caseId = urlParams.get('id');
+        if ($.fn.niceSelect) {
+            $('select').niceSelect();
+        }
 
-            if (caseId) {
-                // جلب بيانات الحالة للتعديل
-                $.ajax({
-                    url: 'http://localhost:3000/api/cases/' + caseId,
-                    type: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            const caseData = response.case;
-                            $('input[name="name"]').val(caseData.patient_name);
-                            $('input[name="age"]').val(caseData.age);
-                            $('input[name="sick"]').val(caseData.disease);
-                            $('input[name="medicine"]').val(caseData.medicine);
-                            $('input[name="surgery"]').val(caseData.surgery);
-                            $('input[name="healing"]').val(caseData.healing_rate);
-                            $('textarea[name="notes"]').val(caseData.notes);
+        const urlParams = new URLSearchParams(window.location.search);
+        const caseId = urlParams.get('id');
 
-                            // تحديث الجنس
-                            if (caseData.gender === 'ذكر') {
-                                $('.nice-select .current').text('ذكر');
-                            } else if (caseData.gender === 'أنثى') {
-                                $('.nice-select .current').text('أنثى');
+        if (caseId) {
+            $.ajax({
+                url: 'http://localhost:3000/api/cases/' + caseId,
+                type: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                success: function(response) {
+                    if (response.success) {
+                        const data = response.case;
+                        $('#patient_name').val(data.patient_name);
+                        $('#age').val(data.age);
+                        $('#disease').val(data.disease);
+                        $('#medicine').val(data.medicine);
+                        $('#surgery').val(data.surgery);
+                        $('#healing_rate').val(data.healing_rate);
+                        $('#notes').val(data.notes);
+                        
+                        if (data.gender) {
+                            $('#gender').val(data.gender);
+                            if ($.fn.niceSelect) {
+                                $('select').niceSelect('update');
                             }
                         }
-                    },
-                    error: function (xhr) {
-                        console.error('خطأ في جلب الحالة:', xhr);
-                        alert('حدث خطأ في جلب بيانات الحالة');
                     }
+                },
+                error: function() {
+                    msg.error('حدث خطأ في جلب بيانات الحالة');
+                }
+            });
+        }
+
+        $('#caseForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                patient_name: $('#patient_name').val(),
+                age: $('#age').val(),
+                gender: $('#gender').val(),
+                disease: $('#disease').val(),
+                medicine: $('#medicine').val(),
+                surgery: $('#surgery').val() || null,
+                healing_rate: $('#healing_rate').val(),
+                notes: $('#notes').val() || null
+            };
+            
+            const validation = Validator.followUpCase(formData);
+            
+            if (!validation.valid) {
+                let errorMessage = '';
+                Object.keys(validation.errors).forEach(field => {
+                    errorMessage += validation.errors[field].join('\n') + '\n';
                 });
+                msg.error(errorMessage);
+                return;
             }
+            
+            $('#saveBtn').prop('disabled', true).text('جاري الحفظ...');
 
-            // حفظ الحالة
-            $('form').on('submit', function (e) {
-                e.preventDefault();
+            const url = caseId ?
+                'http://localhost:3000/api/cases/' + caseId :
+                'http://localhost:3000/api/cases';
 
-                const caseData = {
-                    patient_name: $('input[name="name"]').val(),
-                    age: parseInt($('input[name="age"]').val()),
-                    gender: $('.nice-select .current').text() === 'الجنس' ? '' : $('.nice-select .current').text(),
-                    disease: $('input[name="sick"]').val(),
-                    medicine: $('input[name="medicine"]').val(),
-                    surgery: $('input[name="surgery"]').val() || null,
-                    healing_rate: $('input[name="healing"]').val(),
-                    notes: $('textarea[name="notes"]').val()
-                };
+            const method = caseId ? 'PUT' : 'POST';
 
-                const url = caseId ?
-                    'http://localhost:3000/api/cases/' + caseId :
-                    'http://localhost:3000/api/cases';
-
-                const method = caseId ? 'PUT' : 'POST';
-
-                $.ajax({
-                    url: url,
-                    type: method,
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                        'Content-Type': 'application/json'
-                    },
-                    data: JSON.stringify(caseData),
-                    success: function (response) {
-                        if (response.success) {
-                            alert(caseId ? 'تم تحديث الحالة بنجاح' : 'تم إضافة الحالة بنجاح');
+            $.ajax({
+                url: url,
+                type: method,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(validation.data),
+                success: function(response) {
+                    if (response.success) {
+                        msg.success(caseId ? 'تم تحديث الحالة بنجاح' : 'تم إضافة الحالة بنجاح');
+                        setTimeout(() => {
                             window.location.href = './follow-up.html';
-                        } else {
-                            alert(response.message || 'حدث خطأ');
-                        }
-                    },
-                    error: function (xhr) {
-                        console.error('خطأ:', xhr);
-                        alert('حدث خطأ في حفظ الحالة');
+                        }, 1500);
+                    } else {
+                        msg.error(response.message || 'حدث خطأ');
+                        $('#saveBtn').prop('disabled', false).text('حفظ');
                     }
-                });
+                },
+                error: function() {
+                    msg.error('حدث خطأ في حفظ الحالة');
+                    $('#saveBtn').prop('disabled', false).text('حفظ');
+                }
             });
         });
+    });
     </script>
 </body>
 

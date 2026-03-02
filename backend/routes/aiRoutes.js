@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import { analyzeSymptoms } from '../controllers/aiController.js';
+
 const router = express.Router();
-const aiController = require('../controllers/aiController');
 
 // مسار تحليل الأعراض (يمكن استخدامه بدون مصادقة)
-router.post('/analyze', aiController.analyzeSymptoms);
+router.post('/analyze', analyzeSymptoms);
 
-module.exports = router;
+export default router;

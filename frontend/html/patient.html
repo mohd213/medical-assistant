@@ -263,7 +263,7 @@
             const diagnosis = JSON.parse(localStorage.getItem('lastDiagnosis') || '{}');
             
             if (!diagnosis.patientName) {
-                alert('لا توجد بيانات للطباعة');
+                msg.error('لا توجد بيانات للطباعة');
                 $('#printModal').modal('hide');
                 return;
             }
@@ -400,8 +400,7 @@
             // إغلاق modal
             $('#printModal').modal('hide');
             
-            // مسح البيانات (اختياري)
-            // localStorage.removeItem('lastDiagnosis');
+            msg.success('تم إنشاء التقرير بنجاح');
         });
 
         // =============================================
@@ -409,9 +408,7 @@
         // =============================================
         $('#logoutBtn').on('click', function(e) {
             e.preventDefault();
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            window.location.href = 'login/login.html';
+            logout();
         });
 
         // =============================================

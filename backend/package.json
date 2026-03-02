@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Medical Assistant Backend API",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "build": "npm install",
@@ -14,7 +15,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "axios": "^1.8.4",
     "bcrypt": "^6.0.0",

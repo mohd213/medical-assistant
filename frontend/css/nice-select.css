@@ -1,9 +1,8 @@
-
 .nice-select {
     -webkit-tap-highlight-color: transparent;
-    background-color: #fff;
+    background-color: var(--input-bg, #fff);
     border-radius: 5px;
-    border: solid 1px #e8e8e8;
+    border: solid 1px var(--border-color, #e8e8e8);
     box-sizing: border-box;
     clear: both;
     cursor: pointer;
@@ -30,22 +29,23 @@
     margin-bottom: 16px;
     display: flex;
     align-items: center;
-    height: 50px
+    height: 50px;
+    color: var(--text-primary, #333);
 }
 
 .nice-select:hover {
-    border-color: #4260a091;
+    border-color: var(--main-color, #4260a0);
 }
 
 .nice-select:active,
 .nice-select.open,
 .nice-select:focus {
-    border-color: #999;
+    border-color: var(--main-color, #4260a0);
 }
 
 .nice-select:after {
-    border-bottom: 2px solid #999;
-    border-right: 2px solid #999;
+    border-bottom: 2px solid var(--text-secondary, #999);
+    border-right: 2px solid var(--text-secondary, #999);
     content: '';
     display: block;
     height: 8px;
@@ -124,7 +124,7 @@
 }
 
 .nice-select .list {
-    background-color: #fff;
+    background-color: var(--bg-secondary, #fff);
     border-radius: 5px;
     box-shadow: 0 0 0 1px rgba(68, 68, 68, 0.11);
     box-sizing: border-box;
@@ -163,15 +163,18 @@
     text-align: right;
     -webkit-transition: all 0.2s;
     transition: all 0.2s;
+    color: var(--text-primary, #333);
 }
 
 .nice-select .option:hover {
-    background-color: #4260a091;
+    background-color: var(--main-color, #4260a0);
     color: #fff;
 }
 
 .nice-select .option.selected {
     font-weight: bold;
+    background-color: var(--fromMain-color, #8fa1c9);
+    color: white;
 }
 
 .nice-select .option.disabled {
@@ -191,4 +194,22 @@
 .contact-form-wrapper .list {
     background: #2f3341 none repeat scroll 0 0;
     border-radius: 0;
+}
+
+/* الوضع الليلي */
+[data-theme="dark"] .nice-select .list {
+    background-color: #2a2a2a;
+    border: 1px solid #333;
+}
+
+[data-theme="dark"] .nice-select .option {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .nice-select .option:hover {
+    background-color: #5a7bb5;
+}
+
+[data-theme="dark"] .nice-select .option.selected {
+    background-color: #3a4f7a;
 }

@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import * as caseController from '../controllers/caseController.js';
+import authenticateToken from '../middleware/auth.js';
+
 const router = express.Router();
-const caseController = require('../controllers/caseController');
-const authenticateToken = require('../middleware/auth');
 
 // جميع المسارات محمية (تحتاج مصادقة)
 router.post('/', authenticateToken, caseController.addCase);
@@ -10,4 +11,4 @@ router.get('/:id', authenticateToken, caseController.getCaseById);
 router.put('/:id', authenticateToken, caseController.updateCase);
 router.delete('/:id', authenticateToken, caseController.deleteCase);
 
-module.exports = router;
+export default router;

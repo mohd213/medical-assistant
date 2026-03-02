@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="../css/icofont.css">
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    
     <style>
         .operations-header {
             display: flex;
@@ -80,6 +81,36 @@
         .btn-icon.delete:hover {
             color: #e74c3c;
         }
+        
+        /* تنسيق الأخطاء */
+        .is-invalid {
+            border-color: #dc3545 !important;
+            background-color: rgba(220, 53, 69, 0.05) !important;
+        }
+        
+        .validation-error {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* تلميحات الحقول */
+        .field-hint {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .field-hint i {
+            color: #4260a0;
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -102,7 +133,7 @@
         <div class="header-inner">
             <div class="logo d-flex align-items-center justify-content-start">
                 <div class="logo-img">
-                    <img src="../img/logo.png" alt="" >
+                    <img src="../img/logo.png" alt="">
                 </div>
                 <p class="mb-0">المساعد الطبي</p>
             </div>
@@ -173,43 +204,76 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>اسم المريض</label>
-                                            <input type="text" class="form-control" id="patientName" required>
+                                            <input type="text" class="form-control" id="patientName" 
+                                                   placeholder="أدخل اسم المريض كاملاً" required>
+                                            <div class="field-hint">
+                                                <i class="icofont-info-circle"></i>
+                                                <span>مثال: أحمد محمد علي</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>نوع العملية</label>
-                                            <input type="text" class="form-control" id="operationType" required>
+                                            <input type="text" class="form-control" id="operationType" 
+                                                   placeholder "نوع العملية" required>
+                                            <div class="field-hint">
+                                                <i class="icofont-info-circle"></i>
+                                                <span>مثال: استئصال الزائدة، عملية قلب مفتوح</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>المشفى</label>
-                                            <input type="text" class="form-control" id="hospital" required>
+                                            <input type="text" class="form-control" id="hospital" 
+                                                   placeholder="اسم المشفى" required>
+                                            <div class="field-hint">
+                                                <i class="icofont-info-circle"></i>
+                                                <span>مثال: مستشفى الشفاء، مجمع فلسطين الطبي</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>القسم</label>
-                                            <input type="text" class="form-control" id="department">
+                                            <input type="text" class="form-control" id="department" 
+                                                   placeholder="القسم (اختياري)">
+                                            <div class="field-hint">
+                                                <i class="icofont-info-circle"></i>
+                                                <span>مثال: جراحة عامة، عظام، تجميل</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>التاريخ</label>
                                             <input type="date" class="form-control" id="operationDate" required>
+                                            <div class="field-hint">
+                                                <i class="icofont-info-circle"></i>
+                                                <span>تاريخ العملية (يجب أن يكون في المستقبل)</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>الوقت</label>
                                             <input type="time" class="form-control" id="operationTime">
+                                            <div class="field-hint">
+                                                <i class="icofont-info-circle"></i>
+                                                <span>وقت العملية (اختياري)</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label>ملاحظات</label>
-                                            <textarea class="form-control" id="notes" rows="3"></textarea>
+                                            <textarea class="form-control" id="notes" rows="3" 
+                                                      placeholder="ملاحظات إضافية عن العملية..."></textarea>
+                                            <div class="field-hint">
+                                                <i class="icofont-info-circle"></i>
+                                                <span>أقصى حد 500 حرف</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -260,6 +324,7 @@
     <!-- Scripts -->
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/validation.js"></script>
     <script src="../js/common.js"></script>
 
     <script>
@@ -281,7 +346,58 @@
                 }
             }
 
+            // =============================================
+            // دوال مساعدة للأخطاء
+            // =============================================
+            function clearFieldError(fieldId) {
+                $(`#${fieldId}`).removeClass('is-invalid');
+                $(`#${fieldId}`).nextAll('.validation-error').remove();
+            }
+
+            function showFieldError(fieldId, message) {
+                const input = $(`#${fieldId}`);
+                input.addClass('is-invalid');
+                input.after(`<div class="validation-error"><i class="icofont-exclamation-circle"></i> ${message}</div>`);
+            }
+
+            // =============================================
+            // التحقق لحظي من الحقول
+            // =============================================
+            $('#patientName').on('input', function() {
+                clearFieldError('patientName');
+                const result = Validator.text($(this).val(), 'اسم المريض', { minLength: 2, maxLength: 100 });
+                if (!result.valid && $(this).val().length > 0) {
+                    showFieldError('patientName', result.errors[0]);
+                }
+            });
+
+            $('#operationType').on('input', function() {
+                clearFieldError('operationType');
+                const result = Validator.text($(this).val(), 'نوع العملية', { minLength: 2, maxLength: 200 });
+                if (!result.valid && $(this).val().length > 0) {
+                    showFieldError('operationType', result.errors[0]);
+                }
+            });
+
+            $('#hospital').on('input', function() {
+                clearFieldError('hospital');
+                const result = Validator.text($(this).val(), 'اسم المشفى', { minLength: 2, maxLength: 200 });
+                if (!result.valid && $(this).val().length > 0) {
+                    showFieldError('hospital', result.errors[0]);
+                }
+            });
+
+            $('#operationDate').on('change', function() {
+                clearFieldError('operationDate');
+                const result = Validator.date($(this).val(), { futureOnly: true });
+                if (!result.valid && $(this).val()) {
+                    showFieldError('operationDate', result.errors[0]);
+                }
+            });
+
+            // =============================================
             // جلب العمليات
+            // =============================================
             function fetchOperations() {
                 $.ajax({
                     url: 'http://localhost:3000/api/operations',
@@ -337,8 +453,15 @@
                 });
             }
 
+            // =============================================
             // حفظ عملية
+            // =============================================
             $('#saveOperationBtn').click(function () {
+                // مسح الأخطاء السابقة
+                $('.is-invalid').removeClass('is-invalid');
+                $('.validation-error').remove();
+
+                // جمع البيانات
                 const operationData = {
                     patient_name: $('#patientName').val(),
                     operation_type: $('#operationType').val(),
@@ -349,9 +472,23 @@
                     notes: $('#notes').val()
                 };
 
-                // التحقق من الحقول المطلوبة
+                // التحقق من صحة البيانات
+                const validation = Validator.operation(operationData);
+                
+                if (!validation.valid) {
+                    // عرض الأخطاء
+                    if (validation.errors.patient_name) showFieldError('patientName', validation.errors.patient_name[0]);
+                    if (validation.errors.operation_type) showFieldError('operationType', validation.errors.operation_type[0]);
+                    if (validation.errors.hospital) showFieldError('hospital', validation.errors.hospital[0]);
+                    if (validation.errors.operation_date) showFieldError('operationDate', validation.errors.operation_date[0]);
+                    
+                    msg.error('يرجى تصحيح الأخطاء في النموذج');
+                    return;
+                }
+
+                // التحقق الإضافي من الحقول المطلوبة (للتأكيد)
                 if (!operationData.patient_name || !operationData.operation_type || !operationData.hospital || !operationData.operation_date) {
-                    alert('الرجاء ملء جميع الحقول المطلوبة');
+                    msg.error('الرجاء ملء جميع الحقول المطلوبة');
                     return;
                 }
 
@@ -361,6 +498,9 @@
 
                 const method = currentOperationId ? 'PUT' : 'POST';
 
+                // تعطيل الزر أثناء الحفظ
+                $('#saveOperationBtn').prop('disabled', true).text('جاري الحفظ...');
+
                 $.ajax({
                     url: url,
                     type: method,
@@ -368,23 +508,29 @@
                         'Authorization': 'Bearer ' + token,
                         'Content-Type': 'application/json'
                     },
-                    data: JSON.stringify(operationData),
+                    data: JSON.stringify(validation.data),
                     success: function (response) {
                         if (response.success) {
                             $('#operationModal').modal('hide');
                             resetForm();
                             fetchOperations();
-                            alert(currentOperationId ? '✅ تم تحديث العملية بنجاح' : '✅ تم إضافة العملية بنجاح');
+                            msg.success(currentOperationId ? 'تم تحديث العملية بنجاح' : 'تم إضافة العملية بنجاح');
+                        } else {
+                            msg.error(response.message || 'حدث خطأ');
+                            $('#saveOperationBtn').prop('disabled', false).text('حفظ');
                         }
                     },
                     error: function (xhr) {
                         console.error('خطأ في حفظ العملية:', xhr);
-                        alert('❌ حدث خطأ في حفظ العملية');
+                        msg.error('حدث خطأ في حفظ العملية');
+                        $('#saveOperationBtn').prop('disabled', false).text('حفظ');
                     }
                 });
             });
 
+            // =============================================
             // تعديل عملية
+            // =============================================
             $(document).on('click', '.edit-operation', function () {
                 const operationId = $(this).data('id');
                 currentOperationId = operationId;
@@ -413,44 +559,50 @@
                     },
                     error: function (xhr) {
                         console.error('خطأ في جلب بيانات العملية:', xhr);
-                        alert('❌ حدث خطأ في جلب بيانات العملية');
+                        msg.error('حدث خطأ في جلب بيانات العملية');
                     }
                 });
             });
 
+            // =============================================
             // حذف عملية
+            // =============================================
             $(document).on('click', '.delete-operation', function () {
                 const operationId = $(this).data('id');
 
-                if (!confirm('هل أنت متأكد من حذف هذه العملية؟')) {
-                    return;
-                }
-
-                $.ajax({
-                    url: 'http://localhost:3000/api/operations/' + operationId,
-                    type: 'DELETE',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            alert('✅ تم حذف العملية بنجاح');
-                            fetchOperations();
+                msg.confirm('هل أنت متأكد من حذف هذه العملية؟', function() {
+                    $.ajax({
+                        url: 'http://localhost:3000/api/operations/' + operationId,
+                        type: 'DELETE',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                msg.success('تم حذف العملية بنجاح');
+                                fetchOperations();
+                            }
+                        },
+                        error: function (xhr) {
+                            console.error('خطأ في حذف العملية:', xhr);
+                            msg.error('حدث خطأ في حذف العملية');
                         }
-                    },
-                    error: function (xhr) {
-                        console.error('خطأ في حذف العملية:', xhr);
-                        alert('❌ حدث خطأ في حذف العملية');
-                    }
+                    });
                 });
             });
 
+            // =============================================
             // إعادة تعيين النموذج
+            // =============================================
             function resetForm() {
                 currentOperationId = null;
                 $('#operationModalTitle').text('إضافة عملية جديدة');
                 $('#operationForm')[0].reset();
                 $('#operationId').val('');
+                
+                // مسح الأخطاء
+                $('.is-invalid').removeClass('is-invalid');
+                $('.validation-error').remove();
             }
 
             // عند فتح modal

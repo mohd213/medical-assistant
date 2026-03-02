@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+import mysql from 'mysql2/promise';
 
 const pool = mysql.createPool({
     host: 'localhost',
@@ -10,16 +10,14 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-const promisePool = pool.promise();
-
 // اختبار الاتصال
 (async () => {
     try {
-        const [rows] = await promisePool.query('SELECT 1 + 1 AS result');
+        const [rows] = await pool.query('SELECT 1 + 1 AS result');
         console.log('✅ اتصال قاعدة البيانات ناجح!');
     } catch (err) {
         console.error('❌ فشل الاتصال بقاعدة البيانات:', err.message);
     }
 })();
 
-module.exports = promisePool;
+export default pool;

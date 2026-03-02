@@ -3,16 +3,18 @@
 .ai-diagnosis-wrapper {
     padding: 100px 50px 50px;
     min-height: calc(100vh - 200px);
-    background-color: #f5f8ff;
+    background-color: var(--bg-primary, #f5f8ff);
+    transition: background-color 0.3s ease;
 }
 
 .ai-diagnosis-container {
     max-width: 900px;
     margin: 0 auto;
-    background: #fff;
+    background: var(--bg-secondary, #fff);
     border-radius: 15px;
     padding: 40px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px var(--shadow-color, rgba(0,0,0,0.1));
+    transition: all 0.3s ease;
 }
 
 .ai-header {
@@ -22,18 +24,26 @@
 
 .ai-header i {
     font-size: 50px;
-    color: #4260a0;
+    color: var(--main-color, #4260a0);
     margin-bottom: 15px;
 }
 
 .ai-header h3 {
     font-size: 28px;
-    color: #4260a0;
+    color: var(--main-color, #4260a0);
     font-weight: 700;
+}
+
+.ai-header p {
+    color: var(--text-secondary, #666);
 }
 
 .quick-symptoms {
     margin-bottom: 25px;
+}
+
+.quick-symptoms p {
+    color: var(--text-primary, #333);
 }
 
 .symptoms-tags {
@@ -43,8 +53,8 @@
 }
 
 .symptom-tag {
-    background: #f0f0f0;
-    color: #333;
+    background: var(--border-color, #f0f0f0);
+    color: var(--text-primary, #333);
     padding: 8px 20px;
     border-radius: 50px;
     font-size: 14px;
@@ -53,34 +63,36 @@
 }
 
 .symptom-tag:hover {
-    background: #4260a0;
+    background: var(--main-color, #4260a0);
     color: white;
 }
 
 .symptom-tag.active {
-    background: #4260a0;
+    background: var(--main-color, #4260a0);
     color: white;
 }
 
 .symptom-input {
     width: 100%;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color, #e0e0e0);
     padding: 15px;
     min-height: 120px;
     border-radius: 10px;
     font-size: 16px;
     transition: all 0.3s ease;
+    background-color: var(--input-bg, white);
+    color: var(--text-primary, #333);
 }
 
 .symptom-input:focus {
-    border-color: #4260a0;
+    border-color: var(--main-color, #4260a0);
     outline: none;
     box-shadow: 0 0 0 3px rgba(66,96,160,0.1);
 }
 
 .analyze-btn {
     width: 100%;
-    background: #4260a0;
+    background: var(--main-color, #4260a0);
     color: white;
     border: none;
     padding: 15px;
@@ -94,7 +106,7 @@
 }
 
 .analyze-btn:hover {
-    background: #2c3e6b;
+    background: var(--fromMain-color, #2c3e6b);
     transform: translateY(-2px);
 }
 
@@ -117,20 +129,16 @@
     transform: translateY(-50%);
 }
 
-@keyframes spin {
-    0% { transform: translateY(-50%) rotate(0deg); }
-    100% { transform: translateY(-50%) rotate(360deg); }
-}
-
 .result-card {
-    background: #f8f9fa;
+    background: var(--bg-primary, #f8f9fa);
     border-radius: 12px;
     padding: 25px;
     margin-bottom: 20px;
-    border-right: 5px solid #4260a0;
+    border-right: 5px solid var(--main-color, #4260a0);
     animation: slideUp 0.5s ease forwards;
     opacity: 0;
     transform: translateY(20px);
+    color: var(--text-primary, #333);
 }
 
 @keyframes slideUp {
@@ -148,13 +156,13 @@
 }
 
 .disease-name {
-    color: #4260a0;
+    color: var(--main-color, #4260a0);
     font-size: 20px;
     font-weight: 700;
 }
 
 .probability-badge {
-    background: #4260a0;
+    background: var(--main-color, #4260a0);
     color: white;
     padding: 5px 15px;
     border-radius: 50px;
@@ -164,7 +172,7 @@
 
 .probability-bar {
     height: 8px;
-    background: #e0e0e0;
+    background: var(--border-color, #e0e0e0);
     border-radius: 4px;
     margin: 15px 0;
     overflow: hidden;
@@ -172,23 +180,23 @@
 
 .probability-fill {
     height: 100%;
-    background: #4260a0;
+    background: var(--main-color, #4260a0);
     border-radius: 4px;
     transition: width 1s ease;
 }
 
 .description {
-    color: #666;
+    color: var(--text-secondary, #666);
     margin: 15px 0;
     line-height: 1.6;
 }
 
 .treatment-box {
-    background: white;
+    background: var(--bg-secondary, white);
     border-radius: 8px;
     padding: 20px;
     margin-top: 15px;
-    border: 1px solid #e8e8e8;
+    border: 1px solid var(--border-color, #e8e8e8);
 }
 
 .treatment-item {
@@ -198,18 +206,18 @@
 }
 
 .treatment-item i {
-    color: #4260a0;
+    color: var(--main-color, #4260a0);
     margin-left: 10px;
     font-size: 18px;
 }
 
 .treatment-item strong {
-    color: #333;
+    color: var(--text-primary, #333);
     min-width: 100px;
 }
 
 .treatment-item span {
-    color: #666;
+    color: var(--text-secondary, #666);
     flex: 1;
 }
 
@@ -231,6 +239,18 @@
     margin-top: 30px;
     font-size: 14px;
     border-right: 4px solid #ffc107;
+}
+
+/* الوضع الليلي */
+[data-theme="dark"] .disclaimer {
+    background: #4a3b1e;
+    color: #ffd966;
+    border-right-color: #ffc107;
+}
+
+[data-theme="dark"] .error-message {
+    background: #5f1e1e;
+    color: #ff8b8b;
 }
 
 @media (max-width: 768px) {

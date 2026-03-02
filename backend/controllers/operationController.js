@@ -1,9 +1,9 @@
-const db = require('../config/database');
+import db from '../config/database.js';
 
 // =============================================
 // إضافة عملية جديدة
 // =============================================
-const addOperation = async (req, res) => {
+export const addOperation = async (req, res) => {
     try {
         const { patient_name, operation_type, hospital, department, operation_date, operation_time, notes } = req.body;
         const userId = req.user.id;
@@ -35,7 +35,7 @@ const addOperation = async (req, res) => {
 // =============================================
 // جلب جميع عمليات المستخدم
 // =============================================
-const getOperations = async (req, res) => {
+export const getOperations = async (req, res) => {
     try {
         const userId = req.user.id;
 
@@ -63,7 +63,7 @@ const getOperations = async (req, res) => {
 // =============================================
 // جلب عملية محددة
 // =============================================
-const getOperationById = async (req, res) => {
+export const getOperationById = async (req, res) => {
     try {
         const operationId = req.params.id;
         const userId = req.user.id;
@@ -97,7 +97,7 @@ const getOperationById = async (req, res) => {
 // =============================================
 // تحديث عملية
 // =============================================
-const updateOperation = async (req, res) => {
+export const updateOperation = async (req, res) => {
     try {
         const operationId = req.params.id;
         const userId = req.user.id;
@@ -135,7 +135,7 @@ const updateOperation = async (req, res) => {
 // =============================================
 // حذف عملية
 // =============================================
-const deleteOperation = async (req, res) => {
+export const deleteOperation = async (req, res) => {
     try {
         const operationId = req.params.id;
         const userId = req.user.id;
@@ -164,12 +164,4 @@ const deleteOperation = async (req, res) => {
             message: 'حدث خطأ في الخادم: ' + error.message
         });
     }
-};
-
-module.exports = {
-    addOperation,
-    getOperations,
-    getOperationById,
-    updateOperation,
-    deleteOperation
 };

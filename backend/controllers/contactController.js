@@ -1,9 +1,9 @@
-const db = require('../config/database');
+import db from '../config/database.js';
 
 // =============================================
 // إرسال رسالة دعم فني
 // =============================================
-const sendMessage = async (req, res) => {
+export const sendMessage = async (req, res) => {
     try {
         const { name, email, subject, message } = req.body;
         let userId = null;
@@ -47,7 +47,7 @@ const sendMessage = async (req, res) => {
 // =============================================
 // جلب رسائل المستخدم الحالي (للمستخدم)
 // =============================================
-const getUserMessages = async (req, res) => {
+export const getUserMessages = async (req, res) => {
     try {
         const userId = req.user.id;
 
@@ -75,7 +75,7 @@ const getUserMessages = async (req, res) => {
 // =============================================
 // جلب جميع الرسائل (للمسؤول - سنستخدمها لاحقاً)
 // =============================================
-const getAllMessages = async (req, res) => {
+export const getAllMessages = async (req, res) => {
     try {
         const [messages] = await db.query(
             'SELECT * FROM contact_messages ORDER BY created_at DESC'
@@ -98,7 +98,7 @@ const getAllMessages = async (req, res) => {
 // =============================================
 // تحديث حالة الرسالة (للمسؤول)
 // =============================================
-const updateMessageStatus = async (req, res) => {
+export const updateMessageStatus = async (req, res) => {
     try {
         const messageId = req.params.id;
         const { status, admin_reply } = req.body;
@@ -120,11 +120,4 @@ const updateMessageStatus = async (req, res) => {
             message: 'حدث خطأ في الخادم: ' + error.message
         });
     }
-};
-
-module.exports = {
-    sendMessage,
-    getUserMessages,
-    getAllMessages,
-    updateMessageStatus
 };

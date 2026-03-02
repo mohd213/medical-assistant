@@ -63,6 +63,21 @@
             background: #2c3e6b;
             transform: scale(1.05);
         }
+        
+        /* تنسيق الأخطاء */
+        .is-invalid {
+            border-color: #dc3545 !important;
+            background-color: rgba(220, 53, 69, 0.05) !important;
+        }
+        
+        .validation-error {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
     </style>
 </head>
 
@@ -170,7 +185,7 @@
                     </div>
                 </div>
                 <div class="form-group d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
                         <i class="icofont-send-mail"></i> إرسال
                     </button>
                 </div>
@@ -184,6 +199,7 @@
     <!-- Scripts -->
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/validation.js"></script>
     <script src="../js/common.js"></script>
 
     <script>
@@ -205,9 +221,59 @@
                 $('#email').val(user.email);
             }
 
+            // دالة مسح الأخطاء
+            function clearFieldError(fieldId) {
+                $(`#${fieldId}`).removeClass('is-invalid');
+                $(`#${fieldId}`).nextAll('.validation-error').remove();
+            }
+
+            // دالة عرض الخطأ
+            function showFieldError(fieldId, message) {
+                const input = $(`#${fieldId}`);
+                input.addClass('is-invalid');
+                input.after(`<div class="validation-error"><i class="icofont-exclamation-circle"></i> ${message}</div>`);
+            }
+
+            // التحقق لحظي من الحقول
+            $('#name').on('input', function() {
+                clearFieldError('name');
+                const result = Validator.name($(this).val(), 'الاسم', { minLength: 2 });
+                if (!result.valid && $(this).val().length > 0) {
+                    showFieldError('name', result.errors[0]);
+                }
+            });
+
+            $('#email').on('input', function() {
+                clearFieldError('email');
+                const result = Validator.email($(this).val());
+                if (!result.valid && $(this).val().length > 0) {
+                    showFieldError('email', result.errors[0]);
+                }
+            });
+
+            $('#subject').on('input', function() {
+                clearFieldError('subject');
+                const result = Validator.text($(this).val(), 'الموضوع', { minLength: 3, maxLength: 200 });
+                if (!result.valid && $(this).val().length > 0) {
+                    showFieldError('subject', result.errors[0]);
+                }
+            });
+
+            $('#message').on('input', function() {
+                clearFieldError('message');
+                const result = Validator.text($(this).val(), 'الرسالة', { minLength: 10, maxLength: 2000 });
+                if (!result.valid && $(this).val().length > 0) {
+                    showFieldError('message', result.errors[0]);
+                }
+            });
+
             // إرسال النموذج
             $('#contactForm').on('submit', function (e) {
                 e.preventDefault();
+
+                // مسح الأخطاء السابقة
+                $('.is-invalid').removeClass('is-invalid');
+                $('.validation-error').remove();
 
                 const formData = {
                     name: $('#name').val(),
@@ -216,11 +282,22 @@
                     message: $('#message').val()
                 };
 
-                // التحقق من الحقول
-                if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-                    showMessage('الرجاء ملء جميع الحقول', 'danger');
+                // التحقق من صحة البيانات
+                const validation = Validator.contactMessage(formData);
+
+                if (!validation.valid) {
+                    // عرض الأخطاء
+                    if (validation.errors.name) showFieldError('name', validation.errors.name[0]);
+                    if (validation.errors.email) showFieldError('email', validation.errors.email[0]);
+                    if (validation.errors.subject) showFieldError('subject', validation.errors.subject[0]);
+                    if (validation.errors.message) showFieldError('message', validation.errors.message[0]);
+                    
+                    msg.error('يرجى تصحيح الأخطاء في النموذج');
                     return;
                 }
+
+                // تعطيل الزر أثناء الإرسال
+                $('#submitBtn').prop('disabled', true).html('<i class="icofont-spinner icofont-spin"></i> جاري الإرسال...');
 
                 // إرسال الطلب
                 $.ajax({
@@ -228,7 +305,7 @@
                     type: 'POST',
                     headers: token ? { 'Authorization': 'Bearer ' + token } : {},
                     contentType: 'application/json',
-                    data: JSON.stringify(formData),
+                    data: JSON.stringify(validation.data),
                     success: function (response) {
                         if (response.success) {
                             $('#contactForm')[0].reset();
@@ -236,29 +313,20 @@
                                 $('#name').val(user.firstname + ' ' + (user.lastname || ''));
                                 $('#email').val(user.email);
                             }
-                            showMessage('✅ تم إرسال رسالتك بنجاح. سنتواصل معك قريباً', 'success');
+                            msg.success('تم إرسال رسالتك بنجاح. سنتواصل معك قريباً');
+                            $('#submitBtn').prop('disabled', false).html('<i class="icofont-send-mail"></i> إرسال');
                         } else {
-                            showMessage('❌ ' + (response.message || 'حدث خطأ'), 'danger');
+                            msg.error(response.message || 'حدث خطأ');
+                            $('#submitBtn').prop('disabled', false).html('<i class="icofont-send-mail"></i> إرسال');
                         }
                     },
                     error: function (xhr) {
                         console.error('خطأ:', xhr);
-                        showMessage('❌ حدث خطأ في الاتصال بالخادم', 'danger');
+                        msg.error('حدث خطأ في الاتصال بالخادم');
+                        $('#submitBtn').prop('disabled', false).html('<i class="icofont-send-mail"></i> إرسال');
                     }
                 });
             });
-
-            // دالة عرض الرسائل
-            function showMessage(msg, type) {
-                const msgDiv = $('#responseMessage');
-                msgDiv.removeClass('alert-success alert-danger').addClass('alert-' + type);
-                msgDiv.html(msg);
-                msgDiv.show();
-
-                setTimeout(function () {
-                    msgDiv.fadeOut();
-                }, 5000);
-            }
         });
     </script>
 </body>

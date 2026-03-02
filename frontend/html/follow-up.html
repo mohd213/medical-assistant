@@ -527,28 +527,26 @@
                 });
             }
 
-            // حذف حالة
+            // حذف حالة (تم التعديل هنا)
             function deleteCase(caseId) {
-                if (!confirm('هل أنت متأكد من حذف هذه الحالة؟')) {
-                    return;
-                }
-
-                $.ajax({
-                    url: 'http://localhost:3000/api/cases/' + caseId,
-                    type: 'DELETE',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            alert('تم حذف الحالة بنجاح');
-                            fetchCases(); // إعادة تحميل الحالات
+                msg.confirm('هل أنت متأكد من حذف هذه الحالة؟', function() {
+                    $.ajax({
+                        url: 'http://localhost:3000/api/cases/' + caseId,
+                        type: 'DELETE',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                msg.success('تم حذف الحالة بنجاح');
+                                fetchCases(); // إعادة تحميل الحالات
+                            }
+                        },
+                        error: function (xhr) {
+                            console.error('خطأ في حذف الحالة:', xhr);
+                            msg.error('حدث خطأ في حذف الحالة');
                         }
-                    },
-                    error: function (xhr) {
-                        console.error('خطأ في حذف الحالة:', xhr);
-                        alert('حدث خطأ في حذف الحالة');
-                    }
+                    });
                 });
             }
 
@@ -558,4 +556,4 @@
     </script>
 </body>
 
-</html>
+</html>z

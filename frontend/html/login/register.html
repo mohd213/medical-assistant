@@ -53,12 +53,12 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <input type="password" name="password" id="password" placeholder="كلمة المرور" required>
+                                <input type="password" name="password" id="password" placeholder="كلمة المرور" required autocomplete="new-password">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <input type="password" id="confirm_password" placeholder="تأكيد كلمة المرور" required>
+                                <input type="password" id="confirm_password" placeholder="تأكيد كلمة المرور" required autocomplete="new-password">
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -68,8 +68,8 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <select name="specialization" id="specialization">
-                                    <option value="">اختر التخصص</option>
+                                <select name="specialization" id="specialization" class="form-control wide">
+                                    <option value="" disabled selected>اختر التخصص</option>
                                     <option value="باطني">باطني</option>
                                     <option value="أنف وأذن وحنجرة">أنف وأذن وحنجرة</option>
                                     <option value="جلدية">جلدية</option>
@@ -92,21 +92,31 @@
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/niceselect.js"></script>
+    <script src="../../js/validation.js"></script>
     <script src="../../js/common.js"></script>
+    
     <script>
     $(document).ready(function() {
+        // تفعيل nice-select
+        if ($.fn.niceSelect) {
+            $('select').niceSelect();
+        }
+
+        // ===== تقديم النموذج =====
         $('#registerForm').on('submit', async function(e) {
             e.preventDefault();
             
             const password = $('#password').val();
             const confirm = $('#confirm_password').val();
             
+            // التحقق من تطابق كلمة المرور
             if (password !== confirm) {
-                alert('كلمة المرور غير متطابقة');
+                msg.error('كلمة المرور غير متطابقة');
                 return;
             }
             
-            const userData = {
+            // التحقق من صحة البيانات باستخدام Validator
+            const formData = {
                 firstname: $('#firstname').val(),
                 lastname: $('#lastname').val(),
                 email: $('#email').val(),
@@ -115,23 +125,38 @@
                 specialization: $('#specialization').val()
             };
             
+            // التحقق من صحة البيانات
+            const validation = Validator.user(formData, true);
+            
+            if (!validation.valid) {
+                // عرض الأخطاء
+                let errorMessage = '';
+                Object.keys(validation.errors).forEach(field => {
+                    errorMessage += validation.errors[field].join('\n') + '\n';
+                });
+                msg.error(errorMessage);
+                return;
+            }
+            
             try {
                 const response = await fetch('http://localhost:3000/api/users/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(userData)
+                    body: JSON.stringify(formData)
                 });
                 
                 const data = await response.json();
                 
                 if (data.success) {
-                    alert('تم التسجيل بنجاح! يمكنك تسجيل الدخول الآن');
-                    window.location.href = 'login.html';
+                    msg.success('✅ تم التسجيل بنجاح! يمكنك تسجيل الدخول الآن');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
                 } else {
-                    alert(data.message || 'حدث خطأ في التسجيل');
+                    msg.error(data.message || 'حدث خطأ في التسجيل');
                 }
             } catch (error) {
-                alert('حدث خطأ في الاتصال بالخادم');
+                msg.error('حدث خطأ في الاتصال بالخادم');
             }
         });
     });

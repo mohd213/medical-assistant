@@ -1,7 +1,9 @@
-const db = require('../config/database');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-require('dotenv').config(); // <-- أضف هذا السطر
+import db from '../config/database.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // =============================================
 // استخدام المتغيرات من ملف .env
@@ -12,7 +14,7 @@ const JWT_EXPIRE = process.env.JWT_EXPIRE || '7d'; // 30d من ملف .env
 // =============================================
 // تسجيل مستخدم جديد
 // =============================================
-const register = async (req, res) => {
+export const register = async (req, res) => {
     try {
         const { firstname, lastname, email, password, phone, specialization } = req.body;
 
@@ -76,7 +78,7 @@ const register = async (req, res) => {
 // =============================================
 // تسجيل الدخول
 // =============================================
-const login = async (req, res) => {
+export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
         
@@ -145,7 +147,7 @@ const login = async (req, res) => {
 // =============================================
 // الحصول على بيانات المستخدم الحالي
 // =============================================
-const getProfile = async (req, res) => {
+export const getProfile = async (req, res) => {
     try {
         console.log('🔍 محاولة جلب البروفايل...');
         console.log('👤 المستخدم من التوكن:', req.user);
@@ -154,7 +156,7 @@ const getProfile = async (req, res) => {
         console.log('🆔 معرف المستخدم:', userId);
 
         const [users] = await db.query(
-            'SELECT id, firstname, lastname, email, phone, specialization, role FROM users WHERE id = ?',
+            'SELECT id, firstname, lastname, email, phone, specialization, role, profile_img FROM users WHERE id = ?',
             [userId]
         );
 
@@ -186,7 +188,7 @@ const getProfile = async (req, res) => {
 // =============================================
 // تحديث الملف الشخصي
 // =============================================
-const updateProfile = async (req, res) => {
+export const updateProfile = async (req, res) => {
     try {
         const userId = req.user.id;
         const { firstname, lastname, email, phone, specialization, password } = req.body;
@@ -251,7 +253,7 @@ const updateProfile = async (req, res) => {
 // =============================================
 // التحقق من وجود أدمن
 // =============================================
-const checkAdminExists = async (req, res) => {
+export const checkAdminExists = async (req, res) => {
     try {
         const [admins] = await db.query(
             'SELECT COUNT(*) as count FROM users WHERE role = "admin"'
@@ -274,7 +276,7 @@ const checkAdminExists = async (req, res) => {
 // =============================================
 // إعداد أول أدمن
 // =============================================
-const setupFirstAdmin = async (req, res) => {
+export const setupFirstAdmin = async (req, res) => {
     try {
         const { firstname, lastname, email, password, phone, specialization } = req.body;
 
@@ -343,16 +345,4 @@ const setupFirstAdmin = async (req, res) => {
             message: 'حدث خطأ في الخادم: ' + error.message
         });
     }
-};
-
-// =============================================
-// تصدير الدوال
-// =============================================
-module.exports = {
-    register,
-    login,
-    getProfile,
-    updateProfile,
-    checkAdminExists,
-    setupFirstAdmin
 };

@@ -1,9 +1,9 @@
-const db = require('../config/database');
+import db from '../config/database.js';
 
 // =============================================
 // إضافة حالة متابعة جديدة
 // =============================================
-const addCase = async (req, res) => {
+export const addCase = async (req, res) => {
     try {
         const { patient_name, age, gender, disease, medicine, surgery, healing_rate, notes } = req.body;
         const userId = req.user.id; // من التوكن
@@ -33,7 +33,7 @@ const addCase = async (req, res) => {
 // =============================================
 // جلب جميع حالات المستخدم
 // =============================================
-const getCases = async (req, res) => {
+export const getCases = async (req, res) => {
     try {
         const userId = req.user.id;
 
@@ -61,7 +61,7 @@ const getCases = async (req, res) => {
 // =============================================
 // جلب حالة محددة
 // =============================================
-const getCaseById = async (req, res) => {
+export const getCaseById = async (req, res) => {
     try {
         const caseId = req.params.id;
         const userId = req.user.id;
@@ -96,7 +96,7 @@ const getCaseById = async (req, res) => {
 // =============================================
 // تحديث حالة
 // =============================================
-const updateCase = async (req, res) => {
+export const updateCase = async (req, res) => {
     try {
         const caseId = req.params.id;
         const userId = req.user.id;
@@ -134,7 +134,7 @@ const updateCase = async (req, res) => {
 // =============================================
 // حذف حالة
 // =============================================
-const deleteCase = async (req, res) => {
+export const deleteCase = async (req, res) => {
     try {
         const caseId = req.params.id;
         const userId = req.user.id;
@@ -163,12 +163,4 @@ const deleteCase = async (req, res) => {
             message: 'حدث خطأ في الخادم: ' + error.message
         });
     }
-};
-
-module.exports = {
-    addCase,
-    getCases,
-    getCaseById,
-    updateCase,
-    deleteCase
 };

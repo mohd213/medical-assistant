@@ -1,10 +1,15 @@
-const express = require('express');
+import express from 'express';
+import * as userController from '../controllers/userController.js';
+import authenticateToken from '../middleware/auth.js';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const router = express.Router();
-const userController = require('../controllers/userController');
-const authenticateToken = require('../middleware/auth');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
 // التأكد من وجود مجلد رفع الصور الشخصية
 const uploadDir = path.join(__dirname, '../../frontend/uploads/profiles');
@@ -53,4 +58,4 @@ router.post('/setup-admin', userController.setupFirstAdmin);
 router.get('/profile', authenticateToken, userController.getProfile);
 router.put('/profile', authenticateToken, upload.single('profile_image'), userController.updateProfile);
 
-module.exports = router;
+export default router;

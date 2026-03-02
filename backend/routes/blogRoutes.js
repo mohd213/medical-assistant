@@ -1,10 +1,15 @@
-const express = require('express');
+import express from 'express';
+import * as blogController from '../controllers/blogController.js';
+import authenticateToken from '../middleware/auth.js';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const router = express.Router();
-const blogController = require('../controllers/blogController');
-const authenticateToken = require('../middleware/auth');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
 // التأكد من وجود مجلد رفع الصور
 const uploadDir = path.join(__dirname, '../../frontend/uploads/blogs');
@@ -51,4 +56,4 @@ router.get('/', authenticateToken, blogController.getMyBlogs);
 router.put('/:id', authenticateToken, upload.single('image'), blogController.updateBlog);
 router.delete('/:id', authenticateToken, blogController.deleteBlog);
 
-module.exports = router;
+export default router;

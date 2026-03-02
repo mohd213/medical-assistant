@@ -1,10 +1,10 @@
-const db = require('../config/database');
-const bcrypt = require('bcrypt');
+import db from '../config/database.js';
+import bcrypt from 'bcrypt';
 
 // =============================================
 // طلب إعادة تعيين كلمة المرور
 // =============================================
-const forgotPassword = async (req, res) => {
+export const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
 
@@ -39,7 +39,7 @@ const forgotPassword = async (req, res) => {
 // =============================================
 // إعادة تعيين كلمة المرور
 // =============================================
-const resetPassword = async (req, res) => {
+export const resetPassword = async (req, res) => {
     try {
         const { email, newPassword } = req.body;
 
@@ -71,9 +71,4 @@ const resetPassword = async (req, res) => {
             message: 'حدث خطأ في الخادم'
         });
     }
-};
-
-module.exports = {
-    forgotPassword,
-    resetPassword
 };

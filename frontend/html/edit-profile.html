@@ -21,8 +21,9 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/icofont.css">
     <link rel="stylesheet" href="../css/font-awesome.min.css">
-    <!-- Medipro CSS -->
+    <link rel="stylesheet" href="../css/nice-select.css">
     <link rel="stylesheet" href="../css/style.css">
+    
     <style>
         /* تنسيق الصورة */
         .profile-image-container {
@@ -99,6 +100,36 @@
         small {
             color: #7f8c8d;
             font-size: 14px;
+        }
+        
+        /* تنسيق الأخطاء */
+        .is-invalid {
+            border-color: #dc3545 !important;
+            background-color: rgba(220, 53, 69, 0.05) !important;
+        }
+        
+        .validation-error {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* قوة كلمة المرور */
+        .password-strength {
+            height: 5px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s;
         }
     </style>
 </head>
@@ -181,6 +212,7 @@
             
             <!-- edit profile form -->
             <form class="form" id="profileForm" enctype="multipart/form-data">
+                <!-- الصورة الشخصية -->
                 <h5>الصورة الشخصية</h5>
                 <div class="profile-image-container mb-4">
                     <img id="profile-image" src="../img/author2.jpg" alt="Profile Image">
@@ -190,26 +222,27 @@
                     <input type="file" id="file-upload" name="profile_image" accept="image/*">
                 </div>
                 
+                <!-- معلومات الاتصال -->
                 <h5>معلومات الاتصال</h5>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" id="firstname" name="firstname" placeholder="الاسم الأول" required>
+                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="الاسم الأول" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" id="lastname" name="lastname" placeholder="الاسم الأخير" required>
+                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="الاسم الأخير" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="البريد الإلكتروني" required>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="البريد الإلكتروني" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="tel" id="phone" name="phone" placeholder="رقم الموبايل" required>
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="رقم الموبايل" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -228,22 +261,29 @@
                     </div>
                 </div>
                 
-                <h5>تغيير كلمة المرور <small>(اختياري)</small></h5>
+                <!-- تغيير كلمة المرور -->
+                <h5>تغيير كلمة المرور <small class="text-muted">(اختياري)</small></h5>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="password" id="newPassword" name="newPassword" placeholder="كلمة المرور الجديدة" autocomplete="new-password">
+                            <input type="password" class="form-control" id="newPassword" name="newPassword" 
+                                   placeholder="كلمة المرور الجديدة" autocomplete="new-password">
+                            <div class="password-strength">
+                                <div class="strength-bar" id="strengthBar"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="password" id="confirmPassword" placeholder="تأكيد كلمة المرور" autocomplete="new-password">
+                            <input type="password" class="form-control" id="confirmPassword" 
+                                   placeholder="تأكيد كلمة المرور" autocomplete="new-password">
                         </div>
                     </div>
                 </div>
                 
+                <!-- أزرار التحكم -->
                 <div class="form-group d-flex justify-content-end">
-                    <a href="./home.html" class="btn btn-secondary ml-3" style="background: #95a5a6; color: white; padding: 10px 25px;">إلغاء</a>
+                    <a href="./home.html" class="btn btn-secondary ml-3" style="background: #95a5a6; color: white; padding: 10px 25px; border-radius: 5px; text-decoration: none;">إلغاء</a>
                     <button class="btn btn-save" type="submit" id="saveBtn">حفظ التغييرات</button>
                 </div>
             </form>
@@ -254,14 +294,13 @@
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/niceselect.js"></script>
-    <script src="../js/api.js"></script>
-    <script src="../js/auth.js"></script>
+    <script src="../js/validation.js"></script>
     <script src="../js/common.js"></script>
     
     <script>
     $(document).ready(function() {
         // =============================================
-        // 1. إخفاء شاشة التحميل فوراً
+        // 1. إخفاء شاشة التحميل
         // =============================================
         $('.preloader').fadeOut(300);
         
@@ -285,8 +324,107 @@
             }
         }
 
+        // تفعيل nice-select
+        if ($.fn.niceSelect) {
+            $('select').niceSelect();
+        }
+
         // =============================================
-        // 4. جلب بيانات المستخدم من API
+        // 4. دوال مساعدة للأخطاء
+        // =============================================
+        function clearFieldError(fieldId) {
+            $(`#${fieldId}`).removeClass('is-invalid');
+            $(`#${fieldId}`).nextAll('.validation-error').remove();
+        }
+
+        function showFieldError(fieldId, message) {
+            const input = $(`#${fieldId}`);
+            input.addClass('is-invalid');
+            input.after(`<div class="validation-error"><i class="icofont-exclamation-circle"></i> ${message}</div>`);
+        }
+
+        // =============================================
+        // 5. التحقق لحظي من الحقول
+        // =============================================
+        $('#firstname').on('input', function() {
+            clearFieldError('firstname');
+            const result = Validator.name($(this).val(), 'الاسم الأول', { minLength: 2, arabicOnly: true });
+            if (!result.valid && $(this).val().length > 0) {
+                showFieldError('firstname', result.errors[0]);
+            }
+        });
+
+        $('#lastname').on('input', function() {
+            clearFieldError('lastname');
+            const result = Validator.name($(this).val(), 'الاسم الأخير', { minLength: 2, arabicOnly: true });
+            if (!result.valid && $(this).val().length > 0) {
+                showFieldError('lastname', result.errors[0]);
+            }
+        });
+
+        $('#email').on('input', function() {
+            clearFieldError('email');
+            const result = Validator.email($(this).val());
+            if (!result.valid && $(this).val().length > 0) {
+                showFieldError('email', result.errors[0]);
+            }
+        });
+
+        $('#phone').on('input', function() {
+            clearFieldError('phone');
+            const result = Validator.phone($(this).val());
+            if (!result.valid && $(this).val().length > 0) {
+                showFieldError('phone', result.errors[0]);
+            }
+        });
+
+        $('#specialization').on('change', function() {
+            clearFieldError('specialization');
+            const result = Validator.select($(this).val(), 'التخصص', [
+                'باطني', 'أنف وأذن وحنجرة', 'جلدية', 'قلب وأوعية دموية', 'جهاز هضمي', 'كلى', 'نفسي'
+            ]);
+            if (!result.valid && $(this).val()) {
+                showFieldError('specialization', result.errors[0]);
+            }
+        });
+
+        // التحقق من كلمة المرور
+        $('#newPassword, #confirmPassword').on('input', function() {
+            const newPass = $('#newPassword').val();
+            const confirmPass = $('#confirmPassword').val();
+            
+            // حساب قوة كلمة المرور
+            if (newPass) {
+                let strength = 0;
+                if (newPass.length >= 6) strength += 25;
+                if (/\d/.test(newPass)) strength += 25;
+                if (/[a-z]/.test(newPass)) strength += 25;
+                if (/[A-Z]/.test(newPass)) strength += 25;
+                
+                $('#strengthBar').css('width', strength + '%');
+                
+                if (strength < 25) {
+                    $('#strengthBar').css('background', '#dc3545');
+                } else if (strength < 50) {
+                    $('#strengthBar').css('background', '#ffc107');
+                } else if (strength < 75) {
+                    $('#strengthBar').css('background', '#17a2b8');
+                } else {
+                    $('#strengthBar').css('background', '#28a745');
+                }
+            }
+            
+            // التحقق من تطابق كلمة المرور
+            if (confirmPass) {
+                clearFieldError('confirmPassword');
+                if (newPass !== confirmPass) {
+                    showFieldError('confirmPassword', 'كلمة المرور غير متطابقة');
+                }
+            }
+        });
+
+        // =============================================
+        // 6. جلب بيانات المستخدم من API
         // =============================================
         $.ajax({
             url: 'http://localhost:3000/api/users/profile',
@@ -296,59 +434,56 @@
             },
             success: function(response) {
                 if (response.success) {
-                    const user = response.user;
+                    const userData = response.user;
                     
                     // تعبئة الحقول
-                    $('#firstname').val(user.firstname);
-                    $('#lastname').val(user.lastname);
-                    $('#email').val(user.email);
-                    $('#phone').val(user.phone);
+                    $('#firstname').val(userData.firstname);
+                    $('#lastname').val(userData.lastname);
+                    $('#email').val(userData.email);
+                    $('#phone').val(userData.phone || '');
                     
                     // تعبئة التخصص
-                    if (user.specialization) {
-                        $('#specialization').val(user.specialization);
-                        // تحديث nice-select
+                    if (userData.specialization) {
+                        $('#specialization').val(userData.specialization);
                         if ($.fn.niceSelect) {
                             $('select').niceSelect('update');
                         }
                     }
                     
                     // تحديث الصورة إذا وجدت
-                    if (user.profile_img) {
-                        $('#profile-image').attr('src', '..' + user.profile_img);
-                        $('#sidebarImage').attr('src', '..' + user.profile_img);
+                    if (userData.profile_img) {
+                        $('#profile-image').attr('src', '..' + userData.profile_img);
+                        $('#sidebarImage').attr('src', '..' + userData.profile_img);
                     }
                 }
             },
             error: function(xhr) {
                 console.error('خطأ في جلب البيانات:', xhr);
                 if (xhr.status === 401) {
-                    alert('انتهت الجلسة، الرجاء تسجيل الدخول مرة أخرى');
+                    msg.error('انتهت الجلسة، الرجاء تسجيل الدخول مرة أخرى');
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
                     window.location.href = 'login/login.html';
                 } else {
-                    alert('حدث خطأ في جلب بيانات المستخدم');
+                    msg.error('حدث خطأ في جلب بيانات المستخدم');
                 }
             }
         });
 
         // =============================================
-        // 5. معاينة الصورة قبل الرفع
+        // 7. معاينة الصورة قبل الرفع
         // =============================================
         $('#file-upload').on('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                // التحقق من حجم الصورة
                 if (file.size > 5 * 1024 * 1024) {
-                    alert('حجم الصورة كبير جداً. الحد الأقصى 5 ميجا');
+                    msg.error('حجم الصورة كبير جداً. الحد الأقصى 5 ميجا');
                     $(this).val('');
                     return;
                 }
                 
-                // التحقق من نوع الصورة
                 if (!file.type.match('image.*')) {
-                    alert('الرجاء اختيار صورة فقط');
+                    msg.error('الرجاء اختيار صورة فقط');
                     $(this).val('');
                     return;
                 }
@@ -361,39 +496,70 @@
             }
         });
 
-        // النقر على زر رفع الصورة
         $('#upload-button').on('click', function() {
             $('#file-upload').click();
         });
 
         // =============================================
-        // 6. حفظ التغييرات
+        // 8. حفظ التغييرات
         // =============================================
         $('#profileForm').on('submit', function(e) {
             e.preventDefault();
 
-            // التحقق من كلمة المرور
+            // مسح الأخطاء السابقة
+            $('.is-invalid').removeClass('is-invalid');
+            $('.validation-error').remove();
+
+            // جمع البيانات
+            const profileData = {
+                firstname: $('#firstname').val(),
+                lastname: $('#lastname').val(),
+                email: $('#email').val(),
+                phone: $('#phone').val(),
+                specialization: $('#specialization').val()
+            };
+
+            // التحقق من صحة البيانات
+            const validation = Validator.user(profileData, false);
+
+            if (!validation.valid) {
+                // عرض الأخطاء
+                if (validation.errors.firstname) showFieldError('firstname', validation.errors.firstname[0]);
+                if (validation.errors.lastname) showFieldError('lastname', validation.errors.lastname[0]);
+                if (validation.errors.email) showFieldError('email', validation.errors.email[0]);
+                if (validation.errors.phone) showFieldError('phone', validation.errors.phone[0]);
+                if (validation.errors.specialization) showFieldError('specialization', validation.errors.specialization[0]);
+                
+                msg.error('يرجى تصحيح الأخطاء في النموذج');
+                return;
+            }
+
+            // التحقق من كلمة المرور إذا تم إدخالها
             const newPass = $('#newPassword').val();
-            const confirmPass = $('#confirmPassword').val();
-            
-            if (newPass || confirmPass) {
-                if (newPass !== confirmPass) {
-                    alert('كلمة المرور غير متطابقة');
+            if (newPass) {
+                const passValid = Validator.password(newPass, { minLength: 6, requireNumber: true });
+                if (!passValid.valid) {
+                    showFieldError('newPassword', passValid.errors[0]);
+                    msg.error(passValid.errors[0]);
                     return;
                 }
-                if (newPass.length < 6) {
-                    alert('كلمة المرور يجب أن تكون 6 أحرف على الأقل');
+                
+                const confirmPass = $('#confirmPassword').val();
+                const confirmValid = Validator.confirmPassword(newPass, confirmPass);
+                if (!confirmValid.valid) {
+                    showFieldError('confirmPassword', confirmValid.errors[0]);
+                    msg.error(confirmValid.errors[0]);
                     return;
                 }
             }
 
             // إنشاء FormData لإرسال البيانات
             const formData = new FormData();
-            formData.append('firstname', $('#firstname').val());
-            formData.append('lastname', $('#lastname').val());
-            formData.append('email', $('#email').val());
-            formData.append('phone', $('#phone').val());
-            formData.append('specialization', $('#specialization').val());
+            formData.append('firstname', validation.data.firstname);
+            formData.append('lastname', validation.data.lastname);
+            formData.append('email', validation.data.email);
+            formData.append('phone', validation.data.phone);
+            formData.append('specialization', validation.data.specialization);
             
             if (newPass) {
                 formData.append('password', newPass);
@@ -419,36 +585,35 @@
                 contentType: false,
                 success: function(response) {
                     if (response.success) {
-                        alert('✅ تم تحديث الملف الشخصي بنجاح');
+                        msg.success('تم تحديث الملف الشخصي بنجاح');
                         
                         // تحديث البيانات في localStorage
                         localStorage.setItem('user', JSON.stringify(response.user));
                         
                         // العودة إلى صفحة الملف الشخصي
-                        window.location.href = './home.html';
+                        setTimeout(() => {
+                            window.location.href = './home.html';
+                        }, 1500);
                     } else {
-                        alert(response.message || 'حدث خطأ');
+                        msg.error(response.message || 'حدث خطأ');
+                        $('#saveBtn').prop('disabled', false).text('حفظ التغييرات');
                     }
                 },
                 error: function(xhr) {
                     console.error('خطأ في حفظ البيانات:', xhr);
                     const errorMsg = xhr.responseJSON?.message || 'حدث خطأ في حفظ البيانات';
-                    alert('❌ ' + errorMsg);
-                },
-                complete: function() {
+                    msg.error(errorMsg);
                     $('#saveBtn').prop('disabled', false).text('حفظ التغييرات');
                 }
             });
         });
 
         // =============================================
-        // 7. تسجيل الخروج
+        // 9. تسجيل الخروج
         // =============================================
         $('#logoutBtn').on('click', function(e) {
             e.preventDefault();
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            window.location.href = 'login/login.html';
+            logout();
         });
     });
     </script>

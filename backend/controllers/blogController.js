@@ -1,11 +1,15 @@
-const db = require('../config/database');
-const path = require('path');
-const fs = require('fs');
+import db from '../config/database.js';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // =============================================
 // إضافة مدونة جديدة مع صورة
 // =============================================
-const addBlog = async (req, res) => {
+export const addBlog = async (req, res) => {
     try {
         const { title, content } = req.body;
         const userId = req.user.id;
@@ -45,7 +49,7 @@ const addBlog = async (req, res) => {
 // =============================================
 // جلب جميع مدونات المستخدم
 // =============================================
-const getMyBlogs = async (req, res) => {
+export const getMyBlogs = async (req, res) => {
     try {
         const userId = req.user.id;
 
@@ -73,7 +77,7 @@ const getMyBlogs = async (req, res) => {
 // =============================================
 // جلب جميع المدونات (للصفحة الرئيسية)
 // =============================================
-const getAllBlogs = async (req, res) => {
+export const getAllBlogs = async (req, res) => {
     try {
         const [blogs] = await db.query(
             `SELECT blogs.*, users.firstname, users.lastname 
@@ -99,7 +103,7 @@ const getAllBlogs = async (req, res) => {
 // =============================================
 // جلب مدونة محددة
 // =============================================
-const getBlogById = async (req, res) => {
+export const getBlogById = async (req, res) => {
     try {
         const blogId = req.params.id;
 
@@ -135,7 +139,7 @@ const getBlogById = async (req, res) => {
 // =============================================
 // تحديث مدونة مع صورة
 // =============================================
-const updateBlog = async (req, res) => {
+export const updateBlog = async (req, res) => {
     try {
         const blogId = req.params.id;
         const userId = req.user.id;
@@ -201,7 +205,7 @@ const updateBlog = async (req, res) => {
 // =============================================
 // حذف مدونة مع صورتها
 // =============================================
-const deleteBlog = async (req, res) => {
+export const deleteBlog = async (req, res) => {
     try {
         const blogId = req.params.id;
         const userId = req.user.id;
@@ -246,13 +250,4 @@ const deleteBlog = async (req, res) => {
             message: 'حدث خطأ في الخادم: ' + error.message
         });
     }
-};
-
-module.exports = {
-    addBlog,
-    getMyBlogs,
-    getAllBlogs,
-    getBlogById,
-    updateBlog,
-    deleteBlog
 };
