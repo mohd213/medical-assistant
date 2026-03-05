@@ -18,6 +18,7 @@ import blogRoutes from './routes/blogRoutes.js';
 import operationRoutes from './routes/operationRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
+import profileRoutes from './routes/profileRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import forgotPasswordRoutes from './routes/forgotPasswordRoutes.js';
 
@@ -40,6 +41,7 @@ app.use('/api/blogs', blogRoutes);
 app.use('/api/operations', operationRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/profile', profileRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/password', forgotPasswordRoutes);
 

@@ -42,26 +42,6 @@ body {
   --table-stripe: #f8f9fa;
 }
 
-/* ===== الوضع الليلي ===== */
-[data-theme="dark"] {
-  --main-color: #6d8acb;
-  --fromMain-color: #5a7bb5;
-  --white-color: #1a1a1a;
-  --black-color: #ffffff;
-  --gray-color: #e0e0e0;
-  --border-color: #333333;
-  --red-color: #ff6b6b;
-  --bg-primary: #121212;
-  --bg-secondary: #1e1e1e;
-  --text-primary: #ffffff;
-  --text-secondary: #b0b0b0;
-  --card-bg: #242424;
-  --shadow-color: rgba(0,0,0,0.5);
-  --hover-bg: #2a2a2a;
-  --input-bg: #2a2a2a;
-  --table-stripe: #1a1a1a;
-}
-
 .btn {
   color: var(--white-color);
   padding: 10px 25px;
@@ -1399,35 +1379,6 @@ profile page css
   background: linear-gradient(135deg, #17a2b8, #0dcaf0);
 }
 
-/* ===== زر الوضع الليلي ===== */
-.theme-switch {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 9999;
-}
-
-.theme-switch button {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--main-color);
-  color: white;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 5px 20px var(--shadow-color);
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-}
-
-.theme-switch button:hover {
-  transform: scale(1.1);
-  background: var(--fromMain-color);
-}
-
 /* ===== أنيميشنات ===== */
 @keyframes slideDown {
   from {
@@ -1486,4 +1437,44 @@ profile page css
     width: 90%;
     padding: 12px 20px;
   }
+}
+
+/* ===== زر تبديل الوضع في القائمة العلوية ===== */
+.theme-toggle-header {
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 20px;
+    margin: 0 5px;
+}
+
+.theme-toggle-header:hover {
+    color: var(--main-color);
+}
+
+/* إخفاء الزر القديم */
+.theme-switch {
+    display: none !important;
+}
+
+/* تحسين الانتقال بين الثيمات */
+body, 
+.header, 
+.right-side, 
+.left-side,
+.blog-card,
+input,
+textarea,
+select,
+.btn,
+.modal-content,
+.table tr,
+.stats-card,
+.card,
+.nice-select,
+.dropdown,
+.alert,
+.profile-header .background {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
 }

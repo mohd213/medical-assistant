@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="../css/icofont.css">
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="../css/blogs.css">
 
     <style>
         /* تنسيقات إضافية للمعاينة */
@@ -369,477 +371,485 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts - الترتيب مهم جداً -->
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <!-- هذا السطر كان مفقوداً - مهم لتعريف كائن Validator -->
+    <script src="../js/validation.js"></script>
     <script src="../js/common.js"></script>
 
     <script>
-        $(document).ready(function () {
-            // =============================================
-            // 1. التحقق من تسجيل الدخول
-            // =============================================
-            const token = localStorage.getItem('token');
-            if (!token) {
-                window.location.href = 'login/login.html';
+    $(document).ready(function () {
+        // =============================================
+        // 1. التحقق من تسجيل الدخول
+        // =============================================
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login/login.html';
+            return;
+        }
+
+        // =============================================
+        // 2. المتغيرات العامة
+        // =============================================
+        let currentBlogId = null;
+
+        // =============================================
+        // 3. تحديث اسم المستخدم في الشريط الجانبي
+        // =============================================
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.firstname) {
+            $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
+            if (user.profile_img) {
+                $('#sidebarImage').attr('src', '..' + user.profile_img);
+            }
+        }
+
+        // =============================================
+        // 4. معاينة الصورة قبل الرفع
+        // =============================================
+        $('#blogImage').on('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    msg.error('حجم الصورة كبير جداً. الحد الأقصى 5 ميجا');
+                    $(this).val('');
+                    return;
+                }
+
+                if (!file.type.match('image.*')) {
+                    msg.error('الرجاء اختيار صورة فقط');
+                    $(this).val('');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imagePreview img').attr('src', e.target.result);
+                    $('#imagePreview').show();
+                    $('#currentImageContainer').hide();
+                }
+                reader.readAsDataURL(file);
+
+                const fileName = file.name.length > 30 ?
+                    file.name.substring(0, 27) + '...' :
+                    file.name;
+                $('.custom-file-label span').text(fileName);
+            }
+        });
+
+        // =============================================
+        // 5. دالة لعرض المدونة في Modal
+        // =============================================
+        function showBlogInModal(blog) {
+            const imageHtml = blog.image ?
+                `<img src="..${blog.image}" class="blog-view-image" alt="${blog.title}">` :
+                '<div style="text-align: center; padding: 40px; background: #f5f8ff; border-radius: 15px; margin-bottom: 25px;"><i class="icofont-file-alt" style="font-size: 80px; color: #4260a0; opacity: 0.5;"></i></div>';
+
+            const content = `
+                ${imageHtml}
+                <h2 class="blog-view-title">${blog.title}</h2>
+                <div class="blog-view-meta">
+                    <span><i class="icofont-user"></i> ${blog.firstname} ${blog.lastname || ''}</span>
+                    <span><i class="icofont-calendar"></i> ${new Date(blog.created_at).toLocaleDateString('ar-EG')}</span>
+                </div>
+                <div class="blog-view-content">${blog.content.replace(/\n/g, '<br>')}</div>
+            `;
+
+            $('#viewBlogContent').html(content);
+            $('#viewBlogModal').modal('show');
+        }
+
+        // =============================================
+        // 6. دالة لجلب مدونة محددة (للمدونات العامة)
+        // =============================================
+        function fetchPublicBlogById(blogId) {
+            $.ajax({
+                url: 'http://localhost:3000/api/blogs/all',
+                type: 'GET',
+                success: function (response) {
+                    if (response.success) {
+                        const blog = response.blogs.find(b => b.id == blogId);
+                        if (blog) {
+                            showBlogInModal(blog);
+                        } else {
+                            msg.error('المدونة غير موجودة');
+                        }
+                    } else {
+                        msg.error('حدث خطأ في جلب بيانات المدونة');
+                    }
+                },
+                error: function (xhr) {
+                    console.error('خطأ في جلب المدونات:', xhr);
+                    msg.error('حدث خطأ في الاتصال بالخادم');
+                }
+            });
+        }
+
+        // =============================================
+        // 7. دالة لجلب مدونة محددة (للمدونات الخاصة)
+        // =============================================
+        function fetchPrivateBlogById(blogId) {
+            $.ajax({
+                url: 'http://localhost:3000/api/blogs/' + blogId,
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // إضافة اسم المستخدم للعرض
+                        const blog = response.blog;
+                        blog.firstname = user.firstname;
+                        blog.lastname = user.lastname;
+                        showBlogInModal(blog);
+                    } else {
+                        msg.error('حدث خطأ في جلب بيانات المدونة');
+                    }
+                },
+                error: function (xhr) {
+                    console.error('خطأ في جلب المدونة:', xhr);
+                    msg.error('حدث خطأ في جلب بيانات المدونة');
+                }
+            });
+        }
+
+        // =============================================
+        // 8. ربط حدث النقر على المدونات
+        // =============================================
+        $(document).on('click', '.blog-card', function (e) {
+            // منع التنفيذ إذا تم الضغط على زر التعديل أو الحذف
+            if ($(e.target).closest('.btn-icon').length) {
                 return;
             }
 
-            // =============================================
-            // 2. المتغيرات العامة
-            // =============================================
-            let currentBlogId = null;
+            const blogId = $(this).data('id');
+            const isMyBlog = $(this).closest('.my-blogs').length > 0;
 
-            // =============================================
-            // 3. تحديث اسم المستخدم في الشريط الجانبي
-            // =============================================
-            const user = JSON.parse(localStorage.getItem('user') || '{}');
-            if (user.firstname) {
-                $('#sidebarName').text(user.firstname + ' ' + (user.lastname || ''));
-                if (user.profile_img) {
-                    $('#sidebarImage').attr('src', '..' + user.profile_img);
-                }
+            if (isMyBlog) {
+                fetchPrivateBlogById(blogId);
+            } else {
+                fetchPublicBlogById(blogId);
             }
+        });
 
-            // =============================================
-            // 4. معاينة الصورة قبل الرفع
-            // =============================================
-            $('#blogImage').on('change', function (e) {
-                const file = e.target.files[0];
-                if (file) {
-                    if (file.size > 5 * 1024 * 1024) {
-                        msg.error('حجم الصورة كبير جداً. الحد الأقصى 5 ميجا');
-                        $(this).val('');
-                        return;
+        // =============================================
+        // 9. دالة لجلب مدوناتي
+        // =============================================
+        function fetchMyBlogs() {
+            $.ajax({
+                url: 'http://localhost:3000/api/blogs',
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (response) {
+                    if (response.success) {
+                        displayMyBlogs(response.blogs);
                     }
-
-                    if (!file.type.match('image.*')) {
-                        msg.error('الرجاء اختيار صورة فقط');
-                        $(this).val('');
-                        return;
-                    }
-
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#imagePreview img').attr('src', e.target.result);
-                        $('#imagePreview').show();
-                        $('#currentImageContainer').hide();
-                    }
-                    reader.readAsDataURL(file);
-
-                    const fileName = file.name.length > 30 ?
-                        file.name.substring(0, 27) + '...' :
-                        file.name;
-                    $('.custom-file-label span').text(fileName);
+                },
+                error: function (xhr, status, error) {
+                    console.error('خطأ في جلب مدوناتي:', error);
+                    $('#myBlogsContainer').html('<div class="alert alert-danger">حدث خطأ في جلب المدونات. يرجى المحاولة مرة أخرى.</div>');
                 }
             });
+        }
 
-            // =============================================
-            // 5. دالة لعرض المدونة في Modal
-            // =============================================
-            function showBlogInModal(blog) {
-                const imageHtml = blog.image ?
-                    `<img src="..${blog.image}" class="blog-view-image" alt="${blog.title}">` :
-                    '<div style="text-align: center; padding: 40px; background: #f5f8ff; border-radius: 15px; margin-bottom: 25px;"><i class="icofont-file-alt" style="font-size: 80px; color: #4260a0; opacity: 0.5;"></i></div>';
+        // =============================================
+        // 10. دالة لعرض مدوناتي
+        // =============================================
+        function displayMyBlogs(blogs) {
+            const container = $('#myBlogsContainer');
+            container.empty();
 
-                const content = `
-                    ${imageHtml}
-                    <h2 class="blog-view-title">${blog.title}</h2>
-                    <div class="blog-view-meta">
-                        <span><i class="icofont-user"></i> ${blog.firstname} ${blog.lastname || ''}</span>
-                        <span><i class="icofont-calendar"></i> ${new Date(blog.created_at).toLocaleDateString('ar-EG')}</span>
-                    </div>
-                    <div class="blog-view-content">${blog.content.replace(/\n/g, '<br>')}</div>
-                `;
-
-                $('#viewBlogContent').html(content);
-                $('#viewBlogModal').modal('show');
+            if (blogs.length === 0) {
+                container.html('<div class="alert alert-info text-center">📝 لا توجد مدونات بعد. أضف مدونتك الأولى!</div>');
+                return;
             }
 
-            // =============================================
-            // 6. دالة لجلب مدونة محددة (للمدونات العامة)
-            // =============================================
-            function fetchPublicBlogById(blogId) {
-                $.ajax({
-                    url: 'http://localhost:3000/api/blogs/all',
-                    type: 'GET',
-                    success: function (response) {
-                        if (response.success) {
-                            const blog = response.blogs.find(b => b.id == blogId);
-                            if (blog) {
-                                showBlogInModal(blog);
-                            } else {
-                                msg.error('المدونة غير موجودة');
-                            }
-                        } else {
-                            msg.error('حدث خطأ في جلب بيانات المدونة');
-                        }
-                    },
-                    error: function (xhr) {
-                        console.error('خطأ في جلب المدونات:', xhr);
-                        msg.error('حدث خطأ في الاتصال بالخادم');
+            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">';
+            blogs.forEach(blog => {
+                html += `
+                <div class="blog-card" data-id="${blog.id}">
+                    ${blog.image ?
+                        `<div class="blog-image-container">
+                            <img src="..${blog.image}" class="blog-image" alt="${blog.title}">
+                        </div>` :
+                        `<div class="blog-image-container" style="background: #f5f8ff; display: flex; align-items: center; justify-content: center;">
+                            <i class="icofont-file-alt" style="font-size: 50px; color: #4260a0; opacity: 0.3;"></i>
+                        </div>`
                     }
-                });
+                    <div class="blog-content">
+                        <h3 class="blog-title">${blog.title}</h3>
+                        <div class="blog-meta">
+                            <span><i class="icofont-user"></i> ${user.firstname} ${user.lastname || ''}</span>
+                            <span><i class="icofont-calendar"></i> ${new Date(blog.created_at).toLocaleDateString('ar-EG')}</span>
+                        </div>
+                        <p class="blog-excerpt">${blog.content.substring(0, 100)}${blog.content.length > 100 ? '...' : ''}</p>
+                        <div class="blog-actions">
+                            <button class="btn-icon edit edit-blog" data-id="${blog.id}" title="تعديل">
+                                <i class="icofont-ui-edit"></i>
+                            </button>
+                            <button class="btn-icon delete delete-blog" data-id="${blog.id}" title="حذف">
+                                <i class="icofont-ui-delete"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            });
+            html += '</div>';
+            container.html(html);
+        }
+
+        // =============================================
+        // 11. دالة لجلب جميع المدونات
+        // =============================================
+        function fetchAllBlogs() {
+            $.ajax({
+                url: 'http://localhost:3000/api/blogs/all',
+                type: 'GET',
+                success: function (response) {
+                    if (response.success) {
+                        displayAllBlogs(response.blogs);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('خطأ في جلب جميع المدونات:', error);
+                    $('#otherBlogsContainer').html('<div class="alert alert-danger">حدث خطأ في جلب المقالات. يرجى المحاولة مرة أخرى.</div>');
+                }
+            });
+        }
+
+        // =============================================
+        // 12. دالة لعرض جميع المدونات
+        // =============================================
+        function displayAllBlogs(blogs) {
+            const container = $('#otherBlogsContainer');
+            container.empty();
+
+            if (blogs.length === 0) {
+                container.html('<div class="alert alert-info text-center">📚 لا توجد مقالات من الأطباء بعد</div>');
+                return;
             }
 
-            // =============================================
-            // 7. دالة لجلب مدونة محددة (للمدونات الخاصة)
-            // =============================================
-            function fetchPrivateBlogById(blogId) {
+            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">';
+            blogs.forEach(blog => {
+                html += `
+                <div class="blog-card" data-id="${blog.id}">
+                    ${blog.image ?
+                        `<div class="blog-image-container">
+                            <img src="..${blog.image}" class="blog-image" alt="${blog.title}">
+                        </div>` :
+                        `<div class="blog-image-container" style="background: #f5f8ff; display: flex; align-items: center; justify-content: center;">
+                            <i class="icofont-file-alt" style="font-size: 40px; color: #4260a0; opacity: 0.3;"></i>
+                        </div>`
+                    }
+                    <div class="blog-content">
+                        <h3 class="blog-title" style="font-size: 1.1rem;">${blog.title}</h3>
+                        <div class="blog-meta">
+                            <span><i class="icofont-user"></i> ${blog.firstname} ${blog.lastname || ''}</span>
+                            <span><i class="icofont-calendar"></i> ${new Date(blog.created_at).toLocaleDateString('ar-EG')}</span>
+                        </div>
+                        <p class="blog-excerpt">${blog.content.substring(0, 100)}${blog.content.length > 100 ? '...' : ''}</p>
+                    </div>
+                </div>
+            `;
+            });
+            html += '</div>';
+            container.html(html);
+        }
+
+        // =============================================
+        // 13. دالة لحفظ مدونة
+        // =============================================
+        $('#saveBlogBtn').click(function () {
+            // قبل إرسال البيانات
+            const blogData = {
+                title: $('#blogTitle').val(),
+                content: $('#blogContent').val()
+            };
+
+            // التأكد من أن Validator موجود
+            if (typeof Validator === 'undefined') {
+                msg.error('خطأ في تحميل مكتبة التحقق. يرجى تحديث الصفحة.');
+                return;
+            }
+
+            const validation = Validator.blog(blogData);
+            if (!validation.valid) {
+                let errorMessage = '';
+                Object.keys(validation.errors).forEach(field => {
+                    errorMessage += validation.errors[field].join('\n') + '\n';
+                });
+                msg.error(errorMessage);
+                return;
+            }
+            const formData = new FormData();
+            formData.append('title', $('#blogTitle').val());
+            formData.append('content', $('#blogContent').val());
+
+            const imageFile = $('#blogImage')[0].files[0];
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
+            if (!$('#blogTitle').val().trim()) {
+                msg.error('الرجاء إدخال عنوان المقال');
+                return;
+            }
+
+            if (!$('#blogContent').val().trim()) {
+                msg.error('الرجاء إدخال محتوى المقال');
+                return;
+            }
+
+            const url = currentBlogId ?
+                'http://localhost:3000/api/blogs/' + currentBlogId :
+                'http://localhost:3000/api/blogs';
+
+            const method = currentBlogId ? 'PUT' : 'POST';
+
+            $.ajax({
+                url: url,
+                type: method,
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.success) {
+                        $('#blogModal').modal('hide');
+                        resetBlogForm();
+                        fetchMyBlogs();
+                        fetchAllBlogs();
+                        msg.success(currentBlogId ? 'تم تحديث المدونة بنجاح' : 'تم إضافة المدونة بنجاح');
+                    } else {
+                        msg.error(response.message || 'حدث خطأ');
+                    }
+                },
+                error: function (xhr) {
+                    console.error('خطأ في حفظ المدونة:', xhr);
+                    msg.error('حدث خطأ في حفظ المدونة. يرجى المحاولة مرة أخرى.');
+                }
+            });
+        });
+
+        // =============================================
+        // 14. دالة لتعديل مدونة
+        // =============================================
+        $(document).on('click', '.edit-blog', function () {
+            const blogId = $(this).data('id');
+            currentBlogId = blogId;
+
+            $.ajax({
+                url: 'http://localhost:3000/api/blogs/' + blogId,
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (response) {
+                    if (response.success) {
+                        const blog = response.blog;
+                        $('#blogModalTitle').text('تعديل المدونة');
+                        $('#blogId').val(blog.id);
+                        $('#blogTitle').val(blog.title);
+                        $('#blogContent').val(blog.content);
+
+                        if (blog.image) {
+                            $('#currentImage').attr('src', '..' + blog.image);
+                            $('#currentImageContainer').show();
+                            $('#imagePreview').hide();
+                        } else {
+                            $('#currentImageContainer').hide();
+                            $('#imagePreview').hide();
+                        }
+
+                        $('.custom-file-label span').text('اختر صورة جديدة...');
+
+                        $('#blogModal').modal('show');
+                    }
+                },
+                error: function (xhr) {
+                    console.error('خطأ في جلب بيانات المدونة:', xhr);
+                    msg.error('حدث خطأ في جلب بيانات المدونة');
+                }
+            });
+        });
+
+        // =============================================
+        // 15. دالة لحذف مدونة
+        // =============================================
+        $(document).on('click', '.delete-blog', function () {
+            const blogId = $(this).data('id');
+
+            msg.confirm('هل أنت متأكد من حذف هذه المدونة؟', function () {
                 $.ajax({
                     url: 'http://localhost:3000/api/blogs/' + blogId,
-                    type: 'GET',
+                    type: 'DELETE',
                     headers: {
                         'Authorization': 'Bearer ' + token
                     },
                     success: function (response) {
                         if (response.success) {
-                            // إضافة اسم المستخدم للعرض
-                            const blog = response.blog;
-                            blog.firstname = user.firstname;
-                            blog.lastname = user.lastname;
-                            showBlogInModal(blog);
-                        } else {
-                            msg.error('حدث خطأ في جلب بيانات المدونة');
-                        }
-                    },
-                    error: function (xhr) {
-                        console.error('خطأ في جلب المدونة:', xhr);
-                        msg.error('حدث خطأ في جلب بيانات المدونة');
-                    }
-                });
-            }
-
-            // =============================================
-            // 8. ربط حدث النقر على المدونات
-            // =============================================
-            $(document).on('click', '.blog-card', function (e) {
-                // منع التنفيذ إذا تم الضغط على زر التعديل أو الحذف
-                if ($(e.target).closest('.btn-icon').length) {
-                    return;
-                }
-
-                const blogId = $(this).data('id');
-                const isMyBlog = $(this).closest('.my-blogs').length > 0;
-
-                if (isMyBlog) {
-                    fetchPrivateBlogById(blogId);
-                } else {
-                    fetchPublicBlogById(blogId);
-                }
-            });
-
-            // =============================================
-            // 9. دالة لجلب مدوناتي
-            // =============================================
-            function fetchMyBlogs() {
-                $.ajax({
-                    url: 'http://localhost:3000/api/blogs',
-                    type: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            displayMyBlogs(response.blogs);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('خطأ في جلب مدوناتي:', error);
-                        $('#myBlogsContainer').html('<div class="alert alert-danger">حدث خطأ في جلب المدونات. يرجى المحاولة مرة أخرى.</div>');
-                    }
-                });
-            }
-
-            // =============================================
-            // 10. دالة لعرض مدوناتي
-            // =============================================
-            function displayMyBlogs(blogs) {
-                const container = $('#myBlogsContainer');
-                container.empty();
-
-                if (blogs.length === 0) {
-                    container.html('<div class="alert alert-info text-center">📝 لا توجد مدونات بعد. أضف مدونتك الأولى!</div>');
-                    return;
-                }
-
-                let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">';
-                blogs.forEach(blog => {
-                    html += `
-                    <div class="blog-card" data-id="${blog.id}">
-                        ${blog.image ?
-                            `<div class="blog-image-container">
-                                <img src="..${blog.image}" class="blog-image" alt="${blog.title}">
-                            </div>` :
-                            `<div class="blog-image-container" style="background: #f5f8ff; display: flex; align-items: center; justify-content: center;">
-                                <i class="icofont-file-alt" style="font-size: 50px; color: #4260a0; opacity: 0.3;"></i>
-                            </div>`
-                        }
-                        <div class="blog-content">
-                            <h3 class="blog-title">${blog.title}</h3>
-                            <div class="blog-meta">
-                                <span><i class="icofont-user"></i> ${user.firstname} ${user.lastname || ''}</span>
-                                <span><i class="icofont-calendar"></i> ${new Date(blog.created_at).toLocaleDateString('ar-EG')}</span>
-                            </div>
-                            <p class="blog-excerpt">${blog.content.substring(0, 100)}${blog.content.length > 100 ? '...' : ''}</p>
-                            <div class="blog-actions">
-                                <button class="btn-icon edit edit-blog" data-id="${blog.id}" title="تعديل">
-                                    <i class="icofont-ui-edit"></i>
-                                </button>
-                                <button class="btn-icon delete delete-blog" data-id="${blog.id}" title="حذف">
-                                    <i class="icofont-ui-delete"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                });
-                html += '</div>';
-                container.html(html);
-            }
-
-            // =============================================
-            // 11. دالة لجلب جميع المدونات
-            // =============================================
-            function fetchAllBlogs() {
-                $.ajax({
-                    url: 'http://localhost:3000/api/blogs/all',
-                    type: 'GET',
-                    success: function (response) {
-                        if (response.success) {
-                            displayAllBlogs(response.blogs);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('خطأ في جلب جميع المدونات:', error);
-                        $('#otherBlogsContainer').html('<div class="alert alert-danger">حدث خطأ في جلب المقالات. يرجى المحاولة مرة أخرى.</div>');
-                    }
-                });
-            }
-
-            // =============================================
-            // 12. دالة لعرض جميع المدونات
-            // =============================================
-            function displayAllBlogs(blogs) {
-                const container = $('#otherBlogsContainer');
-                container.empty();
-
-                if (blogs.length === 0) {
-                    container.html('<div class="alert alert-info text-center">📚 لا توجد مقالات من الأطباء بعد</div>');
-                    return;
-                }
-
-                let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">';
-                blogs.forEach(blog => {
-                    html += `
-                    <div class="blog-card" data-id="${blog.id}">
-                        ${blog.image ?
-                            `<div class="blog-image-container">
-                                <img src="..${blog.image}" class="blog-image" alt="${blog.title}">
-                            </div>` :
-                            `<div class="blog-image-container" style="background: #f5f8ff; display: flex; align-items: center; justify-content: center;">
-                                <i class="icofont-file-alt" style="font-size: 40px; color: #4260a0; opacity: 0.3;"></i>
-                            </div>`
-                        }
-                        <div class="blog-content">
-                            <h3 class="blog-title" style="font-size: 1.1rem;">${blog.title}</h3>
-                            <div class="blog-meta">
-                                <span><i class="icofont-user"></i> ${blog.firstname} ${blog.lastname || ''}</span>
-                                <span><i class="icofont-calendar"></i> ${new Date(blog.created_at).toLocaleDateString('ar-EG')}</span>
-                            </div>
-                            <p class="blog-excerpt">${blog.content.substring(0, 100)}${blog.content.length > 100 ? '...' : ''}</p>
-                        </div>
-                    </div>
-                `;
-                });
-                html += '</div>';
-                container.html(html);
-            }
-
-            // =============================================
-            // 13. دالة لحفظ مدونة
-            // =============================================
-            $('#saveBlogBtn').click(function () {
-                // قبل إرسال البيانات
-                const blogData = {
-                    title: $('#blogTitle').val(),
-                    content: $('#blogContent').val()
-                };
-
-                const validation = Validator.blog(blogData);
-                if (!validation.valid) {
-                    let errorMessage = '';
-                    Object.keys(validation.errors).forEach(field => {
-                        errorMessage += validation.errors[field].join('\n') + '\n';
-                    });
-                    msg.error(errorMessage);
-                    return;
-                }
-                const formData = new FormData();
-                formData.append('title', $('#blogTitle').val());
-                formData.append('content', $('#blogContent').val());
-
-                const imageFile = $('#blogImage')[0].files[0];
-                if (imageFile) {
-                    formData.append('image', imageFile);
-                }
-
-                if (!$('#blogTitle').val().trim()) {
-                    msg.error('الرجاء إدخال عنوان المقال');
-                    return;
-                }
-
-                if (!$('#blogContent').val().trim()) {
-                    msg.error('الرجاء إدخال محتوى المقال');
-                    return;
-                }
-
-                const url = currentBlogId ?
-                    'http://localhost:3000/api/blogs/' + currentBlogId :
-                    'http://localhost:3000/api/blogs';
-
-                const method = currentBlogId ? 'PUT' : 'POST';
-
-                $.ajax({
-                    url: url,
-                    type: method,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        if (response.success) {
-                            $('#blogModal').modal('hide');
-                            resetBlogForm();
+                            msg.success('تم حذف المدونة بنجاح');
                             fetchMyBlogs();
                             fetchAllBlogs();
-                            msg.success(currentBlogId ? 'تم تحديث المدونة بنجاح' : 'تم إضافة المدونة بنجاح');
                         } else {
                             msg.error(response.message || 'حدث خطأ');
                         }
                     },
                     error: function (xhr) {
-                        console.error('خطأ في حفظ المدونة:', xhr);
-                        msg.error('حدث خطأ في حفظ المدونة. يرجى المحاولة مرة أخرى.');
+                        console.error('خطأ في حذف المدونة:', xhr);
+                        msg.error('حدث خطأ في حذف المدونة');
                     }
                 });
             });
-
-            // =============================================
-            // 14. دالة لتعديل مدونة
-            // =============================================
-            $(document).on('click', '.edit-blog', function () {
-                const blogId = $(this).data('id');
-                currentBlogId = blogId;
-
-                $.ajax({
-                    url: 'http://localhost:3000/api/blogs/' + blogId,
-                    type: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            const blog = response.blog;
-                            $('#blogModalTitle').text('تعديل المدونة');
-                            $('#blogId').val(blog.id);
-                            $('#blogTitle').val(blog.title);
-                            $('#blogContent').val(blog.content);
-
-                            if (blog.image) {
-                                $('#currentImage').attr('src', '..' + blog.image);
-                                $('#currentImageContainer').show();
-                                $('#imagePreview').hide();
-                            } else {
-                                $('#currentImageContainer').hide();
-                                $('#imagePreview').hide();
-                            }
-
-                            $('.custom-file-label span').text('اختر صورة جديدة...');
-
-                            $('#blogModal').modal('show');
-                        }
-                    },
-                    error: function (xhr) {
-                        console.error('خطأ في جلب بيانات المدونة:', xhr);
-                        msg.error('حدث خطأ في جلب بيانات المدونة');
-                    }
-                });
-            });
-
-            // =============================================
-            // 15. دالة لحذف مدونة
-            // =============================================
-            $(document).on('click', '.delete-blog', function () {
-                const blogId = $(this).data('id');
-
-                msg.confirm('هل أنت متأكد من حذف هذه المدونة؟', function () {
-                    $.ajax({
-                        url: 'http://localhost:3000/api/blogs/' + blogId,
-                        type: 'DELETE',
-                        headers: {
-                            'Authorization': 'Bearer ' + token
-                        },
-                        success: function (response) {
-                            if (response.success) {
-                                msg.success('تم حذف المدونة بنجاح');
-                                fetchMyBlogs();
-                                fetchAllBlogs();
-                            } else {
-                                msg.error(response.message || 'حدث خطأ');
-                            }
-                        },
-                        error: function (xhr) {
-                            console.error('خطأ في حذف المدونة:', xhr);
-                            msg.error('حدث خطأ في حذف المدونة');
-                        }
-                    });
-                });
-            });
-
-            // =============================================
-            // 16. دالة لإعادة تعيين النموذج
-            // =============================================
-            function resetBlogForm() {
-                currentBlogId = null;
-                $('#blogModalTitle').text('إضافة مدونة جديدة');
-                $('#blogForm')[0].reset();
-                $('#blogId').val('');
-                $('#currentImageContainer').hide();
-                $('#imagePreview').hide();
-                $('#blogImage').val('');
-                $('.custom-file-label span').text('اختر صورة للمقال...');
-            }
-
-            // =============================================
-            // 17. عند فتح/إغلاق modal
-            // =============================================
-            $('#blogModal').on('show.bs.modal', function () {
-                if (!currentBlogId) {
-                    resetBlogForm();
-                }
-            });
-
-            $('#blogModal').on('hidden.bs.modal', function () {
-                resetBlogForm();
-            });
-
-            // =============================================
-            // 18. تسجيل الخروج
-            // =============================================
-            $('#logoutBtn').on('click', function (e) {
-                e.preventDefault();
-                logout();
-            });
-
-            // =============================================
-            // 19. تحميل البيانات
-            // =============================================
-            fetchMyBlogs();
-            fetchAllBlogs();
         });
+
+        // =============================================
+        // 16. دالة لإعادة تعيين النموذج
+        // =============================================
+        function resetBlogForm() {
+            currentBlogId = null;
+            $('#blogModalTitle').text('إضافة مدونة جديدة');
+            $('#blogForm')[0].reset();
+            $('#blogId').val('');
+            $('#currentImageContainer').hide();
+            $('#imagePreview').hide();
+            $('#blogImage').val('');
+            $('.custom-file-label span').text('اختر صورة للمقال...');
+        }
+
+        // =============================================
+        // 17. عند فتح/إغلاق modal
+        // =============================================
+        $('#blogModal').on('show.bs.modal', function () {
+            if (!currentBlogId) {
+                resetBlogForm();
+            }
+        });
+
+        $('#blogModal').on('hidden.bs.modal', function () {
+            resetBlogForm();
+        });
+
+        // =============================================
+        // 18. تسجيل الخروج
+        // =============================================
+        $('#logoutBtn').on('click', function (e) {
+            e.preventDefault();
+            logout();
+        });
+
+        // =============================================
+        // 19. تحميل البيانات
+        // =============================================
+        fetchMyBlogs();
+        fetchAllBlogs();
+    });
     </script>
 </body>
 

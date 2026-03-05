@@ -1,52 +1,346 @@
-/* ===== الوضع الليلي - Dark Mode ===== */
+/* ===== الوضع الليلي العصري - Dark Mode Premium ===== */
 
-/* الثيم الداكن */
-[data-theme="dark"] {
-    --main-color: #5a7bb5;
-    --fromMain-color: #3a4f7a;
-    --white-color: #1a1a1a;
-    --black-color: #ffffff;
-    --gray-color: #e0e0e0;
-    --border-color: #333333;
-    --red-color: #ff6b6b;
-    --bg-primary: #121212;
-    --bg-secondary: #1e1e1e;
-    --text-primary: #ffffff;
-    --text-secondary: #b0b0b0;
-    --card-bg: #242424;
-    --shadow-color: rgba(0,0,0,0.5);
+:root {
+    /* ألوان المشروع الأساسية (تستخدم في الوضع العادي) */
+    --main-color: #4260a0;
+    --fromMain-color: #6d8acb;
+    --hover-color: #8aa4e0;
 }
 
-/* تطبيق الألوان الداكنة */
+/* الثيم الداكن - ألوان عصرية أنيقة */
+[data-theme="dark"] {
+    /* الألوان الأساسية - محسنة */
+    --main-color: #7c9bdb;
+    --fromMain-color: #5a7bb5;
+    --hover-color: #9bb5f0;
+    
+    /* خلفيات متدرجة - رمادي داكن أنيق بدل الأسود */
+    --bg-primary: #1a1e2c;      /* خلفية الصفحة الرئيسية */
+    --bg-secondary: #242a3f;     /* خلفية البطاقات والقوائم */
+    --bg-tertiary: #2f364f;      /* خلفية العناصر البارزة */
+    --card-bg: #2a3149;          /* خلفية البطاقات */
+    
+    /* نصوص - بيضاء ناعمة */
+    --text-primary: #f0f4ff;     /* نصوص رئيسية */
+    --text-secondary: #cdd9ff;    /* نصوص ثانوية */
+    --text-muted: #a3b3e0;        /* نصوص خافتة */
+    
+    /* حدود - زرقاء خفيفة */
+    --border-color: #354056;
+    --border-light: #45516b;
+    
+    /* ألوان وظيفية - متناسقة */
+    --success: #2ecc71;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+    --info: #3498db;
+    
+    /* عناصر النماذج */
+    --input-bg: #2f364f;
+    --input-border: #45516b;
+    --input-focus: #7c9bdb;
+    --input-placeholder: #8a9ad0;
+    
+    /* جداول */
+    --table-header-bg: #2f364f;
+    --table-row-hover: #3a4260;
+    --table-stripe: #2a3149;
+    
+    /* عناصر أخرى */
+    --shadow-color: rgba(0, 0, 0, 0.6);
+    --overlay-bg: rgba(26, 30, 44, 0.95);
+    
+    /* إضافات عصرية */
+    --gradient-start: #2f364f;
+    --gradient-end: #242a3f;
+    --glow-color: rgba(124, 155, 219, 0.2);
+}
+
+/* ===== تطبيق الألوان على العناصر ===== */
 [data-theme="dark"] body {
     background-color: var(--bg-primary);
-    color: var(--text-primary);
+    color: var(--text-secondary);
+    background-image: radial-gradient(circle at 10% 20%, rgba(124, 155, 219, 0.03) 0%, transparent 30%);
 }
 
+/* ===== الهيدر والقوائم ===== */
 [data-theme="dark"] .header {
-    background-color: var(--bg-secondary);
-    box-shadow: 0 2px 10px var(--shadow-color);
+    background: linear-gradient(90deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px var(--shadow-color);
 }
 
 [data-theme="dark"] .header .header-inner .main-menu .nav > li a {
-    color: var(--text-primary);
+    color: var(--text-secondary);
+    position: relative;
+}
+
+[data-theme="dark"] .header .header-inner .main-menu .nav > li a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--main-color);
+    transition: width 0.3s ease;
+}
+
+[data-theme="dark"] .header .header-inner .main-menu .nav > li:hover a::after {
+    width: 80%;
 }
 
 [data-theme="dark"] .header .header-inner .main-menu .nav > li:hover a {
+    color: var(--hover-color);
+}
+
+[data-theme="dark"] .header .header-inner .main-menu .nav > li .dropdown {
+    background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+[data-theme="dark"] .header .header-inner .main-menu .nav > li .dropdown li a {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .header .header-inner .main-menu .nav > li .dropdown li a:hover {
+    background: var(--main-color);
+    color: white;
+}
+
+[data-theme="dark"] .header .header-inner .main-menu .nav > li.notification-list a {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+}
+
+[data-theme="dark"] .header .header-inner .main-menu .nav > li.notification-list:hover a {
+    background: var(--main-color);
+    color: white;
+    border-color: var(--main-color);
+}
+
+/* ===== القوائم الجانبية ===== */
+[data-theme="dark"] .page-content .right-side {
+    background: linear-gradient(145deg, var(--bg-secondary), var(--bg-tertiary));
+    border-color: var(--border-color);
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+[data-theme="dark"] .page-content .right-side .avatar {
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .page-content .right-side .avatar .name span {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .page-content .right-side .list ul li a {
+    color: var(--text-secondary);
+    border-color: transparent;
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .page-content .right-side .list ul li a i {
     color: var(--main-color);
 }
 
-[data-theme="dark"] .right-side,
-[data-theme="dark"] .left-side,
-[data-theme="dark"] .left-side-blogs,
+[data-theme="dark"] .page-content .right-side .list ul li a.active,
+[data-theme="dark"] .page-content .right-side .list ul li a:hover {
+    background: linear-gradient(90deg, var(--main-color), var(--fromMain-color));
+    color: white;
+    box-shadow: 0 5px 15px var(--glow-color);
+}
+
+[data-theme="dark"] .page-content .right-side .list ul li a.active i,
+[data-theme="dark"] .page-content .right-side .list ul li a:hover i {
+    color: white;
+}
+
+/* ===== المحتوى الرئيسي ===== */
+[data-theme="dark"] .page-content .left-side,
+[data-theme="dark"] .page-content .left-side-blogs,
 [data-theme="dark"] .profile.left-side {
-    background-color: var(--bg-secondary);
+    background: linear-gradient(145deg, var(--bg-secondary), var(--bg-tertiary));
+    border-color: var(--border-color);
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3, 
+[data-theme="dark"] h4, [data-theme="dark"] h5, [data-theme="dark"] h6 {
+    color: var(--text-primary);
+}
+
+/* ===== النماذج والحقول ===== */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+    background: var(--input-bg) !important;
+    border: 1px solid var(--input-border) !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: var(--input-placeholder) !important;
+    opacity: 0.7;
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] select:focus {
+    border-color: var(--main-color) !important;
+    box-shadow: 0 0 0 4px var(--glow-color) !important;
+    background: var(--bg-tertiary) !important;
+}
+
+[data-theme="dark"] input[type="checkbox"] {
+    background: var(--input-bg);
+    border-color: var(--input-border);
+}
+
+[data-theme="dark"] .form-control {
+    background: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-control:focus {
+    background: var(--bg-tertiary);
+    border-color: var(--main-color);
+}
+
+/* ===== Nice Select ===== */
+[data-theme="dark"] .nice-select {
+    background: var(--input-bg) !important;
+    border-color: var(--input-border) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .nice-select:after {
+    border-bottom-color: var(--main-color);
+    border-right-color: var(--main-color);
+}
+
+[data-theme="dark"] .nice-select .list {
+    background: var(--bg-tertiary) !important;
+    border-color: var(--border-color) !important;
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+[data-theme="dark"] .nice-select .option {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .nice-select .option:hover,
+[data-theme="dark"] .nice-select .option.selected {
+    background: linear-gradient(90deg, var(--main-color), var(--fromMain-color)) !important;
+    color: white !important;
+}
+
+/* ===== الجداول ===== */
+[data-theme="dark"] .table {
+    color: var(--text-secondary);
+    background: transparent !important;
+}
+
+[data-theme="dark"] .table thead th {
+    background: transparent !important;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-color);
+}
+
+[data-theme="dark"] .table tbody td {
+    border-color: var(--border-color);
+    background: transparent !important;
+}
+
+[data-theme="dark"] .table-striped tbody tr:nth-of-type(odd) {
+    background: rgba(124, 155, 219, 0.05) !important;
+}
+
+[data-theme="dark"] .table-striped tbody tr:nth-of-type(even) {
+    background: transparent !important;
+}
+
+[data-theme="dark"] .table tbody tr:hover {
+    background: rgba(124, 155, 219, 0.1) !important;
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+/* ===== حاوية الجدول (اختياري) ===== */
+[data-theme="dark"] .table-container {
+    background: transparent !important;
+}
+
+/* ===== تحسينات إضافية للجداول ===== */
+[data-theme="dark"] .operation-table .table thead {
+    background: transparent;
+}
+
+[data-theme="dark"] .operation-table .table thead th {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary);
+    border: none;
+}
+
+[data-theme="dark"] .operation-table .table tbody tr {
+    border-bottom: 1px solid var(--border-light);
+}
+
+[data-theme="dark"] .operation-table .table tbody tr:last-child {
+    border-bottom: none;
+}
+
+[data-theme="dark"] .table-bordered {
     border-color: var(--border-color);
 }
 
-[data-theme="dark"] .blog-card {
-    background-color: var(--card-bg);
+[data-theme="dark"] .table-bordered th,
+[data-theme="dark"] .table-bordered td {
     border-color: var(--border-color);
+}
+
+/* ===== تحسين مظهر الفلتر ===== */
+[data-theme="dark"] .filter-section {
+    background: transparent !important;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+/* ===== البطاقات ===== */
+[data-theme="dark"] .card {
+    background: linear-gradient(145deg, var(--card-bg), var(--bg-tertiary));
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+[data-theme="dark"] .card-header {
+    background: linear-gradient(90deg, var(--bg-tertiary), transparent);
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .card-header h5 {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .card-body {
+    color: var(--text-secondary);
+}
+
+/* ===== المدونات ===== */
+[data-theme="dark"] .blog-card {
+    background: linear-gradient(145deg, var(--card-bg), var(--bg-tertiary));
+    border-color: var(--border-color);
+    box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+[data-theme="dark"] .blog-card:hover {
+    box-shadow: 0 15px 30px var(--shadow-color);
+    border-color: var(--main-color);
 }
 
 [data-theme="dark"] .blog-card .blog-title {
@@ -58,85 +352,172 @@
 }
 
 [data-theme="dark"] .blog-meta {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .blog-meta i {
+    color: var(--main-color);
+}
+
+/* ===== أزرار الأيقونات ===== */
+[data-theme="dark"] .btn-icon {
+    background: var(--bg-tertiary);
     color: var(--text-secondary);
+    border: 1px solid var(--border-light);
 }
 
-[data-theme="dark"] .avatar .name span {
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .list ul li a {
-    color: var(--text-secondary);
-    box-shadow: none;
-}
-
-[data-theme="dark"] .list ul li a:hover {
-    background-color: var(--main-color);
+[data-theme="dark"] .btn-icon:hover {
+    background: var(--main-color);
     color: white;
-}
-
-[data-theme="dark"] .list ul li a.active {
-    background-color: var(--main-color);
-    color: white;
-}
-
-[data-theme="dark"] .form-control,
-[data-theme="dark"] input,
-[data-theme="dark"] textarea,
-[data-theme="dark"] select {
-    background-color: var(--bg-primary);
-    border-color: var(--border-color);
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .form-control:focus,
-[data-theme="dark"] input:focus,
-[data-theme="dark"] textarea:focus {
     border-color: var(--main-color);
-    box-shadow: 0 0 0 3px rgba(90, 123, 181, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--glow-color);
 }
 
-[data-theme="dark"] .nice-select {
-    background-color: var(--bg-primary);
-    border-color: var(--border-color);
+/* ===== المودالات ===== */
+[data-theme="dark"] .modal-content {
+    background: linear-gradient(145deg, var(--bg-secondary), var(--bg-tertiary));
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 40px var(--shadow-color);
+}
+
+[data-theme="dark"] .modal-header {
+    background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .modal-header .modal-title {
     color: var(--text-primary);
 }
 
-[data-theme="dark"] .nice-select .list {
-    background-color: var(--bg-secondary);
-    border-color: var(--border-color);
+[data-theme="dark"] .modal-header .close {
+    color: var(--text-secondary);
+    opacity: 1;
 }
 
-[data-theme="dark"] .nice-select .option:hover {
-    background-color: var(--main-color);
-    color: white;
+[data-theme="dark"] .modal-header .close:hover {
+    color: var(--main-color);
 }
 
-[data-theme="dark"] .table {
-    color: var(--text-primary);
+[data-theme="dark"] .modal-body {
+    color: var(--text-secondary);
 }
 
-[data-theme="dark"] .table thead th {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    border-color: var(--border-color);
+[data-theme="dark"] .modal-footer {
+    border-top-color: var(--border-color);
+    background: var(--bg-tertiary);
 }
 
-[data-theme="dark"] .table tbody td {
-    border-color: var(--border-color);
+/* ===== التنبيهات ===== */
+[data-theme="dark"] .alert-success {
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    border: 1px solid #2ecc71;
+    backdrop-filter: blur(10px);
 }
 
-[data-theme="dark"] .table-striped tbody tr:nth-of-type(odd) {
-    background-color: var(--bg-primary);
+[data-theme="dark"] .alert-danger {
+    background: rgba(231, 76, 60, 0.15);
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    backdrop-filter: blur(10px);
 }
 
-[data-theme="dark"] .table-striped tbody tr:nth-of-type(even) {
-    background-color: var(--bg-secondary);
+[data-theme="dark"] .alert-warning {
+    background: rgba(243, 156, 18, 0.15);
+    color: #f39c12;
+    border: 1px solid #f39c12;
+    backdrop-filter: blur(10px);
 }
 
+[data-theme="dark"] .alert-info {
+    background: rgba(52, 152, 219, 0.15);
+    color: #3498db;
+    border: 1px solid #3498db;
+    backdrop-filter: blur(10px);
+}
+
+/* ===== شريط التمرير العصري ===== */
+[data-theme="dark"] ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--main-color), var(--fromMain-color));
+    border-radius: 6px;
+    border: 2px solid var(--bg-tertiary);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--hover-color), var(--main-color));
+}
+
+/* ===== الصفحة الرئيسية ===== */
+[data-theme="dark"] .profile-header .background {
+    background: linear-gradient(-45deg, 
+        var(--main-color), 
+        var(--fromMain-color), 
+        #3a4260, 
+        #2f364f
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+[data-theme="dark"] .experience-item,
+[data-theme="dark"] .qualification-item {
+    background: linear-gradient(145deg, var(--bg-tertiary), var(--bg-secondary));
+    border: 1px solid var(--border-color);
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+[data-theme="dark"] .experience-item:hover,
+[data-theme="dark"] .qualification-item:hover {
+    border-color: var(--main-color);
+    box-shadow: 0 10px 25px var(--glow-color);
+}
+
+[data-theme="dark"] .empty-state {
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    border: 2px dashed var(--border-light);
+}
+
+[data-theme="dark"] .period-badge {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+/* ===== إحصائيات لوحة التحكم ===== */
 [data-theme="dark"] .stats-card {
-    background-color: var(--card-bg);
-    border-color: var(--border-color);
+    background: linear-gradient(145deg, var(--card-bg), var(--bg-tertiary));
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+[data-theme="dark"] .stats-card:hover {
+    border-color: var(--main-color);
+    box-shadow: 0 15px 30px var(--glow-color);
+}
+
+[data-theme="dark"] .stats-icon {
+    background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+    color: var(--main-color);
+    border: 1px solid var(--border-light);
 }
 
 [data-theme="dark"] .stats-number {
@@ -144,129 +525,15 @@
 }
 
 [data-theme="dark"] .stats-label {
-    color: var(--text-secondary);
+    color: var(--text-muted);
 }
 
-[data-theme="dark"] .modal-content {
-    background-color: var(--bg-secondary);
-    border-color: var(--border-color);
-}
-
-[data-theme="dark"] .modal-header {
-    background: linear-gradient(135deg, #2c3e6b, #1a1a1a);
-    border-bottom-color: var(--border-color);
-}
-
-[data-theme="dark"] .modal-footer {
-    border-top-color: var(--border-color);
-    background-color: var(--bg-primary);
-}
-
-[data-theme="dark"] .modal-body {
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .close {
-    color: white;
-    text-shadow: none;
-}
-
-[data-theme="dark"] .bg-light {
-    background-color: var(--bg-primary) !important;
-    color: var(--text-primary) !important;
-}
-
-[data-theme="dark"] .alert-info {
-    background-color: #1e3a5f;
-    color: #8bb9ff;
-    border-color: #2a4a7a;
-}
-
-[data-theme="dark"] .alert-danger {
-    background-color: #5f1e1e;
-    color: #ff8b8b;
-    border-color: #7a2a2a;
-}
-
-[data-theme="dark"] .alert-success {
-    background-color: #1e5f1e;
-    color: #8bff8b;
-    border-color: #2a7a2a;
-}
-
-[data-theme="dark"] .alert-warning {
-    background-color: #5f4b1e;
-    color: #ffe58b;
-    border-color: #7a632a;
-}
-
-[data-theme="dark"] .card {
-    background-color: var(--card-bg);
-    border-color: var(--border-color);
-}
-
-[data-theme="dark"] .card-header {
-    background-color: var(--bg-primary);
-    border-bottom-color: var(--border-color);
-}
-
-[data-theme="dark"] .card-header h5 p span {
-    color: var(--main-color);
-}
-
-[data-theme="dark"] .card-body {
-    color: var(--text-secondary);
-}
-
-[data-theme="dark"] .card-body p span {
-    color: var(--main-color);
-}
-
-[data-theme="dark"] .preloader::before,
-[data-theme="dark"] .preloader::after {
-    background: var(--bg-secondary);
-}
-
-[data-theme="dark"] .preloader .loader .loader-outter {
-    border-color: var(--main-color);
-    border-left-color: transparent;
-}
-
-[data-theme="dark"] .preloader .loader .loader-inner {
-    border-color: var(--fromMain-color);
-    border-right-color: transparent;
-}
-
-/* زر تبديل الوضع */
+/* إخفاء الزر القديم */
 .theme-switch {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 9999;
+    display: none !important;
 }
 
-.theme-switch button {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: var(--main-color);
-    color: white;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-}
-
-.theme-switch button:hover {
-    transform: scale(1.1);
-    background: var(--fromMain-color);
-}
-
-/* أنيميشن الانتقال */
+/* ===== تحسين الانتقالات ===== */
 body, 
 .header, 
 .right-side, 
@@ -278,6 +545,35 @@ select,
 .btn,
 .modal-content,
 .table tr,
-.stats-card {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+.stats-card,
+.card,
+.nice-select,
+.dropdown,
+.alert,
+.profile-header .background,
+.experience-item,
+.qualification-item {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== تأثيرات إضافية ===== */
+[data-theme="dark"] .btn-primary {
+    background: linear-gradient(135deg, var(--main-color), var(--fromMain-color));
+    border: none;
+    box-shadow: 0 5px 15px var(--glow-color);
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    background: linear-gradient(135deg, var(--fromMain-color), var(--main-color));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--glow-color);
+}
+
+[data-theme="dark"] a {
+    color: var(--main-color);
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] a:hover {
+    color: var(--hover-color);
 }

@@ -177,6 +177,34 @@ window.Validator = {
         };
     },
 
+    // ===== التحقق من التاريخ =====
+    date: function(date, options = {}) {
+        const errors = [];
+        const { required = true, futureOnly = false, pastOnly = false } = options;
+        
+        if (!date && required) {
+            errors.push('التاريخ مطلوب');
+        } else if (date) {
+            const selectedDate = new Date(date);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (isNaN(selectedDate.getTime())) {
+                errors.push('صيغة التاريخ غير صحيحة');
+            } else if (futureOnly && selectedDate < today) {
+                errors.push('يجب أن يكون التاريخ في المستقبل');
+            } else if (pastOnly && selectedDate > today) {
+                errors.push('يجب أن يكون التاريخ في الماضي');
+            }
+        }
+        
+        return {
+            valid: errors.length === 0,
+            errors: errors,
+            value: date || ''
+        };
+    },
+
     // ===== التحقق من المستخدم =====
     user: function(data, isRegistration = true) {
         const errors = {};
@@ -224,8 +252,12 @@ window.Validator = {
         const patientCheck = this.text(data.patient_name, 'اسم المريض', { minLength: 2, maxLength: 100 });
         if (!patientCheck.valid) errors.patient_name = patientCheck.errors;
         
-        const ageCheck = this.age ? this.age(data.age) : { valid: true };
-        if (ageCheck.errors && !ageCheck.valid) errors.age = ageCheck.errors;
+        const ageCheck = data.age ? { valid: true } : { valid: false, errors: ['العمر مطلوب'] };
+        if (data.age && (data.age < 0 || data.age > 150)) {
+            ageCheck.valid = false;
+            ageCheck.errors = ['العمر يجب أن يكون بين 0 و 150 سنة'];
+        }
+        if (!ageCheck.valid) errors.age = ageCheck.errors;
         
         const genderCheck = this.select(data.gender, 'الجنس', ['ذكر', 'أنثى']);
         if (!genderCheck.valid) errors.gender = genderCheck.errors;
@@ -247,6 +279,109 @@ window.Validator = {
                 medicine: medicineCheck.value,
                 surgery: data.surgery,
                 notes: data.notes
+            }
+        };
+    },
+
+    // ===== التحقق من العملية =====
+    operation: function(data) {
+        const errors = {};
+        
+        // التحقق من اسم المريض
+        const patientCheck = this.text(data.patient_name, 'اسم المريض', { minLength: 2, maxLength: 100 });
+        if (!patientCheck.valid) errors.patient_name = patientCheck.errors;
+        
+        // التحقق من نوع العملية
+        const typeCheck = this.text(data.operation_type, 'نوع العملية', { minLength: 2, maxLength: 200 });
+        if (!typeCheck.valid) errors.operation_type = typeCheck.errors;
+        
+        // التحقق من اسم المستشفى
+        const hospitalCheck = this.text(data.hospital, 'اسم المستشفى', { minLength: 2, maxLength: 200 });
+        if (!hospitalCheck.valid) errors.hospital = hospitalCheck.errors;
+        
+        // التحقق من التاريخ
+        const dateCheck = this.date(data.operation_date, { required: true, futureOnly: true });
+        if (!dateCheck.valid) errors.operation_date = dateCheck.errors;
+        
+        return {
+            valid: Object.keys(errors).length === 0,
+            errors: errors,
+            data: {
+                patient_name: patientCheck.value,
+                operation_type: typeCheck.value,
+                hospital: hospitalCheck.value,
+                department: data.department || '',
+                operation_date: dateCheck.value,
+                operation_time: data.operation_time || '',
+                notes: data.notes || ''
+            }
+        };
+    },
+
+    // ===== التحقق من رسالة الدعم الفني =====
+    contactMessage: function(data) {
+        const errors = {};
+        
+        const nameCheck = this.name(data.name, 'الاسم', { minLength: 2 });
+        if (!nameCheck.valid) errors.name = nameCheck.errors;
+        
+        const emailCheck = this.email(data.email);
+        if (!emailCheck.valid) errors.email = emailCheck.errors;
+        
+        const subjectCheck = this.text(data.subject, 'الموضوع', { minLength: 3, maxLength: 200 });
+        if (!subjectCheck.valid) errors.subject = subjectCheck.errors;
+        
+        const messageCheck = this.text(data.message, 'الرسالة', { minLength: 10, maxLength: 2000 });
+        if (!messageCheck.valid) errors.message = messageCheck.errors;
+        
+        return {
+            valid: Object.keys(errors).length === 0,
+            errors: errors,
+            data: {
+                name: nameCheck.value,
+                email: emailCheck.value,
+                subject: subjectCheck.value,
+                message: messageCheck.value
+            }
+        };
+    },
+
+    // ===== الدالة الجديدة: التحقق من المدونة =====
+    blog: function(data) {
+        const errors = {};
+        
+        // التحقق من عنوان المقال
+        if (!data.title || data.title.trim() === '') {
+            errors.title = ['عنوان المقال مطلوب'];
+        } else {
+            const title = data.title.trim();
+            if (title.length < 3) {
+                errors.title = ['عنوان المقال قصير جداً (يجب أن يكون 3 أحرف على الأقل)'];
+            }
+            if (title.length > 200) {
+                errors.title = ['عنوان المقال طويل جداً (الحد الأقصى 200 حرف)'];
+            }
+        }
+        
+        // التحقق من محتوى المقال
+        if (!data.content || data.content.trim() === '') {
+            errors.content = ['محتوى المقال مطلوب'];
+        } else {
+            const content = data.content.trim();
+            if (content.length < 10) {
+                errors.content = ['محتوى المقال قصير جداً (يجب أن يكون 10 أحرف على الأقل)'];
+            }
+            if (content.length > 5000) {
+                errors.content = ['محتوى المقال طويل جداً (الحد الأقصى 5000 حرف)'];
+            }
+        }
+        
+        return {
+            valid: Object.keys(errors).length === 0,
+            errors: errors,
+            data: {
+                title: data.title?.trim() || '',
+                content: data.content?.trim() || ''
             }
         };
     }

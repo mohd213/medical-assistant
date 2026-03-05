@@ -313,31 +313,28 @@ if (typeof window.API_URL === "undefined") {
 // الوضع الليلي - Dark Mode
 // =============================================
 
-// إنشاء زر التبديل
-(function addThemeSwitch() {
-  if (document.getElementById("theme-switch")) return;
+// التحقق من الوضع المحفوظ
+const savedTheme = localStorage.getItem("theme") || "light";
+document.documentElement.setAttribute("data-theme", savedTheme);
 
-  const themeHTML = `
-        <div class="theme-switch" id="theme-switch">
-            <button id="toggleTheme" title="تغيير المظهر">
-                <i class="icofont-moon"></i>
-            </button>
-        </div>
-    `;
+// تحديث الأيقونة في جميع الصفحات
+function updateAllThemeIcons(theme) {
+  // تحديث أيقونة الرأس
+  const headerIcon = document.getElementById("theme-toggle-header");
+  if (headerIcon) {
+    const icon = headerIcon.querySelector("i");
+    if (icon) {
+      icon.className = theme === "dark" ? "icofont-sun" : "icofont-moon";
+    }
+  }
 
-  document.body.insertAdjacentHTML("beforeend", themeHTML);
+  // تحديث أي أيقونات أخرى إذا وجدت
+  $(".theme-icon").each(function () {
+    $(this).toggleClass("icofont-moon icofont-sun");
+  });
+}
 
-  // التحقق من الوضع المحفوظ
-  const savedTheme = localStorage.getItem("theme") || "light";
-  document.documentElement.setAttribute("data-theme", savedTheme);
-
-  // تحديث الأيقونة
-  updateThemeIcon(savedTheme);
-
-  // حدث التبديل
-  document.getElementById("toggleTheme").addEventListener("click", toggleTheme);
-})();
-
+// دالة تبديل الوضع
 function toggleTheme() {
   const currentTheme =
     document.documentElement.getAttribute("data-theme") || "light";
@@ -346,22 +343,66 @@ function toggleTheme() {
   document.documentElement.setAttribute("data-theme", newTheme);
   localStorage.setItem("theme", newTheme);
 
-  updateThemeIcon(newTheme);
+  updateAllThemeIcons(newTheme);
 
-  // رسالة تأكيد
+  // رسالة تأكيد (اختيارية)
   if (window.msg) {
     msg.success(
-      newTheme === "dark" ? "تم تفعيل الوضع الليلي" : "تم تفعيل الوضع العادي",
+      newTheme === "dark" ? "تم تفعيل الوضع الليلي" : "تم تفعيل الوضع النهاري",
     );
   }
 }
 
-function updateThemeIcon(theme) {
-  const icon = document.querySelector("#toggleTheme i");
-  if (icon) {
-    icon.className = theme === "dark" ? "icofont-sun" : "icofont-moon";
+// إضافة زر التبديل إلى القائمة في جميع الصفحات
+function addThemeToggleToHeader() {
+  // التحقق من عدم وجود الزر مسبقاً
+  if (document.getElementById("theme-toggle-header")) return;
+
+  // البحث عن قائمة الـ nav
+  const navMenu = document.querySelector(".header .main-menu .nav.menu");
+  if (!navMenu) return;
+
+  // إنشاء عنصر القائمة الجديد
+  const li = document.createElement("li");
+  li.className = "theme-toggle-header";
+  li.id = "theme-toggle-header";
+  li.setAttribute("title", "تغيير المظهر");
+  li.setAttribute("onclick", "toggleTheme()");
+
+  // إضافة الأيقونة المناسبة
+  const currentTheme =
+    document.documentElement.getAttribute("data-theme") || "light";
+  const icon = document.createElement("i");
+  icon.className = currentTheme === "dark" ? "icofont-sun" : "icofont-moon";
+  li.appendChild(icon);
+
+  // إضافة الزر قبل عنصر الإشعارات
+  const notificationItem = navMenu.querySelector(".notification-list");
+  if (notificationItem) {
+    navMenu.insertBefore(li, notificationItem);
+  } else {
+    navMenu.appendChild(li);
   }
 }
+
+// تنفيذ عند تحميل الصفحة
+$(document).ready(function () {
+  // إضافة زر التبديل
+  addThemeToggleToHeader();
+
+  // تحديث الأيقونة
+  const currentTheme =
+    document.documentElement.getAttribute("data-theme") || "light";
+  updateAllThemeIcons(currentTheme);
+});
+
+// التأكد من إضافة الزر عند تحميل الصفحة ديناميكياً
+$(window).on("load", function () {
+  addThemeToggleToHeader();
+  const currentTheme =
+    document.documentElement.getAttribute("data-theme") || "light";
+  updateAllThemeIcons(currentTheme);
+});
 
 // =============================================
 // نظام الإشعارات

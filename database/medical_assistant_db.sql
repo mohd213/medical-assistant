@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 02, 2026 at 02:10 AM
+-- Generation Time: Mar 06, 2026 at 12:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,7 +44,9 @@ CREATE TABLE `blogs` (
 INSERT INTO `blogs` (`id`, `user_id`, `title`, `content`, `image`, `created_at`, `updated_at`) VALUES
 (4, 9, 'regsfvc', 'ewfadzcx', '/uploads/blogs/blog-1771719120922-755181008.png', '2026-02-22 00:12:00', '2026-02-22 00:12:00'),
 (8, 15, 'lrgssss', 'masad', '/uploads/blogs/blog-1771795216709-245714311.png', '2026-02-22 21:20:16', '2026-02-22 21:20:29'),
-(12, 11, 'ف4صثبي', 'صيشبيس', NULL, '2026-03-01 23:35:48', '2026-03-01 23:35:48');
+(12, 11, 'ف4صثبي', 'صيشبيس', NULL, '2026-03-01 23:35:48', '2026-03-01 23:35:48'),
+(13, 22, 'سيبرؤئء ', 'ثصقشسيبسشثسيابلابيسل', '/uploads/blogs/blog-1772719596355-40837438.png', '2026-03-05 14:06:36', '2026-03-05 14:06:36'),
+(15, 19, 'aef', 'sergsetwefwe', '/uploads/blogs/blog-1772750389501-311842763.jpeg', '2026-03-05 22:39:49', '2026-03-05 22:39:49');
 
 -- --------------------------------------------------------
 
@@ -70,10 +72,35 @@ CREATE TABLE `contact_messages` (
 
 INSERT INTO `contact_messages` (`id`, `user_id`, `name`, `email`, `subject`, `message`, `status`, `admin_reply`, `created_at`) VALUES
 (1, NULL, 'محمد علي', 'mohammed@Ali.com', 'المرض', 'انا تعبان', 'new', NULL, '2026-02-22 00:25:00'),
-(2, NULL, 'mohammed mohammed', 'mohammedad@gmail.com', 'ثفقلب', '75غثايبئئئئئ', 'new', NULL, '2026-02-22 09:47:50'),
 (3, NULL, 'abed masad', 'Ajulyos88@hotmail.com', 'سوء في الاستخدام', 'lrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgssss', 'replied', 'تو الوضع في عين الاعتبار', '2026-02-22 21:23:39'),
 (4, NULL, 'محمد عابد', 'test1@test.com', 'سوء في الاستخدام', 'التطبيق لا يعمل بدقة', 'read', 'تم', '2026-02-23 11:54:04'),
-(5, NULL, 'mohammed mohammed', 'mohammedMasad@gmail.com', 'يسبلا', 'يسشسقفيبغلا', 'new', NULL, '2026-03-01 23:37:44');
+(5, NULL, 'mohammed mohammed', 'mohammedMasad@gmail.com', 'يسبلا', 'يسشسقفيبغلا', 'new', NULL, '2026-03-01 23:37:44'),
+(6, NULL, 'محمد عبدالحميد', 'abo@gmail.com', 'سقفللسبل', 'شق', 'read', '', '2026-03-05 14:09:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `experiences`
+--
+
+CREATE TABLE `experiences` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `place` varchar(255) NOT NULL,
+  `position` varchar(255) NOT NULL,
+  `department` varchar(255) DEFAULT NULL,
+  `start_year` year(4) DEFAULT NULL,
+  `end_year` year(4) DEFAULT NULL,
+  `current` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `experiences`
+--
+
+INSERT INTO `experiences` (`id`, `user_id`, `place`, `position`, `department`, `start_year`, `end_year`, `current`, `created_at`) VALUES
+(1, 21, 'الاقصى', 'دكتور عام', 'الباطنة', '2020', '0000', 0, '2026-03-05 22:17:22');
 
 -- --------------------------------------------------------
 
@@ -103,8 +130,6 @@ CREATE TABLE `follow_up_cases` (
 INSERT INTO `follow_up_cases` (`id`, `user_id`, `patient_name`, `age`, `gender`, `disease`, `medicine`, `surgery`, `healing_rate`, `notes`, `created_at`, `updated_at`) VALUES
 (5, 10, 'mohammed', 11, 'ذكر', 'srfvxc', '20', 'ewfsdvc', '20', 'قلسيبر', '2026-02-22 10:16:06', '2026-02-22 10:16:06'),
 (6, 15, 'محمد', 22, 'ذكر', 'صلع', 'انسولين', 'زراعة شعر', '22', 'lrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgsssslrgssss', '2026-02-22 21:23:00', '2026-02-22 21:23:00'),
-(7, 16, 'محمد', 22, 'ذكر', 'صلع', 'انسولين', 'زراعة شعر', '59', 'adsfhgjbnvcbxz', '2026-02-23 11:53:26', '2026-02-23 11:53:26'),
-(8, 18, 'mohammed', 11, 'ذكر', 'srfvxc', 'sfvxc', 'ewfsdvc', '20', 'DWAFESDGV', '2026-03-01 23:15:38', '2026-03-01 23:15:38'),
 (11, 11, '6yrthgb', 11, 'ذكر', 'srfvxc', 'sfvxc', 'ewfsdvc', 'شيسبس', 'شسيبسي', '2026-03-01 23:40:10', '2026-03-01 23:40:10');
 
 -- --------------------------------------------------------
@@ -134,8 +159,8 @@ CREATE TABLE `operations` (
 INSERT INTO `operations` (`id`, `user_id`, `patient_name`, `operation_type`, `hospital`, `department`, `operation_date`, `operation_time`, `notes`, `created_at`, `updated_at`) VALUES
 (2, 9, 'wrsdzc', 'سيب', 'w4trsdv', 'سيرؤ', '0546-12-31', '05:44', '35yergsfvxc', '2026-02-22 00:12:27', NULL),
 (4, 15, 'محمد', 'زاعة شعر', 'الاقصى', 'تجميل', '2026-03-12', '05:16', 'lrgsssslrgsssslrgsssslrgssss', '2026-02-22 21:21:21', NULL),
-(5, 16, 'محمد', 'زاعة شعر', 'الاقصى', 'تجميل', '2026-03-12', '00:22', 'eqfaddgb', '2026-02-23 11:51:16', NULL),
-(8, 11, 'فصقسي', 'ثصبي', '3فصقبسي', '4فصبيس', '2026-02-28', '15:48', NULL, '2026-02-28 13:47:50', NULL);
+(8, 11, 'فصقسي', 'ثصبي', '3فصقبسي', '4فصبيس', '2026-02-28', '15:48', NULL, '2026-02-28 13:47:50', NULL),
+(10, 20, 'فصقسي', 'ثصبي', '3فصقبسي', '4فصبيس', '2222-05-05', '', 'يب', '2026-03-05 21:56:04', NULL);
 
 -- --------------------------------------------------------
 
@@ -150,6 +175,30 @@ CREATE TABLE `password_resets` (
   `expires_at` datetime NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `qualifications`
+--
+
+CREATE TABLE `qualifications` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `university` varchar(255) NOT NULL,
+  `degree` varchar(255) NOT NULL,
+  `field` varchar(255) NOT NULL,
+  `start_year` year(4) DEFAULT NULL,
+  `end_year` year(4) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `qualifications`
+--
+
+INSERT INTO `qualifications` (`id`, `user_id`, `university`, `degree`, `field`, `start_year`, `end_year`, `created_at`) VALUES
+(1, 21, 'الاقصى', 'بكالوريوس', 'عام', '2018', '2025', '2026-03-05 22:11:47');
 
 -- --------------------------------------------------------
 
@@ -183,11 +232,11 @@ INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `password`, `phone`
 (13, 'mohammed', 'mwla213', 'MMMM@gmail.com', '$2b$10$KKWJ6zcAA.8tDwIcXaVY/evR07fcz.mVcKeUIMhEsmwVH35DL8Kii', '0597869993', 'باطني', 'user', NULL, '2026-02-22 13:38:49', NULL),
 (15, 'abed', 'masad', 'Ajulyos88@hotmail.com', '$2b$10$16py.yy.LnDbZgYxwprg/.WH8OSlK/zVfj30kAsEh3LA9P68fEwdG', '0591234567', 'جلدية', 'user', NULL, '2026-02-22 21:19:18', NULL),
 (16, 'محمد', 'عابد', 'test1@test.com', '$2b$10$YvU9liXMSay.YaOe/0NZduMDAsJPuSGnI0bkF4f8ZChmskSLIsm9W', '0591234567', 'باطني', 'user', '/uploads/profiles/profile-1771852283803-207123844.png', '2026-02-23 11:49:34', '2026-02-26 22:44:46'),
-(17, 'رائد', 'عابد', 'raed@raed.com', '$2b$10$iulMrhDq7xWh.bqRmP.wZehpAiAxtaw7BhebgKpI3SH3h6mZY6a8W', '0597869993', 'باطني', 'user', '/uploads/profiles/profile-1771852712225-278381239.png', '2026-02-23 13:15:09', '2026-02-23 13:18:32'),
 (18, 'Mohammed', 'Abed Masad', 'Mohammed@Mohammed.com', '$2b$10$uNMSu27mO9CaEiS4NQQMju/l8F2uvalnKtBoyqErGCpE4QQESk4J2', '0597869993', 'أنف وأذن وحنجرة', 'user', '/uploads/profiles/profile-1772406680083-466996378.jpg', '2026-02-26 23:09:12', '2026-03-01 23:14:32'),
-(19, 'mohammed', 'masad', 'test1@122.com', '$2b$10$RYN0rJso/PmgNQltOusRcOB2CPRyzmgK.LwDT/usheAUBjszcjjmu', '059-273-6604', 'أنف وأذن وحنجرة', 'admin', NULL, '2026-03-01 13:01:40', '2026-03-02 00:08:55'),
-(20, 'mohammed', 'mohammed', 'mohammed@gmail.com', '$2b$10$B5EpIQvnTSL99Pm1/zfFTedhoXnJN3ors96DpCDnaH5n4ids1sBHG', '0597869993', 'باطني', 'admin', '/uploads/profiles/profile-1772411139441-463251082.jpg', '2026-03-02 00:05:19', '2026-03-02 00:25:39'),
-(21, 'محمد', 'تحمد', '12222@gmail.com', '$2b$10$p44ymF.q0A7CmMCYmOLYyustzrG/CrsWqtnanJnbE2fMN66XWHPqC', '0597869993', 'باطني', 'user', '/uploads/profiles/profile-1772413751476-177161326.jpg', '2026-03-02 00:50:20', '2026-03-02 01:09:11');
+(19, 'محمد', 'مسعد', 'test1@122.com', '$2b$10$RYN0rJso/PmgNQltOusRcOB2CPRyzmgK.LwDT/usheAUBjszcjjmu', '059-273-6604', 'أنف وأذن وحنجرة', 'admin', '/uploads/profiles/profile-1772750994503-620889400.jpg', '2026-03-01 13:01:40', '2026-03-05 22:49:54'),
+(20, 'mohammed', 'mohammed', 'mohammed@gmail.com', '$2b$10$B5EpIQvnTSL99Pm1/zfFTedhoXnJN3ors96DpCDnaH5n4ids1sBHG', '0597869993', 'باطني', 'user', '/uploads/profiles/profile-1772411139441-463251082.jpg', '2026-03-02 00:05:19', '2026-03-05 14:13:37'),
+(21, 'محمد', 'تحمد', '12222@gmail.com', '$2b$10$AmnTc0tDf.2Q.yzv2BKX4u.nJO9MDN/P1xnJyBI8BMdLWlFIK3wPS', '0597869993', 'باطني', 'admin', '/uploads/profiles/profile-1772456787568-16163475.jpg', '2026-03-02 00:50:20', '2026-03-05 22:02:01'),
+(22, 'محمد', 'عبدالحميد', 'abo@gmail.com', '$2b$10$FadrXCSEelTQfWTL0JI.OeDVcSq2NMLVJ8ZhGQF4IlejYCWlHGXEe', '0594545902', 'باطني', 'admin', '/uploads/profiles/profile-1772719638332-974218512.png', '2026-03-05 14:00:08', '2026-03-05 14:12:12');
 
 --
 -- Indexes for dumped tables
@@ -206,6 +255,13 @@ ALTER TABLE `blogs`
 ALTER TABLE `contact_messages`
   ADD PRIMARY KEY (`id`),
   ADD KEY `contact_messages_ibfk_1` (`user_id`);
+
+--
+-- Indexes for table `experiences`
+--
+ALTER TABLE `experiences`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `follow_up_cases`
@@ -229,6 +285,13 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_ibfk_1` (`email`);
 
 --
+-- Indexes for table `qualifications`
+--
+ALTER TABLE `qualifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -243,13 +306,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `blogs`
 --
 ALTER TABLE `blogs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `contact_messages`
 --
 ALTER TABLE `contact_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `experiences`
+--
+ALTER TABLE `experiences`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `follow_up_cases`
@@ -261,7 +330,7 @@ ALTER TABLE `follow_up_cases`
 -- AUTO_INCREMENT for table `operations`
 --
 ALTER TABLE `operations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `password_resets`
@@ -270,10 +339,16 @@ ALTER TABLE `password_resets`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `qualifications`
+--
+ALTER TABLE `qualifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables
@@ -292,6 +367,12 @@ ALTER TABLE `contact_messages`
   ADD CONSTRAINT `contact_messages_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `experiences`
+--
+ALTER TABLE `experiences`
+  ADD CONSTRAINT `experiences_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `follow_up_cases`
 --
 ALTER TABLE `follow_up_cases`
@@ -308,6 +389,12 @@ ALTER TABLE `operations`
 --
 ALTER TABLE `password_resets`
   ADD CONSTRAINT `password_resets_ibfk_1` FOREIGN KEY (`email`) REFERENCES `users` (`email`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `qualifications`
+--
+ALTER TABLE `qualifications`
+  ADD CONSTRAINT `qualifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
