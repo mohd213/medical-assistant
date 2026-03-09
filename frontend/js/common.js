@@ -319,7 +319,6 @@ document.documentElement.setAttribute("data-theme", savedTheme);
 
 // تحديث الأيقونة في جميع الصفحات
 function updateAllThemeIcons(theme) {
-  // تحديث أيقونة الرأس
   const headerIcon = document.getElementById("theme-toggle-header");
   if (headerIcon) {
     const icon = headerIcon.querySelector("i");
@@ -327,8 +326,6 @@ function updateAllThemeIcons(theme) {
       icon.className = theme === "dark" ? "icofont-sun" : "icofont-moon";
     }
   }
-
-  // تحديث أي أيقونات أخرى إذا وجدت
   $(".theme-icon").each(function () {
     $(this).toggleClass("icofont-moon icofont-sun");
   });
@@ -345,7 +342,6 @@ function toggleTheme() {
 
   updateAllThemeIcons(newTheme);
 
-  // رسالة تأكيد (اختيارية)
   if (window.msg) {
     msg.success(
       newTheme === "dark" ? "تم تفعيل الوضع الليلي" : "تم تفعيل الوضع النهاري",
@@ -353,30 +349,25 @@ function toggleTheme() {
   }
 }
 
-// إضافة زر التبديل إلى القائمة في جميع الصفحات
+// إضافة زر التبديل إلى القائمة
 function addThemeToggleToHeader() {
-  // التحقق من عدم وجود الزر مسبقاً
   if (document.getElementById("theme-toggle-header")) return;
 
-  // البحث عن قائمة الـ nav
   const navMenu = document.querySelector(".header .main-menu .nav.menu");
   if (!navMenu) return;
 
-  // إنشاء عنصر القائمة الجديد
   const li = document.createElement("li");
   li.className = "theme-toggle-header";
   li.id = "theme-toggle-header";
   li.setAttribute("title", "تغيير المظهر");
   li.setAttribute("onclick", "toggleTheme()");
 
-  // إضافة الأيقونة المناسبة
   const currentTheme =
     document.documentElement.getAttribute("data-theme") || "light";
   const icon = document.createElement("i");
   icon.className = currentTheme === "dark" ? "icofont-sun" : "icofont-moon";
   li.appendChild(icon);
 
-  // إضافة الزر قبل عنصر الإشعارات
   const notificationItem = navMenu.querySelector(".notification-list");
   if (notificationItem) {
     navMenu.insertBefore(li, notificationItem);
@@ -385,24 +376,54 @@ function addThemeToggleToHeader() {
   }
 }
 
-// تنفيذ عند تحميل الصفحة
-$(document).ready(function () {
-  // إضافة زر التبديل
-  addThemeToggleToHeader();
+// =============================================
+// نظام قائمة البرغر (Burger Menu) للموبايل
+// =============================================
+function initMobileMenu() {
+  if ($('.header').length === 0) return;
 
-  // تحديث الأيقونة
-  const currentTheme =
-    document.documentElement.getAttribute("data-theme") || "light";
-  updateAllThemeIcons(currentTheme);
-});
+  // إضافة أيقونة البرغر إذا لم تكن موجودة
+  if ($('.burger-icon').length === 0) {
+    const burgerIcon = $('<div class="burger-icon"><i class="icofont-navigation-menu"></i></div>');
+    $('.header .header-inner').append(burgerIcon);
+  }
 
-// التأكد من إضافة الزر عند تحميل الصفحة ديناميكياً
-$(window).on("load", function () {
-  addThemeToggleToHeader();
-  const currentTheme =
-    document.documentElement.getAttribute("data-theme") || "light";
-  updateAllThemeIcons(currentTheme);
-});
+  const $burger = $('.burger-icon');
+  const $nav = $('.header .header-inner .main-menu .nav');
+
+  // إزالة أي مستمعات قديمة
+  $burger.off('click').on('click', function(e) {
+    e.stopPropagation();
+    $nav.toggleClass('open');
+  });
+
+  // معالجة القوائم المنسدلة في الموبايل
+  $('.header .header-inner .main-menu .nav > li:has(.dropdown) > a').off('click.mobile').on('click.mobile', function(e) {
+    if ($(window).width() <= 991) {
+      e.preventDefault();
+      e.stopPropagation();
+      $(this).closest('li').find('.dropdown').toggleClass('show-dropdown');
+    }
+  });
+
+  // إغلاق القائمة عند النقر خارجها
+  $(document).off('click.menu').on('click.menu', function(event) {
+    if ($(window).width() <= 991 && $nav.hasClass('open')) {
+      if (!$(event.target).closest('.burger-icon, .nav').length) {
+        $nav.removeClass('open');
+        $('.dropdown.show-dropdown').removeClass('show-dropdown');
+      }
+    }
+  });
+
+  // عند تغيير حجم الشاشة
+  $(window).off('resize.menu').on('resize.menu', function() {
+    if ($(window).width() > 991) {
+      $nav.removeClass('open');
+      $('.dropdown.show-dropdown').removeClass('show-dropdown');
+    }
+  });
+}
 
 // =============================================
 // نظام الإشعارات
@@ -597,24 +618,18 @@ if (typeof window.showToast === "undefined") {
 // دوال عرض الأخطاء بشكل منظم
 // =============================================
 
-// عرض أخطاء validation في نموذج
 window.showValidationErrors = function (errors) {
-  // مسح الأخطاء السابقة
   $(".validation-error").remove();
 
   if (!errors || Object.keys(errors).length === 0) return;
 
-  // عرض كل خطأ
   Object.keys(errors).forEach((field) => {
     const errorMessages = errors[field];
     if (Array.isArray(errorMessages) && errorMessages.length > 0) {
-      // البحث عن حقل الإدخال
       const input = $(`[name="${field}"], #${field}, .${field}`);
       if (input.length) {
-        // إضافة تأثير خطأ
         input.addClass("is-invalid");
 
-        // إضافة رسالة الخطأ
         const errorDiv =
           $(`<div class="validation-error text-danger mt-1" style="font-size: 13px;">
                     <i class="icofont-exclamation-circle ml-1"></i>
@@ -623,7 +638,6 @@ window.showValidationErrors = function (errors) {
 
         input.after(errorDiv);
 
-        // إزالة التأثير عند التعديل
         input.on("input change", function () {
           $(this).removeClass("is-invalid");
           $(this)
@@ -636,24 +650,20 @@ window.showValidationErrors = function (errors) {
     }
   });
 
-  // رسالة عامة
   if (window.msg) {
     msg.error("يرجى تصحيح الأخطاء في النموذج");
   }
 };
 
-// مسح جميع أخطاء validation
 window.clearValidationErrors = function () {
   $(".is-invalid").removeClass("is-invalid");
   $(".validation-error").remove();
 };
 
-// التحقق من حقل محدد وعرض خطأ فوري
 window.validateField = function (field, value, validatorFn) {
   const result = validatorFn(value);
   const input = $(`[name="${field}"], #${field}`);
 
-  // مسح الأخطاء السابقة لهذا الحقل
   input.removeClass("is-invalid");
   input.next(".validation-error").remove();
 
@@ -770,6 +780,12 @@ $(document).ready(function () {
   const savedTheme = localStorage.getItem("theme") || "light";
   document.documentElement.setAttribute("data-theme", savedTheme);
 
+  // إضافة زر الوضع الليلي
+  addThemeToggleToHeader();
+
+  // تهيئة قائمة البرغر للموبايل
+  initMobileMenu();
+
   // التحقق من تسجيل الدخول
   if (typeof checkAuth === "function") checkAuth();
 
@@ -788,4 +804,6 @@ $(document).ready(function () {
 
 $(window).on("load", function () {
   $(".preloader").fadeOut(200);
+  // إعادة تهيئة قائمة البرغر بعد تحميل الصفحة بالكامل
+  initMobileMenu();
 });

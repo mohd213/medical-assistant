@@ -56,6 +56,8 @@ body {
   transform: perspective(1px) translateZ(0);
   border: none;
   border-radius: 4px;
+  position: relative;
+  z-index: 1;
 }
 
 .btn:hover {
@@ -329,10 +331,11 @@ ul {
 	Start Header CSS 
 =====================*/
 .header {
+  position: sticky;
+  top: 0;
   background-color: var(--bg-secondary);
   padding: 0 50px;
   box-shadow: rgb(99 99 99 / 10%) 0px 2px 8px 0px;
-  position: fixed;
   width: 100%;
   z-index: 2222;
   transition: background-color 0.3s ease;
@@ -342,6 +345,13 @@ ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.header .header-inner .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .header .header-inner .logo .logo-img img {
@@ -352,16 +362,24 @@ ul {
   font-size: 18px;
   color: var(--main-color);
   font-weight: 600;
+  margin: 0;
+}
+
+.header .header-inner .main-menu {
+  display: flex;
+  align-items: center;
 }
 
 .header .header-inner .main-menu .nav {
   display: flex;
   justify-content: end;
   align-items: center;
-  gap: 50px;
+  gap: 30px;
+  margin-bottom: 0;
+  list-style: none;
 }
 
-.header .header-inner .main-menu .nav>li {
+.header .header-inner .main-menu .nav > li {
   position: relative;
   padding: 17px 0;
   height: 74px;
@@ -369,16 +387,16 @@ ul {
   align-items: center;
 }
 
-.header .header-inner .main-menu .nav>li a {
+.header .header-inner .main-menu .nav > li a {
   color: var(--text-secondary);
   transition: color 0.3s ease;
 }
 
-.header .header-inner .main-menu .nav>li:hover a {
+.header .header-inner .main-menu .nav > li:hover a {
   color: var(--main-color);
 }
 
-.header .header-inner .main-menu .nav>li .dropdown {
+.header .header-inner .main-menu .nav > li .dropdown {
   background: var(--bg-secondary);
   width: 220px;
   left: 0;
@@ -388,28 +406,29 @@ ul {
   overflow: hidden;
   display: none;
   box-shadow: 0 5px 20px var(--shadow-color);
+  z-index: 100;
 }
 
-.header .header-inner .main-menu .nav>li:hover .dropdown {
+.header .header-inner .main-menu .nav > li:hover .dropdown {
   display: block;
 }
 
-.header .header-inner .main-menu .nav>li .dropdown li a {
+.header .header-inner .main-menu .nav > li .dropdown li a {
   display: block;
   padding: 10px 25px;
   color: var(--text-secondary);
 }
 
-.header .header-inner .main-menu .nav>li .dropdown li a:hover {
+.header .header-inner .main-menu .nav > li .dropdown li a:hover {
   background-color: var(--hover-bg);
   color: var(--main-color);
 }
 
-.header .header-inner .main-menu .nav>li.notification-list {
+.header .header-inner .main-menu .nav > li.notification-list {
   cursor: pointer;
 }
 
-.header .header-inner .main-menu .nav>li.notification-list a {
+.header .header-inner .main-menu .nav > li.notification-list a {
   width: 40px;
   height: 40px;
   background-color: var(--border-color);
@@ -419,19 +438,33 @@ ul {
   justify-content: center;
 }
 
-.header .header-inner .main-menu .nav>li.notification-list:hover a {
+.header .header-inner .main-menu .nav > li.notification-list:hover a {
   color: var(--main-color);
 }
 
-.header .header-inner .main-menu .nav>li.notification-list .dropdown {
+.header .header-inner .main-menu .nav > li.notification-list .dropdown {
   padding: 10px 25px;
   height: 200px;
   top: 74px;
 }
 
-.header .header-inner .main-menu .nav>li.notification-list .dropdown p {
+.header .header-inner .main-menu .nav > li.notification-list .dropdown p {
   color: var(--text-secondary);
   text-align: center;
+}
+
+/* أيقونة البرغر - مخفية في الشاشات الكبيرة */
+.burger-icon {
+  display: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: var(--main-color);
+  transition: color 0.3s ease;
+  margin-right: 15px;
+}
+
+.burger-icon:hover {
+  color: var(--fromMain-color);
 }
 
 .show {
@@ -686,7 +719,7 @@ login page CSS
 =================================================*/
 .page-content {
   padding: 50px;
-  padding-top: 100px;
+  padding-top: 50px;
   display: flex;
   gap: 30px;
   max-width: 1400px;
@@ -1017,7 +1050,7 @@ profile page css
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 100px;
+  padding-top: 50px;
   padding-bottom: 26px;
   background-color: var(--white-color);
 }
@@ -1398,11 +1431,133 @@ profile page css
   100% { transform: rotate(360deg); }
 }
 
-/* ===== تنسيقات متجاوبة ===== */
-@media (max-width: 992px) {
+/* ===== التنسيقات للشاشات المتوسطة والصغيرة (الموبايل) ===== */
+@media only screen and (max-width: 991px) {
+  .header {
+    padding: 0 20px;
+  }
+
+  .header .header-inner .logo p {
+    font-size: 16px;
+  }
+
+  .header .header-inner .logo .logo-img img {
+    width: 50px;
+  }
+
+  /* إظهار أيقونة البرغر */
+  .burger-icon {
+    display: block;
+  }
+
+  .header .header-inner .main-menu {
+    width: 100%;
+    order: 3;
+  }
+
+  .header .header-inner .main-menu .nav {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 15px 0;
+    background-color: var(--bg-secondary);
+    border-top: 2px solid var(--main-color);
+    margin-top: 15px;
+  }
+
+  /* عند فتح القائمة */
+  .header .header-inner .main-menu .nav.open {
+    display: flex;
+  }
+
+  .header .header-inner .main-menu .nav > li {
+    width: 100%;
+    padding: 0;
+    height: auto;
+    margin: 0;
+  }
+
+  .header .header-inner .main-menu .nav > li > a {
+    display: block;
+    width: 100%;
+    padding: 15px 25px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 16px;
+  }
+
+  .header .header-inner .main-menu .nav > li:last-child > a {
+    border-bottom: none;
+  }
+
+  /* تنسيق القوائم المنسدلة في الموبايل */
+  .header .header-inner .main-menu .nav > li .dropdown {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    background-color: var(--bg-primary);
+    display: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+    border-radius: 0;
+  }
+
+  .header .header-inner .main-menu .nav > li .dropdown.show-dropdown {
+    display: block;
+  }
+
+  .header .header-inner .main-menu .nav > li .dropdown li a {
+    padding: 12px 40px;
+    font-size: 15px;
+  }
+
+  .header .header-inner .main-menu .nav > li .dropdown li a:hover {
+    background-color: var(--hover-bg);
+  }
+
+  /* إخفاء أيقونة الإشعارات في الموبايل */
+  .header .header-inner .main-menu .nav > li.notification-list {
+    display: none;
+  }
+  
+  /* تنسيق أيقونات القائمة */
+  .header .header-inner .main-menu .nav > li > a i {
+    margin-left: 10px;
+    width: 20px;
+    text-align: center;
+  }
+
+  /* تحسينات للصفحة الرئيسية */
+  .main-page .header-page {
+    flex-direction: column;
+    padding-top: 80px;
+  }
+  
+  .main-page .header-page .title,
+  .main-page .header-page .img {
+    width: 100%;
+    border-radius: 0;
+    height: 300px;
+  }
+  
+  .main-page .join {
+    flex-direction: column;
+    height: auto;
+    padding: 30px;
+  }
+  
+  .main-page .join .join-content,
+  .main-page .join .img {
+    width: 100%;
+  }
+  
   .page-content {
     flex-direction: column;
-    padding: 80px 20px 20px;
+    padding: 40px 20px 20px;
   }
   
   .page-content .right-side {
@@ -1410,9 +1565,16 @@ profile page css
     position: static;
     margin-bottom: 20px;
   }
+  
+  .blue-side-login,
+  .white-side-login {
+    width: 100%;
+    border-radius: 10px;
+  }
 }
 
-@media (max-width: 768px) {
+/* تحسينات للشاشات الصغيرة جداً */
+@media only screen and (max-width: 768px) {
   .modal-body {
     padding: 20px;
   }
@@ -1437,25 +1599,95 @@ profile page css
     width: 90%;
     padding: 12px 20px;
   }
+  
+  .main-page .section {
+    padding: 30px;
+  }
+  
+  .main-page .articels .artical-card .artical-body {
+    height: auto;
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .header {
+    padding: 0 15px;
+  }
+  
+  .header .header-inner .logo p {
+    font-size: 14px;
+  }
+  
+  .header .header-inner .logo .logo-img img {
+    width: 45px;
+  }
+  
+  .burger-icon {
+    font-size: 26px;
+  }
+  
+  .header .header-inner .main-menu .nav > li > a {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+  
+  .header .header-inner .main-menu .nav > li .dropdown li a {
+    padding: 10px 35px;
+  }
+  
+  .page-content .profile .profile-header .info {
+    flex-direction: column;
+    text-align: center;
+    padding: 0 20px;
+  }
+  
+  .page-content .profile .profile-header .info .edit-profile {
+    position: static;
+    margin-top: 15px;
+  }
+  
+  .blog-meta {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .main-page .header-page .title {
+    font-size: 30px;
+  }
+  
+  .main-page .join .join-content h2 {
+    font-size: 24px;
+  }
+  
+  .main-page .join .join-content h3 {
+    font-size: 20px;
+  }
+  
+  .main-page .join .join-content p {
+    width: 100%;
+  }
 }
 
 /* ===== زر تبديل الوضع في القائمة العلوية ===== */
 .theme-toggle-header {
-    background: transparent;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 20px;
-    margin: 0 5px;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 20px;
+  margin: 0 5px;
 }
 
 .theme-toggle-header:hover {
-    color: var(--main-color);
+  color: var(--main-color);
 }
 
 /* إخفاء الزر القديم */
 .theme-switch {
-    display: none !important;
+  display: none !important;
 }
 
 /* تحسين الانتقال بين الثيمات */
@@ -1476,5 +1708,5 @@ select,
 .dropdown,
 .alert,
 .profile-header .background {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
 }

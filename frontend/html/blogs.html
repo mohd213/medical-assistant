@@ -176,7 +176,208 @@
             box-shadow: 0 10px 30px rgba(66, 96, 160, 0.15);
         }
 
+        /* ===== تنسيقات رفع الصورة المتطورة ===== */
+        .image-upload-label {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .image-upload-label .text-muted {
+            color: #7f8c8d;
+            font-size: 13px;
+            font-weight: normal;
+            margin-right: 8px;
+        }
+
+        .image-upload-container {
+            width: 100%;
+        }
+
+        .image-upload-area {
+            border: 2px dashed var(--border-color, #d0d7de);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: var(--bg-primary, #f8fafc);
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-upload-area:hover {
+            border-color: var(--main-color, #4260a0);
+            background-color: rgba(66, 96, 160, 0.03);
+        }
+
+        .image-upload-area.dragover {
+            border-color: var(--main-color, #4260a0);
+            background-color: rgba(66, 96, 160, 0.1);
+            transform: scale(1.02);
+        }
+
+        .upload-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            transition: opacity 0.3s ease;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: var(--main-color, #4260a0);
+            opacity: 0.7;
+        }
+
+        .upload-text {
+            text-align: center;
+        }
+
+        .upload-text .main-text {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary, #2c3e50);
+            margin-bottom: 5px;
+        }
+
+        .upload-text .sub-text {
+            display: block;
+            font-size: 13px;
+            color: var(--text-secondary, #7f8c8d);
+        }
+
+        .image-preview {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--bg-secondary, white);
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid white;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            padding: 0;
+            font-size: 20px;
+        }
+
+        .remove-image:hover {
+            background: #dc3545;
+            transform: scale(1.1);
+        }
+
+        /* تنسيق الصورة الحالية */
+        .current-image-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--bg-primary, #f8fafc);
+            border-radius: 10px;
+            border: 1px solid var(--border-color, #e1e4e8);
+        }
+
+        .current-image-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary, #2c3e50);
+            margin-bottom: 12px;
+        }
+
+        .current-image-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--border-color, #e1e4e8);
+        }
+
+        .current-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ===== تنسيقات الوضع الليلي ===== */
+        [data-theme="dark"] .image-upload-area {
+            background-color: var(--bg-tertiary, #2d333b);
+            border-color: var(--border-color, #444c56);
+        }
+
+        [data-theme="dark"] .image-upload-area:hover {
+            border-color: var(--main-color, #7c9bdb);
+            background-color: rgba(124, 155, 219, 0.1);
+        }
+
+        [data-theme="dark"] .upload-text .main-text {
+            color: var(--text-primary, #f0f4ff);
+        }
+
+        [data-theme="dark"] .upload-text .sub-text {
+            color: var(--text-muted, #a3b3e0);
+        }
+
+        [data-theme="dark"] .current-image-container {
+            background-color: var(--bg-tertiary, #2d333b);
+            border-color: var(--border-color, #444c56);
+        }
+
+        [data-theme="dark"] .remove-image {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="dark"] .remove-image:hover {
+            background: #dc3545;
+        }
+
+        /* ===== تنسيقات متجاوبة ===== */
         @media (max-width: 768px) {
+            .image-upload-area {
+                padding: 20px 15px;
+                min-height: 160px;
+            }
+            
+            .upload-icon {
+                font-size: 36px;
+            }
+            
+            .upload-text .main-text {
+                font-size: 14px;
+            }
+            
+            .upload-text .sub-text {
+                font-size: 12px;
+            }
+            
             .blog-view-title {
                 font-size: 22px;
             }
@@ -246,28 +447,38 @@
                                 placeholder="أكتب محتوى المقال هنا..." required></textarea>
                         </div>
 
+                        <!-- قسم رفع الصورة المتطور -->
                         <div class="form-group">
-                            <div class="custom-file-upload">
-                                <input type="file" id="blogImage" accept="image/*">
-                                <label for="blogImage" class="custom-file-label">
-                                    <i class="icofont-ui-camera"></i>
-                                    <span>اختر صورة للمقال...</span>
-                                </label>
+                            <label class="image-upload-label">صورة المقال <span class="text-muted">(اختياري)</span></label>
+                            <div class="image-upload-container">
+                                <input type="file" id="blogImage" accept="image/*" hidden>
+                                <div class="image-upload-area" id="imageUploadArea">
+                                    <div class="upload-content">
+                                        <i class="icofont-ui-camera upload-icon"></i>
+                                        <div class="upload-text">
+                                            <span class="main-text">انقر أو اسحب الصورة هنا</span>
+                                            <span class="sub-text">PNG, JPG, GIF - حد أقصى 5 ميجا</span>
+                                        </div>
+                                    </div>
+                                    <div class="image-preview" id="imagePreview" style="display: none;">
+                                        <img src="" alt="معاينة الصورة">
+                                        <button type="button" class="remove-image" id="removeImage" title="حذف الصورة">
+                                            <i class="icofont-close-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-
-                            <!-- معاينة الصورة الجديدة -->
-                            <div id="imagePreview" class="image-preview" style="display: none;">
-                                <img src="" alt="معاينة الصورة">
-                            </div>
-
+                            
                             <!-- الصورة الحالية (للتعديل) -->
-                            <div id="currentImageContainer" style="display: none;">
-                                <p>الصورة الحالية:</p>
-                                <img id="currentImage" src="" alt="الصورة الحالية">
+                            <div id="currentImageContainer" style="display: none;" class="current-image-container">
+                                <div class="current-image-label">الصورة الحالية:</div>
+                                <div class="current-image-wrapper">
+                                    <img id="currentImage" src="" alt="الصورة الحالية">
+                                    <button type="button" class="remove-image" id="removeCurrentImage" title="حذف الصورة الحالية">
+                                        <i class="icofont-close-line"></i>
+                                    </button>
+                                </div>
                             </div>
-
-                            <small class="text-muted">صيغ مسموحة: jpg, jpeg, png, gif (اختياري - حجم أقصى 5
-                                ميجا)</small>
                         </div>
                     </form>
                 </div>
@@ -374,7 +585,6 @@
     <!-- Scripts - الترتيب مهم جداً -->
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
-    <!-- هذا السطر كان مفقوداً - مهم لتعريف كائن Validator -->
     <script src="../js/validation.js"></script>
     <script src="../js/common.js"></script>
 
@@ -406,37 +616,108 @@
         }
 
         // =============================================
-        // 4. معاينة الصورة قبل الرفع
+        // 4. نظام رفع الصور المتطور
         // =============================================
-        $('#blogImage').on('change', function (e) {
+        
+        const imageUploadArea = $('#imageUploadArea');
+        const imageInput = $('#blogImage');
+        const imagePreview = $('#imagePreview');
+        const previewImg = $('#imagePreview img');
+        const removeBtn = $('#removeImage');
+        const currentImageContainer = $('#currentImageContainer');
+        const removeCurrentBtn = $('#removeCurrentImage');
+        
+        // معاينة الصورة عند الاختيار
+        imageInput.on('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 if (file.size > 5 * 1024 * 1024) {
                     msg.error('حجم الصورة كبير جداً. الحد الأقصى 5 ميجا');
-                    $(this).val('');
+                    imageInput.val('');
                     return;
                 }
-
+                
                 if (!file.type.match('image.*')) {
                     msg.error('الرجاء اختيار صورة فقط');
-                    $(this).val('');
+                    imageInput.val('');
                     return;
                 }
-
+                
                 const reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#imagePreview img').attr('src', e.target.result);
-                    $('#imagePreview').show();
-                    $('#currentImageContainer').hide();
+                reader.onload = function(e) {
+                    previewImg.attr('src', e.target.result);
+                    imagePreview.show();
+                    $('.upload-content').hide();
+                    currentImageContainer.hide();
                 }
                 reader.readAsDataURL(file);
-
-                const fileName = file.name.length > 30 ?
-                    file.name.substring(0, 27) + '...' :
-                    file.name;
-                $('.custom-file-label span').text(fileName);
             }
         });
+        
+        // معالجة السحب والإفلات
+        imageUploadArea.on('dragover', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).addClass('dragover');
+        });
+        
+        imageUploadArea.on('dragleave', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).removeClass('dragover');
+        });
+        
+        imageUploadArea.on('drop', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).removeClass('dragover');
+            
+            const files = e.originalEvent.dataTransfer.files;
+            if (files.length > 0) {
+                imageInput[0].files = files;
+                imageInput.trigger('change');
+            }
+        });
+        
+        // فتح نافذة اختيار الملف عند النقر على منطقة الرفع
+        imageUploadArea.on('click', function() {
+            imageInput.click();
+        });
+        
+        // حذف الصورة المحددة
+        removeBtn.on('click', function(e) {
+            e.stopPropagation();
+            imageInput.val('');
+            imagePreview.hide();
+            $('.upload-content').show();
+            
+            if (currentImageContainer.find('img').attr('src') && currentImageContainer.find('img').attr('src') !== '') {
+                currentImageContainer.show();
+            }
+        });
+        
+        // حذف الصورة الحالية
+        removeCurrentBtn.on('click', function(e) {
+            e.stopPropagation();
+            msg.confirm('هل أنت متأكد من حذف الصورة الحالية؟', function() {
+                currentImageContainer.hide();
+                // يمكن إضافة كود لحذف الصورة من السيرفر هنا
+            });
+        });
+        
+        // إعادة تعيين النموذج عند الإغلاق
+        function resetImageUpload() {
+            imageInput.val('');
+            imagePreview.hide();
+            $('.upload-content').show();
+            imageUploadArea.removeClass('dragover');
+            
+            if (currentImageContainer.find('img').attr('src') && currentImageContainer.find('img').attr('src') !== '') {
+                currentImageContainer.show();
+            } else {
+                currentImageContainer.hide();
+            }
+        }
 
         // =============================================
         // 5. دالة لعرض المدونة في Modal
@@ -498,7 +779,6 @@
                 },
                 success: function (response) {
                     if (response.success) {
-                        // إضافة اسم المستخدم للعرض
                         const blog = response.blog;
                         blog.firstname = user.firstname;
                         blog.lastname = user.lastname;
@@ -518,7 +798,6 @@
         // 8. ربط حدث النقر على المدونات
         // =============================================
         $(document).on('click', '.blog-card', function (e) {
-            // منع التنفيذ إذا تم الضغط على زر التعديل أو الحذف
             if ($(e.target).closest('.btn-icon').length) {
                 return;
             }
@@ -664,13 +943,11 @@
         // 13. دالة لحفظ مدونة
         // =============================================
         $('#saveBlogBtn').click(function () {
-            // قبل إرسال البيانات
             const blogData = {
                 title: $('#blogTitle').val(),
                 content: $('#blogContent').val()
             };
 
-            // التأكد من أن Validator موجود
             if (typeof Validator === 'undefined') {
                 msg.error('خطأ في تحميل مكتبة التحقق. يرجى تحديث الصفحة.');
                 return;
@@ -685,6 +962,7 @@
                 msg.error(errorMessage);
                 return;
             }
+            
             const formData = new FormData();
             formData.append('title', $('#blogTitle').val());
             formData.append('content', $('#blogContent').val());
@@ -762,12 +1040,12 @@
                             $('#currentImage').attr('src', '..' + blog.image);
                             $('#currentImageContainer').show();
                             $('#imagePreview').hide();
+                            $('.upload-content').show();
                         } else {
                             $('#currentImageContainer').hide();
                             $('#imagePreview').hide();
+                            $('.upload-content').show();
                         }
-
-                        $('.custom-file-label span').text('اختر صورة جديدة...');
 
                         $('#blogModal').modal('show');
                     }
@@ -819,8 +1097,9 @@
             $('#blogId').val('');
             $('#currentImageContainer').hide();
             $('#imagePreview').hide();
+            $('.upload-content').show();
             $('#blogImage').val('');
-            $('.custom-file-label span').text('اختر صورة للمقال...');
+            resetImageUpload();
         }
 
         // =============================================

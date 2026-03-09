@@ -319,7 +319,7 @@
 }
 
 [data-theme="dark"] .card-header {
-    background: linear-gradient(90deg, var(--bg-tertiary), transparent);
+    /* background: linear-gradient(90deg, var(--bg-tertiary), transparent); */
     border-bottom-color: var(--border-color);
 }
 
